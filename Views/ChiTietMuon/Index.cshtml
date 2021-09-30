@@ -1,0 +1,67 @@
+﻿@using QLTV.AppMVC.Models.Entities
+@model List<ChiTietMuon>
+
+
+
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create" asp-route-id="@ViewBag.Id">Thêm chi tiết mượn</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Mã sách
+            </th>
+            <th>
+                Ngày mượn
+            </th>
+            <th>
+                Ngày trả
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ctm in Model)
+        {
+        <tr>
+            <td>
+                @ctm.Sach_Id
+            </td>
+            <td>
+                @ctm.NgayMuon.ToShortDateString()
+            </td>
+            @{
+                if (ctm.NgayTra != null)
+                {
+                    <td>@ctm.NgayTra</td>
+                }
+                else
+                {
+                    <td>Chưa trả sách</td>
+                }
+            }
+            <td>
+                @{
+                    if (ctm.NgayTra == null)
+                    {
+                        <form method="post">
+                            <button asp-action="TraSach" asp-route-id="@ctm.Id" class="btn btn-link">Trả sách</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <p>Đã trả sách</p>
+                    }
+                }
+
+            </td>
+        </tr>
+        }
+        </tbody>
+    </table>
+
+<a asp-action="Details" asp-controller="PhieuMuon" asp-route-id="@ViewBag.Id">Về thông tin phiếu mượn</a>
