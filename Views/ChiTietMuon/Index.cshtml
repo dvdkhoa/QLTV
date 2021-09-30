@@ -22,6 +22,8 @@
                 Ngày trả
             </th>
             <th></th>
+            <th>
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -37,7 +39,7 @@
             @{
                 if (ctm.NgayTra != null)
                 {
-                    <td>@ctm.NgayTra</td>
+                    <td>@ctm.NgayTra.Value.ToShortDateString()</td>
                 }
                 else
                 {
@@ -58,6 +60,11 @@
                     }
                 }
 
+            </td>
+            <td>
+                <form method="post">
+                    <button asp-action="Delete" asp-route-id="@ctm.Id">Xóa</button>
+                </form>
             </td>
         </tr>
         }

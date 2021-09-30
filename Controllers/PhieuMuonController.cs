@@ -149,6 +149,7 @@ namespace QLTV.AppMVC.Controllers
             var phieuMuon = await _context.PhieuMuon
                 .Include(p => p.SinhVien)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (phieuMuon == null)
             {
                 return NotFound();
@@ -163,8 +164,15 @@ namespace QLTV.AppMVC.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var phieuMuon = await _context.PhieuMuon.FindAsync(id);
+
+            var ds_ctm = _context.ChiTietMuon.Where(ctm => ctm.PM_Id == id);
+
+            _context.ChiTietMuon.RemoveRange(ds_ctm); // Xóa tất cả chi tiết mượn có PM_Id=Id
+
             _context.PhieuMuon.Remove(phieuMuon);
+
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 

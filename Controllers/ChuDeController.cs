@@ -50,8 +50,6 @@ namespace QLTV.AppMVC.Controllers
         }
 
         // POST: ChuDe/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,MaChuDe,TenChuDe")] ChuDe chuDe)
@@ -82,8 +80,6 @@ namespace QLTV.AppMVC.Controllers
         }
 
         // POST: ChuDe/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,MaChuDe,TenChuDe")] ChuDe chuDe)
@@ -149,5 +145,9 @@ namespace QLTV.AppMVC.Controllers
         {
             return _context.ChuDe.Any(e => e.Id == id);
         }
+
+
+        [HttpGet("/api/Chude/GetAll")]
+        public IEnumerable<ChuDe> GetAll() => _context.ChuDe.ToList();
     }
 }

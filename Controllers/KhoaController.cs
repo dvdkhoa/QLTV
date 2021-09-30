@@ -55,8 +55,6 @@ namespace QLTV.AppMVC.Controllers
         }
 
         // POST: khoa/Create
-        
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,MaKhoa,TenKhoa")] Khoa khoa)
@@ -152,5 +150,9 @@ namespace QLTV.AppMVC.Controllers
         {
             return _context.Khoa.Any(e => e.Id == id);
         }
+
+
+        [HttpGet("/api/Khoa/GetAll")]
+        public IEnumerable<Khoa> GetAll() => _context.Khoa.ToList();
     }
 }

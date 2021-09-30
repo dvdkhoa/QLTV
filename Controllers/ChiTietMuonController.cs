@@ -83,6 +83,24 @@ namespace QLTV.AppMVC.Controllers
             return RedirectToAction("Index", new { Id=ctm.PM_Id});
         }
 
-        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int? Id)
+        {
+            if (Id == null)
+                return NotFound();
+            var ctm=await _context.ChiTietMuon.FindAsync(Id);
+
+            if(ctm==null)
+                return NotFound();
+            var sach = await _context.Sach.FindAsync(ctm.Sach_Id);
+            sach.DangMuon = false;
+
+            _context.ChiTietMuon.Remove(ctm);
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index",new { Id=ctm.PM_Id});
+        }
     }
 }

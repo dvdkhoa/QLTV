@@ -213,12 +213,19 @@ namespace QLTV.AppMVC.Controllers
 
 
         
-        [HttpGet("/DauSach/GetAll")]
+        [HttpGet("/api/DauSach/GetAll")]
         public IEnumerable<DauSach> GetAll()
         {
             var ds=_context.DauSach.ToList();
 
             return ds;
+        }
+
+        
+        [HttpGet("/api/DauSach")]
+        public IEnumerable<DauSach> GetDauSachByTen(string tenSach)
+        {
+            return _context.DauSach.Where(ds => ds.TenDauSach.Contains(tenSach)).ToList();
         }
     }
 }
