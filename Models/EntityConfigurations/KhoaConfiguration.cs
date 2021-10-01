@@ -15,6 +15,8 @@ namespace QLTV.AppMVC.Models.EntityConfigurations
         {
             builder.HasKey(khoa => khoa.Id);
             builder.HasIndex(khoa => khoa.MaKhoa).IsUnique();
+
+            builder.Property(khoa => khoa.TenKhoa).IsRequired();
         }
     }
 }

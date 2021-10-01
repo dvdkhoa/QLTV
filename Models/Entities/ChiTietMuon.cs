@@ -14,8 +14,8 @@ namespace QLTV.AppMVC.Models.Entities
         public int PM_Id { get; set; }
         public PhieuMuon PhieuMuon { get; set; }
 
-        [Display(Name ="Mã sách")]
-        public int Sach_Id { get; set; }
+        [Display(Name ="Mã sách"),Required(ErrorMessage ="Phải nhập {0}")]
+        public string MaSach { get; set; }
         public Sach Sach { get; set; }
         
         [Display(Name ="Ngày mượn"),DataType(DataType.Date)]

@@ -12,7 +12,17 @@ namespace QLTV.AppMVC.Models.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<SinhVien> builder)
         {
-            builder.HasKey(sv => sv.Id);
+            builder.HasKey(sv => sv.MaSV);
+            builder.Property(sv => sv.MaSV).HasColumnType("varchar")
+                                            .HasMaxLength(12)
+                                            .IsRequired();
+
+            builder.Property(sv => sv.Phone).HasColumnType("varchar").HasMaxLength(12);
+
+
+            builder.Property(sv => sv.GioiTinh)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(5).IsRequired(true);
 
             builder.HasOne(sv => sv.Lop)
                     .WithMany(lop => lop.DS_SinhVien)
@@ -28,19 +38,6 @@ namespace QLTV.AppMVC.Models.EntityConfigurations
                     .WithMany()
                     .HasForeignKey(sv => sv.Khoa_Id)
                     .OnDelete(DeleteBehavior.NoAction);
-
-            builder.Property(sv => sv.MaSV)
-                    .HasColumnType("nchar")
-                    .HasMaxLength(15);
-
-            builder.Property(sv => sv.Phone).HasColumnType("varchar").HasMaxLength(12);
-            builder.Property(sv => sv.MaSV).HasColumnType("varchar").HasMaxLength(12).IsRequired();
-            builder.HasIndex(sv => sv.MaSV).IsUnique();
-
-
-            builder.Property(sv => sv.GioiTinh)
-                    .HasColumnType("nvarchar")
-                    .HasMaxLength(5).IsRequired(true);
 
         }
     }

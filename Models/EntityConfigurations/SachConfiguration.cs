@@ -12,7 +12,7 @@ namespace QLTV.AppMVC.Models.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Sach> builder)
         {
-            builder.HasKey(s => s.Id);
+            builder.HasKey(s => s.MaSach);
 
             builder.HasOne(s => s.DauSach)
                     .WithMany()

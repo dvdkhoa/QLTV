@@ -25,6 +25,7 @@ namespace QLTV.AppMVC.Controllers
             var appDbContext = _context.DauSach.Include(d => d.ChuDe).Include(d => d.HocPhan).Include(d => d.KeSach).Include(d => d.Khoa).Include(d => d.LoaiSach).Include(d => d.NXB).Include(d => d.NgonNgu).Include(d => d.TacGia);
             return View(await appDbContext.ToListAsync());
         }
+      
 
         // GET: DauSach/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -82,9 +83,10 @@ namespace QLTV.AppMVC.Controllers
             {
                 _context.Add(dauSach); // Tạo đầu sách
 
-                for (int i = 0; i < dauSach.SL; i++)
+                for (int i = 1; i <= dauSach.SL; i++)
                 {
                     Sach s = new Sach();
+                    s.MaSach = dauSach.MaDauSach + i;
                     s.DauSach_Id = dauSach.Id;
                     s.DauSach = dauSach;
                     s.DangMuon = false;
@@ -195,9 +197,9 @@ namespace QLTV.AppMVC.Controllers
         {
             var dauSach = await _context.DauSach.FindAsync(id);
 
-            var dsSach = _context.Sach.Where(s => s.DauSach_Id == id).ToArray();
+            var ds_Sach = _context.Sach.Where(s => s.DauSach_Id == id).ToArray();
 
-            _context.Sach.RemoveRange(dsSach);
+            _context.Sach.RemoveRange(ds_Sach);
 
             _context.DauSach.Remove(dauSach);
 
@@ -213,12 +215,97 @@ namespace QLTV.AppMVC.Controllers
 
 
         
-        [HttpGet("/DauSach/GetAll")]
-        public IEnumerable<DauSach> GetAll()
-        {
-            var ds=_context.DauSach.ToList();
+        
 
-            return ds;
+        [HttpGet]
+        public IActionResult NhapSach(int? Id)
+        {
+            if (Id == null)
+                return NotFound();
+            var dauSach = _context.DauSach.Find(Id);
+            if (dauSach == null)
+                return NotFound();
+
+            ViewBag.Id = Id;
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> NhapSach(int Id,int SL)
+        {
+            if(!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            var dauSach = await _context.DauSach.FindAsync(Id);
+            if (dauSach == null)
+                return NotFound();
+
+            var index = dauSach.SL;
+
+            for (int i = 1; i <= SL; i++)
+            {
+                Sach s = new Sach();
+                s.MaSach = dauSach.MaDauSach + (index + i);
+                s.DauSach_Id = dauSach.Id;
+                s.DangMuon = false;
+
+                await _context.Sach.AddAsync(s);
+            }
+
+            dauSach.SL = index + SL; // Cập nhật lại số lượng cho đầu sách
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Edit",new { Id = Id });
+        }
+
+
+        [HttpGet]
+        public IActionResult Tim(string tenSach)
+        {
+            if (tenSach==null)
+            {
+                return RedirectToAction("Index");
+            }
+            var ds_DauSach = _context.DauSach
+                                .Include(s => s.TacGia)
+                                .Include(s => s.KeSach)
+                                .Where(s => s.TenDauSach
+                                .Contains(tenSach));
+
+            return View("Index", ds_DauSach.ToList());
+        }
+
+
+        [HttpGet("/api/DauSach")]
+        public IEnumerable<object> GetDauSachByTen(string tenSach)
+        {
+            IEnumerable<object> kq = null;
+
+            if (tenSach == null)
+            {
+               kq = _context.DauSach.Select(dauSach =>
+               
+               new { dauSach, 
+                   soluongCoTheMuon = _context.Sach
+                              .Count(s=>s.DauSach_Id==dauSach.Id&&s.DangMuon==false)});
+
+                return kq.ToList();
+            }
+
+            var ds_Loc = _context.DauSach.Where(ds => ds.TenDauSach.Contains(tenSach));
+
+            kq = ds_Loc.Select(dauSach => new
+            {
+                dauSach,
+                soluongCoTheMuon = _context.Sach
+                              .Count(s => s.DauSach_Id == dauSach.Id && s.DangMuon == false)
+            });
+            return kq;
         }
     }
 }

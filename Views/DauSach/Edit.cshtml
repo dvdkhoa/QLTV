@@ -14,7 +14,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="MaDauSach" class="control-label"></label>
-                <input asp-for="MaDauSach" class="form-control" />
+                <input asp-for="MaDauSach" class="form-control" disabled/>
                 <span asp-validation-for="MaDauSach" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -25,6 +25,7 @@
             <div class="form-group">
                 <label asp-for="SL" class="control-label"></label>
                 <input asp-for="SL" class="form-control" disabled/>
+                <a asp-action="NhapSach" asp-route-id="@Model.Id">Nhập thêm sách</a>
                 <span asp-validation-for="SL" class="text-danger"></span>
             </div>
             <div class="form-group">

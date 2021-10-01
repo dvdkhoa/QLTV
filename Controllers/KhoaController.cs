@@ -27,7 +27,7 @@ namespace QLTV.AppMVC.Controllers
         // GET: khoa
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Khoa.ToListAsync());
+            return View(await _context.Khoa.OrderBy(k=>k.MaKhoa).ToListAsync());
         }
 
         // GET: khoa/Details/5
@@ -55,14 +55,19 @@ namespace QLTV.AppMVC.Controllers
         }
 
         // POST: khoa/Create
-        
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,MaKhoa,TenKhoa")] Khoa khoa)
         {
             if (ModelState.IsValid)
             {
+                var exists =await _context.Khoa.AnyAsync(k => k.MaKhoa == khoa.MaKhoa);
+                if(exists)
+                {
+                    ModelState.AddModelError(string.Empty, "Mã khoa bị trùng");
+                    return View();
+                }    
+
                 var a = _context.Khoa.Add(khoa);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -100,7 +105,25 @@ namespace QLTV.AppMVC.Controllers
             {
                 try
                 {
-                    _context.Update(khoa);
+                    var khoa_cu = await _context.Khoa.FindAsync(id); // Lấy giá trí cũ
+
+                    var ds_Khoa = await _context.Khoa.Where(k => k.MaKhoa != khoa_cu.MaKhoa)
+                                                .ToListAsync(); // Lấy ra tất cả khoa khác khoa cũ
+
+                    var exists = false;
+                    ds_Khoa.ForEach(k =>
+                    {
+                        if (k.MaKhoa == khoa.MaKhoa)
+                            exists = true;
+                    });
+
+                    if(exists) // Nếu mã khoa tồn tại
+                    {
+                        ModelState.AddModelError(string.Empty, "Mã khoa bị trùng");
+                        return View();
+                    }
+                    khoa_cu.TenKhoa = khoa.TenKhoa;
+                    khoa_cu.MaKhoa = khoa.MaKhoa;
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -152,5 +175,9 @@ namespace QLTV.AppMVC.Controllers
         {
             return _context.Khoa.Any(e => e.Id == id);
         }
+
+
+        [HttpGet("/api/Khoa/GetAll")]
+        public IEnumerable<Khoa> GetAll() => _context.Khoa.ToList();
     }
 }

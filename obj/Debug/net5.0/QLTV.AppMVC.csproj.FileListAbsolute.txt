@@ -200,11 +200,6 @@ C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Views\KeSach\Dele
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Views\KeSach\Details.cshtml.g.cs
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Views\KeSach\Edit.cshtml.g.cs
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Views\KeSach\Index.cshtml.g.cs
-C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Views\SinhVien\Create.cshtml.g.cs
-C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Views\SinhVien\Delete.cshtml.g.cs
-C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Views\SinhVien\Details.cshtml.g.cs
-C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Views\SinhVien\Edit.cshtml.g.cs
-C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Views\SinhVien\Index.cshtml.g.cs
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Views\NgonNgu\Create.cshtml.g.cs
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Views\NgonNgu\Delete.cshtml.g.cs
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Views\NgonNgu\Details.cshtml.g.cs
@@ -221,3 +216,10 @@ C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Views\DauSach\Del
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Views\DauSach\Details.cshtml.g.cs
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Views\DauSach\Edit.cshtml.g.cs
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Views\DauSach\Index.cshtml.g.cs
+C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Views\DauSach\NhapSach.cshtml.g.cs
+C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Views\SinhVien\Create.cshtml.g.cs
+C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Views\SinhVien\Delete.cshtml.g.cs
+C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Views\SinhVien\Details.cshtml.g.cs
+C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Views\SinhVien\Edit.cshtml.g.cs
+C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Views\SinhVien\Index.cshtml.g.cs
+C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Views\Sach\Index.cshtml.g.cs

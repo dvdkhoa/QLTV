@@ -6,6 +6,12 @@
 
 <h1>Index</h1>
 
+<form asp-action="Tim" method="Get" class="form-group">
+    <label for="tenSach">Tìm sách</label>
+    <input class="form-control" type="text" name="tenSach" id="tenSach" value="" placeholder="Nhập tên sách"/>
+    <input type="submit" value="Tìm" class="btn btn-info mt-2 px-4" />
+</form>
+
 <p>
     <a asp-action="Create">Create New</a>
 </p>
@@ -26,15 +32,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.KeSach_Id)
             </th>
-            
-            <th>
-                @Html.DisplayNameFor(model => model.SoTap)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TenTap)
-            </th>
-            
-            
+         
             <th></th>
         </tr>
     </thead>
@@ -55,14 +53,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.KeSach.TenKeSach)
             </td>
-            
-            <td>
-                @Html.DisplayFor(modelItem => item.SoTap)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TenTap)
-            </td>
-      
+     
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |

@@ -12,10 +12,12 @@ namespace QLTV.AppMVC.Models.Entities
         [Display(Name ="Mã phiếu")]
         public int Id { get; set; }
 
+
         [Display(Name ="Sinh viên")]
         [Required(ErrorMessage ="Phải nhập {0}")]
-        public int SinhVien_Id { get; set; }
+        public string MaSV { get; set; }
         public SinhVien SinhVien { get; set; }
+
 
         public List<ChiTietMuon> DS_CTM { get; set; }
   

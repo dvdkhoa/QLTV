@@ -14,7 +14,10 @@ namespace QLTV.AppMVC.Models.EntityConfigurations
         public void Configure(EntityTypeBuilder<BoMon> builder)
         {
             builder.HasKey(boMon => boMon.Id);
+
             builder.Property(boMon => boMon.MaBoMon).IsRequired();
+            builder.Property(boMon => boMon.TenBoMon).IsRequired();
+
             builder.HasOne(boMon => boMon.Khoa)
                 .WithMany(khoa => khoa.Ds_BoMon)
                 .HasForeignKey(boMon => boMon.Khoa_Id);

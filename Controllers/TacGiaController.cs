@@ -149,5 +149,9 @@ namespace QLTV.AppMVC.Controllers
         {
             return _context.TacGia.Any(e => e.Id == id);
         }
+
+
+        [HttpGet("/api/TacGia/GetAll")]
+        public IEnumerable<TacGia> GetAll() => _context.TacGia.ToList();
     }
 }

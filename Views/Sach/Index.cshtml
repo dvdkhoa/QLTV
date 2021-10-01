@@ -1,0 +1,39 @@
+﻿@model IEnumerable<QLTV.AppMVC.Models.Entities.Sach>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<h2>Đầu sách: @ViewBag.tenDauSach</h2><br />
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.MaSach)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DangMuon)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var s in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => s.MaSach)
+            </td>
+            @{
+                if (s.DangMuon)
+                {
+                    <td>Đang mượn</td>
+                }
+            }
+            <td>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

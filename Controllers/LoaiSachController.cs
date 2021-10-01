@@ -50,8 +50,6 @@ namespace QLTV.AppMVC.Controllers
         }
 
         // POST: LoaiSach/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,MaLoaiSach,TenLoaiSach")] LoaiSach loaiSach)
@@ -82,8 +80,6 @@ namespace QLTV.AppMVC.Controllers
         }
 
         // POST: LoaiSach/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,MaLoaiSach,TenLoaiSach")] LoaiSach loaiSach)
@@ -149,5 +145,9 @@ namespace QLTV.AppMVC.Controllers
         {
             return _context.LoaiSach.Any(e => e.Id == id);
         }
+
+
+        [HttpGet("/api/LoaiSach/GetAll")]
+        public IEnumerable<LoaiSach> GetAll() => _context.LoaiSach.ToList();
     }
 }

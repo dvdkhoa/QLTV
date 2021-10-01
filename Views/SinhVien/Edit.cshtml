@@ -12,12 +12,7 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="MaSV" class="control-label"></label>
-                <input asp-for="MaSV" class="form-control" />
-                <span asp-validation-for="MaSV" class="text-danger"></span>
-            </div>
+            <input type="hidden" asp-for="MaSV" />
             <div class="form-group">
                 <label asp-for="TenSV" class="control-label"></label>
                 <input asp-for="TenSV" class="form-control" />
@@ -29,12 +24,9 @@
                 <span asp-validation-for="NgaySinh" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <div class="form-check">
-                    @Html.RadioButtonFor(m => m.GioiTinh, "Nam")Nam
-                </div>
-                <div class="form-check">
-                    @Html.RadioButtonFor(m => m.GioiTinh, "Nữ")Nữ
-                </div>
+                <label asp-for="GioiTinh" class="control-label"></label>
+                <input asp-for="GioiTinh" class="form-control" />
+                <span asp-validation-for="GioiTinh" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Phone" class="control-label"></label>
