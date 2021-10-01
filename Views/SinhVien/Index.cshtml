@@ -24,9 +24,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Nganh_Id)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Khoa_Id)
-            </th>
+           
             <th></th>
         </tr>
     </thead>
@@ -39,19 +37,18 @@
             <td>
                 @Html.DisplayFor(modelItem => item.TenSV)
             </td>
+
             <td>
                 @Html.DisplayFor(modelItem => item.Lop.MaLop)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Nganh.TenNganh)
             </td>
+
             <td>
-                @Html.DisplayFor(modelItem => item.Khoa.TenKhoa)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.MaSV">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.MaSV">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.MaSV">Delete</a>
             </td>
         </tr>
 }

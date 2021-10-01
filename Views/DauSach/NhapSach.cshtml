@@ -1,0 +1,10 @@
+﻿
+
+
+<form asp-action="NhapSach" method="post">
+    <input type="hidden" name="Id" value="@ViewBag.Id" />
+    <label>Số lượng muốn thêm</label>
+    <input type="number" name="SL" value="" required/>
+    <input type="submit"  value="Đồng ý" />
+</form>
+<a asp-action="Edit" asp-route-id="@ViewBag.Id">Về trang chỉnh sửa</a>

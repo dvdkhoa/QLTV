@@ -11,7 +11,6 @@ namespace QLTV.AppMVC.Models.Entities
 {
     public class SinhVien
     {
-        public int Id { get; set; }
 
         [DisplayName("Mã sinh viên")]
         [Required(ErrorMessage = "Phải nhập {0}")]

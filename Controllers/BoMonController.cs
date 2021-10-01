@@ -54,14 +54,20 @@ namespace QLTV.AppMVC.Controllers
         }
 
         // POST: BoMon/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,MaBoMon,TenBoMon,Khoa_Id")] BoMon boMon)
         {
             if (ModelState.IsValid)
             {
+                var exists = await _context.BoMon.AnyAsync(bm => bm.MaBoMon == boMon.MaBoMon);
+
+                if(exists)
+                {
+                    ModelState.AddModelError(string.Empty, "Mã bộ môn bị trùng");
+                    return View();
+                }    
+
                 _context.Add(boMon);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -88,8 +94,6 @@ namespace QLTV.AppMVC.Controllers
         }
 
         // POST: BoMon/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,MaBoMon,TenBoMon,Khoa_Id")] BoMon boMon)
@@ -103,7 +107,22 @@ namespace QLTV.AppMVC.Controllers
             {
                 try
                 {
-                    _context.Update(boMon);
+                    var bm_cu = await _context.BoMon.FindAsync(id);
+
+                    if(bm_cu.MaBoMon!=boMon.MaBoMon)
+                    {
+                        var exists = await _context.BoMon.AnyAsync(bm => bm.MaBoMon == boMon.MaBoMon);
+                        if(exists)
+                        {
+                            ModelState.AddModelError(string.Empty, "Mã bộ môn bị trùng");
+                            ViewData["Khoa_Id"] = new SelectList(_context.Khoa, "Id", "TenKhoa", boMon.Khoa_Id);
+                            return View();
+                        }    
+                    }
+                    bm_cu.MaBoMon = boMon.MaBoMon;
+                    bm_cu.TenBoMon = boMon.TenBoMon;
+                    bm_cu.Khoa_Id = boMon.Khoa_Id;
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

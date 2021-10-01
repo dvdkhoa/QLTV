@@ -66,7 +66,7 @@ namespace QLTV.AppMVC.Controllers
                     return View();
                 }
 
-                var exists = await _context.PhieuMuon.AnyAsync(pm => pm.SinhVien_Id == sv.Id);
+                var exists = await _context.PhieuMuon.AnyAsync(pm => pm.MaSV == sv.MaSV);
 
                 if(exists)
                 {
@@ -76,7 +76,7 @@ namespace QLTV.AppMVC.Controllers
 
                 PhieuMuon pm = new PhieuMuon();
                 pm.SinhVien = sv;
-                pm.SinhVien_Id = sv.Id;
+                pm.MaSV = sv.MaSV;
 
                 _context.Add(pm);
                 await _context.SaveChangesAsync();
@@ -85,58 +85,6 @@ namespace QLTV.AppMVC.Controllers
             return View();
         }
 
-        // GET: PhieuMuon/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var phieuMuon = await _context.PhieuMuon.FindAsync(id);
-            if (phieuMuon == null)
-            {
-                return NotFound();
-            }
-            ViewData["SinhVien_Id"] = new SelectList(_context.SinhVien, "Id", "GioiTinh", phieuMuon.SinhVien_Id);
-            return View(phieuMuon);
-        }
-
-        // POST: PhieuMuon/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,SinhVien_Id")] PhieuMuon phieuMuon)
-        {
-            if (id != phieuMuon.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(phieuMuon);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PhieuMuonExists(phieuMuon.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["SinhVien_Id"] = new SelectList(_context.SinhVien, "Id", "GioiTinh", phieuMuon.SinhVien_Id);
-            return View(phieuMuon);
-        }
 
         // GET: PhieuMuon/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -174,6 +122,17 @@ namespace QLTV.AppMVC.Controllers
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public IActionResult Tim(string maSV)
+        {
+            if (maSV == null)
+                return RedirectToAction("Index"); 
+
+            var pm = _context.PhieuMuon.Where(pm => pm.SinhVien.MaSV == maSV);
+
+            return View("Index", pm.Include(pm=>pm.SinhVien).ToList());
         }
 
         private bool PhieuMuonExists(int id)

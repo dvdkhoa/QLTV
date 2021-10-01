@@ -26,7 +26,7 @@
             @Html.DisplayNameFor(model => model.SL)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SL)
+            @Html.DisplayFor(model => model.SL) (<a asp-action="Index" asp-controller="Sach" asp-route-DauSachId="@Model.Id">Danh sách sách</a>)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.LoaiSach_Id)

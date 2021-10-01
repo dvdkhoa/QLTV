@@ -28,12 +28,12 @@
                 <span asp-validation-for="NgaySinh" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <div class="form-check">
-                    @Html.RadioButtonFor(m => m.GioiTinh, "Nam")Nam
+                <label asp-for="GioiTinh" class="control-label"></label>
+                <div>
+                    <input type="radio" name="GioiTinh" value="Nam"> Nam<br>
+                    <input type="radio" name="GioiTinh" value="Nữ"> Nữ<br>
                 </div>
-                <div class="form-check">
-                    @Html.RadioButtonFor(m => m.GioiTinh, "Nữ")Nữ
-                </div>
+                <span asp-validation-for="GioiTinh" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Phone" class="control-label"></label>

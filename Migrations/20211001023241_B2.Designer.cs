@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QLTV.AppMVC.Models;
 
 namespace QLTV.AppMVC.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211001023241_B2")]
+    partial class B2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -588,13 +590,12 @@ namespace QLTV.AppMVC.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("MaSV")
-                        .IsRequired()
-                        .HasColumnType("varchar(12)");
+                    b.Property<int>("SinhVien_Id")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MaSV")
+                    b.HasIndex("SinhVien_Id")
                         .IsUnique();
 
                     b.ToTable("PhieuMuon");
@@ -620,9 +621,10 @@ namespace QLTV.AppMVC.Migrations
 
             modelBuilder.Entity("QLTV.AppMVC.Models.Entities.SinhVien", b =>
                 {
-                    b.Property<string>("MaSV")
-                        .HasMaxLength(12)
-                        .HasColumnType("varchar(12)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("GioiTinh")
                         .IsRequired()
@@ -634,6 +636,11 @@ namespace QLTV.AppMVC.Migrations
 
                     b.Property<int>("Lop_Id")
                         .HasColumnType("int");
+
+                    b.Property<string>("MaSV")
+                        .IsRequired()
+                        .HasMaxLength(12)
+                        .HasColumnType("varchar(12)");
 
                     b.Property<int>("Nganh_Id")
                         .HasColumnType("int");
@@ -649,11 +656,14 @@ namespace QLTV.AppMVC.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("MaSV");
+                    b.HasKey("Id");
 
                     b.HasIndex("Khoa_Id");
 
                     b.HasIndex("Lop_Id");
+
+                    b.HasIndex("MaSV")
+                        .IsUnique();
 
                     b.HasIndex("Nganh_Id");
 
@@ -859,7 +869,7 @@ namespace QLTV.AppMVC.Migrations
                 {
                     b.HasOne("QLTV.AppMVC.Models.Entities.SinhVien", "SinhVien")
                         .WithOne("PhieuMuon")
-                        .HasForeignKey("QLTV.AppMVC.Models.Entities.PhieuMuon", "MaSV")
+                        .HasForeignKey("QLTV.AppMVC.Models.Entities.PhieuMuon", "SinhVien_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

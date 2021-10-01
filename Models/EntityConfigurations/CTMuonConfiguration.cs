@@ -20,7 +20,7 @@ namespace QLTV.AppMVC.Models.EntityConfigurations
 
             builder.HasOne(ctm => ctm.Sach)
                     .WithMany()
-                    .HasForeignKey(ctm => ctm.Sach_Id)
+                    .HasForeignKey(ctm => ctm.MaSach)
                     .OnDelete(DeleteBehavior.ClientNoAction);
 
             builder.Property(ctm => ctm.NgayMuon).IsRequired();

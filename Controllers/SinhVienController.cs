@@ -27,7 +27,7 @@ namespace QLTV.AppMVC.Controllers
         }
 
         // GET: SinhVien/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null)
             {
@@ -38,7 +38,7 @@ namespace QLTV.AppMVC.Controllers
                 .Include(s => s.Khoa)
                 .Include(s => s.Lop)
                 .Include(s => s.Nganh)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.MaSV == id);
             if (sinhVien == null)
             {
                 return NotFound();
@@ -57,28 +57,24 @@ namespace QLTV.AppMVC.Controllers
         }
 
         // POST: SinhVien/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,MaSV,TenSV,NgaySinh,GioiTinh,Phone,Lop_Id,Nganh_Id,Khoa_Id")] SinhVien sinhVien)
+        public async Task<IActionResult> Create([Bind("MaSV,TenSV,NgaySinh,GioiTinh,Phone,Lop_Id,Nganh_Id,Khoa_Id")] SinhVien sinhVien)
         {
-            if (!ModelState.IsValid)
-                return Content("không được");
             if (ModelState.IsValid)
             {
                 _context.Add(sinhVien);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Khoa_Id"] = new SelectList(_context.Khoa, "Id", "Id", sinhVien.Khoa_Id);
-            ViewData["Lop_Id"] = new SelectList(_context.Lop, "Id", "Id", sinhVien.Lop_Id);
-            ViewData["Nganh_Id"] = new SelectList(_context.Nganh, "Id", "Id", sinhVien.Nganh_Id);
+            ViewData["Khoa_Id"] = new SelectList(_context.Khoa, "Id", "TenKhoa", sinhVien.Khoa_Id);
+            ViewData["Lop_Id"] = new SelectList(_context.Lop, "Id", "MaLop", sinhVien.Lop_Id);
+            ViewData["Nganh_Id"] = new SelectList(_context.Nganh, "Id", "TenNganh", sinhVien.Nganh_Id);
             return View(sinhVien);
         }
 
         // GET: SinhVien/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
             {
@@ -97,13 +93,11 @@ namespace QLTV.AppMVC.Controllers
         }
 
         // POST: SinhVien/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,MaSV,TenSV,NgaySinh,GioiTinh,Phone,Lop_Id,Nganh_Id,Khoa_Id")] SinhVien sinhVien)
+        public async Task<IActionResult> Edit(string id, [Bind("MaSV,TenSV,NgaySinh,GioiTinh,Phone,Lop_Id,Nganh_Id,Khoa_Id")] SinhVien sinhVien)
         {
-            if (id != sinhVien.Id)
+            if (id != sinhVien.MaSV)
             {
                 return NotFound();
             }
@@ -117,7 +111,7 @@ namespace QLTV.AppMVC.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SinhVienExists(sinhVien.Id))
+                    if (!SinhVienExists(sinhVien.MaSV))
                     {
                         return NotFound();
                     }
@@ -128,14 +122,14 @@ namespace QLTV.AppMVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Khoa_Id"] = new SelectList(_context.Khoa, "Id", "Id", sinhVien.Khoa_Id);
-            ViewData["Lop_Id"] = new SelectList(_context.Lop, "Id", "Id", sinhVien.Lop_Id);
-            ViewData["Nganh_Id"] = new SelectList(_context.Nganh, "Id", "Id", sinhVien.Nganh_Id);
+            ViewData["Khoa_Id"] = new SelectList(_context.Khoa, "Id", "TenKhoa", sinhVien.Khoa_Id);
+            ViewData["Lop_Id"] = new SelectList(_context.Lop, "Id", "MaLop", sinhVien.Lop_Id);
+            ViewData["Nganh_Id"] = new SelectList(_context.Nganh, "Id", "TenNganh", sinhVien.Nganh_Id);
             return View(sinhVien);
         }
 
         // GET: SinhVien/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
             {
@@ -146,7 +140,7 @@ namespace QLTV.AppMVC.Controllers
                 .Include(s => s.Khoa)
                 .Include(s => s.Lop)
                 .Include(s => s.Nganh)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.MaSV == id);
             if (sinhVien == null)
             {
                 return NotFound();
@@ -158,7 +152,7 @@ namespace QLTV.AppMVC.Controllers
         // POST: SinhVien/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var sinhVien = await _context.SinhVien.FindAsync(id);
             _context.SinhVien.Remove(sinhVien);
@@ -166,9 +160,9 @@ namespace QLTV.AppMVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool SinhVienExists(int id)
+        private bool SinhVienExists(string id)
         {
-            return _context.SinhVien.Any(e => e.Id == id);
+            return _context.SinhVien.Any(e => e.MaSV == id);
         }
     }
 }
