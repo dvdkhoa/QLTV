@@ -19,6 +19,7 @@ namespace QLTV.AppMVC.Controllers
         {
             var dsSach =  _context.Sach.Where(s => s.DauSach_Id == DauSachId).ToList();
 
+            ViewBag.DauSachId = DauSachId;
             ViewBag.tenDauSach = _context.DauSach.Find(DauSachId).TenDauSach;
 
             return View(dsSach);

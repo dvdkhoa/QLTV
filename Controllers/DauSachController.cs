@@ -147,8 +147,9 @@ namespace QLTV.AppMVC.Controllers
                 try
                 {
                     _context.Update(dauSach);
+
                     await _context.SaveChangesAsync();
-                }
+                }   
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!DauSachExists(dauSach.Id))
@@ -162,14 +163,14 @@ namespace QLTV.AppMVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ChuDe_Id"] = new SelectList(_context.ChuDe, "Id", "MaChuDe", dauSach.ChuDe_Id);
-            ViewData["HocPhan_Id"] = new SelectList(_context.HocPhan, "Id", "Id", dauSach.HocPhan_Id);
+            ViewData["ChuDe_Id"] = new SelectList(_context.ChuDe, "Id", "TenChuDe", dauSach.ChuDe_Id);
+            ViewData["HocPhan_Id"] = new SelectList(_context.HocPhan, "Id", "TenHocPhan", dauSach.HocPhan_Id);
             ViewData["KeSach_Id"] = new SelectList(_context.KeSach, "Id", "TenKeSach", dauSach.KeSach_Id);
-            ViewData["Khoa_Id"] = new SelectList(_context.Khoa, "Id", "Id", dauSach.Khoa_Id);
-            ViewData["LoaiSach_Id"] = new SelectList(_context.LoaiSach, "Id", "MaLoaiSach", dauSach.LoaiSach_Id);
-            ViewData["NXB_Id"] = new SelectList(_context.NXB, "Id", "Id", dauSach.NXB_Id);
-            ViewData["NgonNgu_Id"] = new SelectList(_context.NgonNgu, "Id", "MaNN", dauSach.NgonNgu_Id);
-            ViewData["TacGia_Id"] = new SelectList(_context.TacGia, "Id", "Id", dauSach.TacGia_Id);
+            ViewData["Khoa_Id"] = new SelectList(_context.Khoa, "Id", "TenKhoa", dauSach.Khoa_Id);
+            ViewData["LoaiSach_Id"] = new SelectList(_context.LoaiSach, "Id", "TenLoaiSach", dauSach.LoaiSach_Id);
+            ViewData["NXB_Id"] = new SelectList(_context.NXB, "Id", "TenNXB", dauSach.NXB_Id);
+            ViewData["NgonNgu_Id"] = new SelectList(_context.NgonNgu, "Id", "TenNN", dauSach.NgonNgu_Id);
+            ViewData["TacGia_Id"] = new SelectList(_context.TacGia, "Id", "TenTG", dauSach.TacGia_Id);
             return View(dauSach);
         }
 
