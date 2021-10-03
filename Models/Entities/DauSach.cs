@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +23,13 @@ namespace QLTV.AppMVC.Models.Entities
         [Display(Name = "Tên đầu sách")]
         [Required(ErrorMessage = "Phải nhập {0}")]
         public string TenDauSach { get; set; }
+
+
+        public string ImagePath { get; set; }
+
+        [NotMapped]
+        [DataType(DataType.Upload)]
+        public IFormFile ImageFile { get; set; }
 
 
         [Display(Name = "Số lượng")]

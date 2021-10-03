@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +16,12 @@ namespace QLTV.AppMVC.Controllers
     public class DauSachController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly IWebHostEnvironment _env;
 
-        public DauSachController(AppDbContext context)
+        public DauSachController(AppDbContext context, IWebHostEnvironment env)
         {
             _context = context;
+            _env = env;
         }
 
         // GET: DauSach
@@ -70,7 +75,7 @@ namespace QLTV.AppMVC.Controllers
         // POST: DauSach/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,MaDauSach,TenDauSach,SL,LoaiSach_Id,ChuDe_Id,TacGia_Id,NXB_Id,NamXB,Khoa_Id,HocPhan_Id,KeSach_Id,SoTrang,KhoCo,Tags,MinhHoa,GiaBia,Nguon,TenKhac,TungThu,SoTap,TenTap,DinhKem,NgonNgu_Id,ISBN")] DauSach dauSach)
+        public async Task<IActionResult> Create([Bind("Id,MaDauSach,TenDauSach,ImageFile,SL,LoaiSach_Id,ChuDe_Id,TacGia_Id,NXB_Id,NamXB,Khoa_Id,HocPhan_Id,KeSach_Id,SoTrang,KhoCo,Tags,MinhHoa,GiaBia,Nguon,TenKhac,TungThu,SoTap,TenTap,DinhKem,NgonNgu_Id,ISBN")] DauSach dauSach)
         {
             var exists = _context.DauSach.Any(ds => ds.MaDauSach == dauSach.MaDauSach);
 
@@ -81,6 +86,11 @@ namespace QLTV.AppMVC.Controllers
             }
             if (ModelState.IsValid)
             {
+                if(dauSach.ImageFile != null)
+                {
+                    await Uploads(dauSach);
+                }    
+                
                 _context.Add(dauSach); // Tạo đầu sách
 
                 for (int i = 1; i <= dauSach.SL; i++)
@@ -106,6 +116,21 @@ namespace QLTV.AppMVC.Controllers
             ViewData["NgonNgu_Id"] = new SelectList(_context.NgonNgu, "Id", "TenNN", dauSach.NgonNgu_Id);
             ViewData["TacGia_Id"] = new SelectList(_context.TacGia, "Id", "TenTG", dauSach.TacGia_Id);
             return View(dauSach);
+        }
+
+        public async Task Uploads(DauSach dauSach)
+        {
+            var fileName = dauSach.ImageFile.FileName;
+            fileName = fileName.Substring(fileName.LastIndexOf("."));
+            fileName = dauSach.MaDauSach + fileName;
+
+            var imagePath = Path.Combine(_env.WebRootPath, "imgs", fileName);
+
+            using var fileStream = new FileStream(imagePath, FileMode.Create);
+
+            await dauSach.ImageFile.CopyToAsync(fileStream);
+
+            dauSach.ImagePath = Path.Combine("/imgs",fileName);
         }
 
         // GET: DauSach/Edit/5
@@ -135,7 +160,7 @@ namespace QLTV.AppMVC.Controllers
         // POST: DauSach/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,MaDauSach,TenDauSach,SL,LoaiSach_Id,ChuDe_Id,TacGia_Id,NXB_Id,NamXB,Khoa_Id,HocPhan_Id,KeSach_Id,SoTrang,KhoCo,Tags,MinhHoa,GiaBia,Nguon,TenKhac,TungThu,SoTap,TenTap,DinhKem,NgonNgu_Id,ISBN")] DauSach dauSach)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,MaDauSach,TenDauSach, ImagePath,ImageFile,SL,LoaiSach_Id,ChuDe_Id,TacGia_Id,NXB_Id,NamXB,Khoa_Id,HocPhan_Id,KeSach_Id,SoTrang,KhoCo,Tags,MinhHoa,GiaBia,Nguon,TenKhac,TungThu,SoTap,TenTap,DinhKem,NgonNgu_Id,ISBN")] DauSach dauSach)
         {
             if (id != dauSach.Id)
             {
@@ -146,6 +171,11 @@ namespace QLTV.AppMVC.Controllers
             {
                 try
                 {
+                    if(dauSach.ImageFile!=null)
+                    {
+                        await Uploads(dauSach);
+                    }    
+
                     _context.Update(dauSach);
 
                     await _context.SaveChangesAsync();
@@ -200,7 +230,12 @@ namespace QLTV.AppMVC.Controllers
 
             var ds_Sach = _context.Sach.Where(s => s.DauSach_Id == id).ToArray();
 
-            _context.Sach.RemoveRange(ds_Sach);
+            _context.Sach.RemoveRange(ds_Sach); // Xóa danh sách sách thuộc đầu sách
+
+            if(System.IO.File.Exists(dauSach.ImagePath))
+            {
+                System.IO.File.Delete(dauSach.ImagePath); // Xóa Image của đầu sách
+            }    
 
             _context.DauSach.Remove(dauSach);
 
@@ -281,13 +316,34 @@ namespace QLTV.AppMVC.Controllers
             return View("Index", ds_DauSach.ToList());
         }
 
+        [HttpGet("/api/GetDauSachByTG")]
+        public List<IEnumerable<object>> GetDauSachByTG(string tentg)
+        {
+            var dsTG = _context.TacGia.Where(tg => tg.TenTG.Contains(tentg));
+
+            List<IEnumerable<object>> kq = null;
+
+            foreach (var tg in dsTG)
+            {
+               var a =  _context.DauSach.Where(d=>d.TacGia_Id == tg.Id)
+                                .Select(dauSach => new
+                                {
+                                    dauSach,
+                                    soluongCoTheMuon = _context.Sach
+                                                  .Count(s => s.DauSach_Id == dauSach.Id && s.DangMuon == false)
+                                }).ToList();
+                kq.Add(a);
+            }
+
+            return kq;
+        }
 
         [HttpGet("/api/DauSach")]
-        public IEnumerable<object> GetDauSachByTen(string tenSach)
+        public IEnumerable<object> GetDauSach(string tenSach, string tags)
         {
             IEnumerable<object> kq = null;
 
-            if (tenSach == null)
+            if (tenSach == null && tags == null)
             {
                kq = _context.DauSach.Select(dauSach =>
                
@@ -298,15 +354,33 @@ namespace QLTV.AppMVC.Controllers
                 return kq.ToList();
             }
 
-            var ds_Loc = _context.DauSach.Where(ds => ds.TenDauSach.Contains(tenSach));
+            IQueryable<DauSach> ds_Loc = _context.DauSach;
 
-            kq = ds_Loc.Select(dauSach => new
+            if (!string.IsNullOrEmpty(tenSach)) 
             {
-                dauSach,
-                soluongCoTheMuon = _context.Sach
-                              .Count(s => s.DauSach_Id == dauSach.Id && s.DangMuon == false)
-            });
-            return kq;
+                ds_Loc = ds_Loc.Where(ds => ds.TenDauSach.Contains(tenSach));
+
+                kq = ds_Loc.Select(dauSach => new
+                {
+                    dauSach,
+                    soluongCoTheMuon = _context.Sach
+                                  .Count(s => s.DauSach_Id == dauSach.Id && s.DangMuon == false)
+                });
+            }    
+
+            if(!string.IsNullOrEmpty(tags))
+            {
+                ds_Loc = ds_Loc.Where(ds => ds.Tags.Contains(tags));
+
+                kq = ds_Loc.Select(dauSach => new
+                {
+                    dauSach,
+                    soluongCoTheMuon = _context.Sach
+                                  .Count(s => s.DauSach_Id == dauSach.Id && s.DangMuon == false)
+                });
+            }
+
+            return kq.ToList();
         }
     }
 }
