@@ -9,12 +9,12 @@
 <form asp-action="Tim" method="Get" class="form-group">
     <label for="maSV">Tìm sách</label>
     <input class="form-control" type="text" name="maSV" id="maSV" value="" />
-    <input type="submit" value="Tìm" class="btn btn-info mt-2 px-4" />
+    <input type="submit" value="Tìm" class="btn btn-outline-success mt-2 px-4" />
 </form>
 
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Tạo mới</a>
 </p>
 <table class="table">
     <thead>
@@ -48,11 +48,11 @@
                     @Html.DisplayFor(modelItem => item.SinhVien.TenSV)
                 </td>
                 <td>
-                    <a asp-action="Index" asp-controller="ChiTietMuon" asp-route-id="@item.Id">Chi tiết mượn</a>
+                    <a asp-action="Index" asp-controller="ChiTietMuon" asp-route-id="@item.Id" class="btn btn-link">Chi tiết mượn</a>
                 </td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-info">Chi tiết</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">Xóa</a>
                 </td>
             </tr>
         }

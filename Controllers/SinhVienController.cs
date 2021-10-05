@@ -63,6 +63,13 @@ namespace QLTV.AppMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                var exists = await _context.SinhVien.AnyAsync(k => k.MaSV == sinhVien.MaSV);
+                if (exists)
+                {
+                    ModelState.AddModelError(string.Empty, "Mã sinh viên bị trùng");
+                    return View();
+                }
+
                 _context.Add(sinhVien);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

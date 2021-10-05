@@ -1,15 +1,14 @@
 ﻿@model QLTV.AppMVC.Models.Entities.SinhVien
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Thêm mới sinh viên";
 }
 
-<h1>Create</h1>
+<h1>@ViewData["Title"]</h1>
 
-<h4>SinhVien</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-8">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -53,14 +52,14 @@
                 <select asp-for="Khoa_Id" class ="form-control" asp-items="ViewBag.Khoa_Id"></select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Đồng ý" class="btn btn-success float-right" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Trở về danh sách</a>
 </div>
 
 @section Scripts {

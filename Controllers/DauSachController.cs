@@ -295,92 +295,112 @@ namespace QLTV.AppMVC.Controllers
             dauSach.SL = index + SL; // Cập nhật lại số lượng cho đầu sách
 
             await _context.SaveChangesAsync();
-
+                
             return RedirectToAction("Edit",new { Id = Id });
         }
-
-
+        
         [HttpGet]
-        public IActionResult Tim(string tenSach)
+        public IActionResult Tim(string tenSach,int? tacGiaId, int? KhoaId, int? chuDeId)
         {
-            if (tenSach==null)
+            if (tenSach == null && tacGiaId == null && KhoaId == null && chuDeId == null)
             {
                 return RedirectToAction("Index");
             }
-            var ds_DauSach = _context.DauSach
-                                .Include(s => s.TacGia)
-                                .Include(s => s.KeSach)
-                                .Where(s => s.TenDauSach
-                                .Contains(tenSach));
-
-            return View("Index", ds_DauSach.ToList());
-        }
-
-        [HttpGet("/api/GetDauSachByTG")]
-        public List<IEnumerable<object>> GetDauSachByTG(string tentg)
-        {
-            var dsTG = _context.TacGia.Where(tg => tg.TenTG.Contains(tentg));
-
-            List<IEnumerable<object>> kq = null;
-
-            foreach (var tg in dsTG)
+            var dsDauSach = _context.DauSach.Include(d=>d.TacGia)
+                                             .Include(d=>d.KeSach)
+                                             .ToList();
+            
+            if (KhoaId != null)
             {
-               var a =  _context.DauSach.Where(d=>d.TacGia_Id == tg.Id)
-                                .Select(dauSach => new
-                                {
-                                    dauSach,
-                                    soluongCoTheMuon = _context.Sach
-                                                  .Count(s => s.DauSach_Id == dauSach.Id && s.DangMuon == false)
-                                }).ToList();
-                kq.Add(a);
-            }
-
-            return kq;
-        }
-
-        [HttpGet("/api/DauSach")]
-        public IEnumerable<object> GetDauSach(string tenSach, string tags)
-        {
-            IEnumerable<object> kq = null;
-
-            if (tenSach == null && tags == null)
+                dsDauSach = dsDauSach.Where(d => d.Khoa_Id == KhoaId).ToList();
+            } 
+            if(tacGiaId != null)
             {
-               kq = _context.DauSach.Select(dauSach =>
-               
-               new { dauSach, 
-                   soluongCoTheMuon = _context.Sach
-                              .Count(s=>s.DauSach_Id==dauSach.Id&&s.DangMuon==false)});
-
-                return kq.ToList();
-            }
-
-            IQueryable<DauSach> ds_Loc = _context.DauSach;
-
-            if (!string.IsNullOrEmpty(tenSach)) 
+                dsDauSach = dsDauSach.Where(d => d.TacGia_Id == tacGiaId).ToList();
+            }    
+            if(chuDeId !=null )
             {
-                ds_Loc = ds_Loc.Where(ds => ds.TenDauSach.Contains(tenSach));
-
-                kq = ds_Loc.Select(dauSach => new
-                {
-                    dauSach,
-                    soluongCoTheMuon = _context.Sach
-                                  .Count(s => s.DauSach_Id == dauSach.Id && s.DangMuon == false)
-                });
+                dsDauSach = dsDauSach.Where(d => d.ChuDe_Id == chuDeId).ToList();
             }    
 
-            if(!string.IsNullOrEmpty(tags))
+            if(!string.IsNullOrEmpty(tenSach))
             {
-                ds_Loc = ds_Loc.Where(ds => ds.Tags.Contains(tags));
+                dsDauSach = dsDauSach
+                                .Where(s => s.TenDauSach.ToLower()
+                                .Contains(tenSach.ToLower())).ToList();
+            }    
+            
 
-                kq = ds_Loc.Select(dauSach => new
-                {
-                    dauSach,
-                    soluongCoTheMuon = _context.Sach
-                                  .Count(s => s.DauSach_Id == dauSach.Id && s.DangMuon == false)
+            return View("Index", dsDauSach.ToList());
+        }
+
+        [HttpGet("/api/dausach")]
+        public IActionResult GetDauSach(string tenSach, string tags, string tenTG, int? KhoaId)
+        {
+            var ds = _context.DauSach.Select(d=> new {
+                d.MaDauSach,
+                d.TenDauSach,
+                d.TenKhac,
+                d.ChuDe.TenChuDe,
+                d.HocPhan.TenHocPhan,
+                d.ISBN,
+                d.KeSach.TenKeSach,
+                d.Khoa.TenKhoa,
+                d.KhoCo,
+                d.LoaiSach.TenLoaiSach,
+                d.MinhHoa,
+                d.NamXB,
+                d.NgonNgu.TenNN,
+                d.Nguon,
+                d.NXB.TenNXB,
+                d.SL,
+                d.SoTap,
+                d.SoTrang,
+                d.TacGia.TenTG,
+                d.Tags,
+                d.TenTap,
+                d.TungThu,
+                soluongconlai = _context.Sach.Count(s => s.DauSach_Id == d.Id)
+            }).ToList();
+            object obj = null;
+
+            if (string.IsNullOrEmpty(tenSach) 
+                && string.IsNullOrEmpty(tags) 
+                && string.IsNullOrEmpty(tenTG)
+                && KhoaId==null)
+            {
+                obj = ds;   
+            }
+
+            // Tìm sách theo Khoa
+            if(KhoaId!=null)
+            {
+                var khoa=_context.Khoa.Find(KhoaId);
+                if (khoa is null)
+                    return Json("Khoa không tồn tại");
+                obj = ds.Where(d => d.TenKhoa == khoa.TenKhoa);
+            }    
+
+            if (!string.IsNullOrEmpty(tenSach))
+            {
+                obj = ds.Where(d => d.TenDauSach.ToLower().Contains(tenSach.ToLower()));
+            }
+
+            if (!string.IsNullOrEmpty(tags))
+            {
+                obj = ds.Where(d => {
+                    if (d.Tags is null)
+                        return false;
+                    return d.Tags.ToLower().Contains(tags.ToLower());
                 });
             }
 
-            return kq.ToList();
+            if(!string.IsNullOrEmpty(tenTG))
+            {
+                obj = ds.Where(d => d.TenTG.ToLower().Contains(tenTG.ToLower()));
+            }
+            
+            return Json(obj);
         }
     }
 }

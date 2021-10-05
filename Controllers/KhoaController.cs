@@ -114,7 +114,9 @@ namespace QLTV.AppMVC.Controllers
                     ds_Khoa.ForEach(k =>
                     {
                         if (k.MaKhoa == khoa.MaKhoa)
+                        {
                             exists = true;
+                        }    
                     });
 
                     if(exists) // Nếu mã khoa tồn tại

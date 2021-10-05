@@ -9,8 +9,9 @@
     <title>Index</title>
 </head>
 <body>
+    <h1>Danh sách tác giả</h1>
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Tạo mới</a>
 </p>
 <table class="table">
     <thead>
@@ -31,7 +32,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.TenTG)
+                <a asp-action="Tim" asp-controller="DauSach" asp-route-tacGiaId="@item.Id">@Html.DisplayFor(modelItem => item.TenTG)</a>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DiaChi)
@@ -40,9 +41,9 @@
                 @Html.DisplayFor(modelItem => item.phone)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-secondary">Sửa</a> |
+                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-info">Chi tiết</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">Xóa</a>
             </td>
         </tr>
 }

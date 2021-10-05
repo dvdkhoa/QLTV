@@ -1,19 +1,57 @@
 ﻿@model IEnumerable<QLTV.AppMVC.Models.Entities.DauSach>
 
+@using Microsoft.AspNetCore.Mvc
+
+@inject QLTV.AppMVC.Models.AppDbContext _context
+
 @{
     ViewData["Title"] = "Index";
+
+    var KhoaId = Context.Request.Query["KhoaId"].ToString();
+    var tacGiaId = Context.Request.Query["tacGiaId"].ToString();
+    var chuDeId = Context.Request.Query["chuDeId"].ToString();
+
 }
 
-<h1>Index</h1>
+<h1>Đầu sách</h1>
 
 <form asp-action="Tim" method="Get" class="form-group">
     <label for="tenSach">Tìm sách</label>
-    <input class="form-control" type="text" name="tenSach" id="tenSach" value="" placeholder="Nhập tên sách"/>
+    <input class="form-control" type="text" name="tenSach" id="input" value="" placeholder="Nhập tên sách" />
+    @{
+        if (!string.IsNullOrEmpty(KhoaId))
+        {
+            <input type="hidden" name="KhoaId" value="@KhoaId" />
+        }
+        if (!string.IsNullOrEmpty(tacGiaId))
+        {
+            <input type="hidden" name="tacGiaId" value="@tacGiaId" />
+        }
+        if (!string.IsNullOrEmpty(chuDeId))
+        {
+            <input type="hidden" name="chuDeId" value="@chuDeId" />
+        }
+    }
     <input type="submit" value="Tìm" class="btn btn-info mt-2 px-4" />
+
+
+    @*<select onchange="Switch()" id="select" class="form-select" aria-label="Default select example">
+            <option value="tenSach" selected>Tìm theo tên</option>
+            <option value="tacGia">Tìm theo tác giả</option>
+            <option value="Khoa">Tìm theo khoa</option>
+            <option value="chuDe">Tìm theo chủ đề</option>
+        </select>
+        <select id="selectTG" class="form-select" hidden disabled aria-label="Default select example">
+        </select>
+        <select id="selectKhoa" class="form-select" aria-label="Default select example">
+        </select>
+        <select id="selectChuDe" class="form-select" aria-label="Default select example">
+        </select>*@
+
 </form>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Tạo mới</a>
 </p>
 <table class="table">
     <thead>
@@ -24,42 +62,93 @@
             <th>
                 @Html.DisplayNameFor(model => model.TenDauSach)
             </th>
-            
+
             <th>
                 @Html.DisplayNameFor(model => model.TacGia_Id)
             </th>
-            
+
             <th>
                 @Html.DisplayNameFor(model => model.KeSach_Id)
             </th>
-         
+
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaDauSach)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TenDauSach)
-            </td>
-            
-            <td>
-                @Html.DisplayFor(modelItem => item.TacGia.TenTG)
-            </td>
-            
-            <td>
-                @Html.DisplayFor(modelItem => item.KeSach.TenKeSach)
-            </td>
-     
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaDauSach)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TenDauSach)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.TacGia.TenTG)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.KeSach.TenKeSach)
+                </td>
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-secondary">Sửa</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-info">Chi tiết</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">Xóa</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+
+@*<script>
+        let select = document.getElementById("select");
+
+        let input = document.getElementById("input")
+
+        let selectTG = document.getElementById("selectTG");
+
+        const Switch = (e) => {
+            input.name = select.value;
+
+            switch (input.name) {
+                case 'tacGia':
+                    selectKhoa.hidden = false
+                    selectChuDe.hidden = false
+                    selectTG.hidden = true
+                    selectKhoa.disabled = false
+                    selectChuDe.disabled = false
+                    selectTG.disabled = true
+                    break;
+                case 'Khoa':
+                    selectTG.hidden = false
+                    selectTG.disabled = false
+                    selectChuDe.hidden = false
+                    selectChuDe.disabled = false
+                    selectKhoa.hidden = false
+                    selectKhoa.disabled = false
+                    break;
+                case 'chuDe':
+                    selectKhoa.hidden = false
+                    selectKhoa.disabled = false
+                    selectTG.hidden = false
+                    selectTG.disabled = false
+                    selectChuDe.hidden = true
+                    selectChuDe.disabled = true
+                    break;
+                default:
+                    selectKhoa.hidden = false
+                    selectTG.hidden = false
+                    selectChuDe.hidden = false
+                    selectKhoa.disabled = false
+                    selectTG.disabled = false
+                    selectChuDe.disabled = false
+                    break;
+            }
+
+        }
+
+    </script>*@
