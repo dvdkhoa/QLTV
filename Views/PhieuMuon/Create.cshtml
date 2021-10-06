@@ -1,10 +1,10 @@
 ﻿@model QLTV.AppMVC.Models.Entities.PhieuMuon
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Tạo phiếu mượn";
 }
 
-<h2>Tạo phiếu mượn</h2>
+<h2>@ViewData["Title"]</h2>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -15,13 +15,13 @@
                 <input type="text" id="masv" name="masv" placeholder="Nhập mã sinh viên" class="form-text" required/>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Đồng ý" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Trở về danh sách phiếu mượn</a>
 </div>
 

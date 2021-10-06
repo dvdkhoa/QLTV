@@ -363,6 +363,7 @@ namespace QLTV.AppMVC.Controllers
                 d.MaDauSach,
                 d.TenDauSach,
                 d.TenKhac,
+                d.ImagePath,
                 d.ChuDe.TenChuDe,
                 d.HocPhan.TenHocPhan,
                 d.ISBN,

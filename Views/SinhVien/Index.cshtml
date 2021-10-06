@@ -1,15 +1,15 @@
 ﻿@model IEnumerable<QLTV.AppMVC.Models.Entities.SinhVien>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Danh sách sinh viên";
 }
 
-<h1>Danh sách sinh viên</h1>
+<h1>@ViewData["Title"]</h1>
 
 <p>
     <a asp-action="Create">Tạo mới</a>
 </p>
-<table class="table">
+<table class="table table-striped table-hover">
     <thead>
         <tr>
             <th>

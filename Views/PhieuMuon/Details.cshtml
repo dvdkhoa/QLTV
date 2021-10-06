@@ -1,13 +1,13 @@
 ﻿@model QLTV.AppMVC.Models.Entities.PhieuMuon
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Thông tin chi tiết phiếu mượn";
 }
 
-<h1>Details</h1>
+<h3>Thông tin chi tiết phiếu mượn</h3>
 
 <div>
-    <h4>PhieuMuon</h4>
+    <h5>Mã phiếu mượn: @Model.Id</h5>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -16,12 +16,16 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.SinhVien.TenSV)
         </dd>
-        
+    </dl>
+    <dl class="row">
+        <dt class="col-sm-2">
+            
+        </dt>
         <dd class="col-sm-10">
             <a asp-action="Index" asp-controller="ChiTietMuon" asp-route-id="@Model.Id">Chi tiết mượn</a>
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Trở về danh sách phiếu mượn</a>
 </div>
