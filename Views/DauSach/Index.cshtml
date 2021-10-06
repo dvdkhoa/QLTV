@@ -32,23 +32,9 @@
             <input type="hidden" name="chuDeId" value="@chuDeId" />
         }
     }
-    <input type="submit" value="Tìm" class="btn btn-info mt-2 px-4" />
-
-
-    @*<select onchange="Switch()" id="select" class="form-select" aria-label="Default select example">
-            <option value="tenSach" selected>Tìm theo tên</option>
-            <option value="tacGia">Tìm theo tác giả</option>
-            <option value="Khoa">Tìm theo khoa</option>
-            <option value="chuDe">Tìm theo chủ đề</option>
-        </select>
-        <select id="selectTG" class="form-select" hidden disabled aria-label="Default select example">
-        </select>
-        <select id="selectKhoa" class="form-select" aria-label="Default select example">
-        </select>
-        <select id="selectChuDe" class="form-select" aria-label="Default select example">
-        </select>*@
-
+    <input type="submit" value="Tìm" class="btn btn-outline-success mt-2 px-4" />
 </form>
+
 
 <p>
     <a asp-action="Create">Tạo mới</a>
@@ -102,6 +88,8 @@
         }
     </tbody>
 </table>
+@await Html.PartialAsync("_Paging", ViewData["paging"])
+
 
 
 @*<script>

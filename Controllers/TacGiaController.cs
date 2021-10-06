@@ -50,8 +50,6 @@ namespace QLTV.AppMVC.Controllers
         }
 
         // POST: TacGia/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,TenTG,DiaChi,phone")] TacGia tacGia)
@@ -82,8 +80,6 @@ namespace QLTV.AppMVC.Controllers
         }
 
         // POST: TacGia/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,TenTG,DiaChi,phone")] TacGia tacGia)

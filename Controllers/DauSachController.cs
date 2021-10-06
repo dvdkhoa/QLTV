@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using QLTV.AppMVC.Models;
 using QLTV.AppMVC.Models.Entities;
+using QLTV.AppMVC.Models.Helpers;
 
 namespace QLTV.AppMVC.Controllers
 {
@@ -25,10 +26,22 @@ namespace QLTV.AppMVC.Controllers
         }
 
         // GET: DauSach
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(List<DauSach> dsDauSach, int p = 1)
         {
-            var appDbContext = _context.DauSach.Include(d => d.ChuDe).Include(d => d.HocPhan).Include(d => d.KeSach).Include(d => d.Khoa).Include(d => d.LoaiSach).Include(d => d.NXB).Include(d => d.NgonNgu).Include(d => d.TacGia);
-            return View(await appDbContext.ToListAsync());
+            if(!(dsDauSach.Count > 0))
+                dsDauSach = _context.DauSach.Include(d => d.ChuDe).Include(d => d.HocPhan).Include(d => d.KeSach).Include(d => d.Khoa).Include(d => d.LoaiSach).Include(d => d.NXB).Include(d => d.NgonNgu).Include(d => d.TacGia).ToList();
+
+            ViewData["paging"] = new Paging()
+            {
+                countPages = dsDauSach.Count(),
+                currentPage = p,
+                generateUrl = (int? p) => Url.Action("Index", new { p = p })
+            };
+
+            dsDauSach = dsDauSach.Skip((p - 1) * 1)
+                    .Take(1).ToList();
+
+            return View(dsDauSach);
         }
       
 
@@ -300,7 +313,7 @@ namespace QLTV.AppMVC.Controllers
         }
         
         [HttpGet]
-        public IActionResult Tim(string tenSach,int? tacGiaId, int? KhoaId, int? chuDeId)
+        public IActionResult Tim(string tenSach,int? tacGiaId, int? KhoaId, int? chuDeId, int p=1)
         {
             if (tenSach == null && tacGiaId == null && KhoaId == null && chuDeId == null)
             {
@@ -328,10 +341,19 @@ namespace QLTV.AppMVC.Controllers
                 dsDauSach = dsDauSach
                                 .Where(s => s.TenDauSach.ToLower()
                                 .Contains(tenSach.ToLower())).ToList();
-            }    
-            
+            }
 
-            return View("Index", dsDauSach.ToList());
+            ViewData["paging"] = new Paging()
+            {
+                countPages = dsDauSach.Count(),
+                currentPage = p,
+                generateUrl = (int? p) => Url.Action("Tim", new { p = p, khoaid=KhoaId, chuDeId=chuDeId, tacGiaId=tacGiaId, tenSach=tenSach})
+            };
+
+            dsDauSach = dsDauSach.Skip((p - 1) * 1)
+                    .Take(1).ToList();
+
+            return View("Index", dsDauSach);
         }
 
         [HttpGet("/api/dausach")]
