@@ -224,3 +224,4 @@ C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Views\SinhVien\Ed
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Views\SinhVien\Index.cshtml.g.cs
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Views\Sach\Index.cshtml.g.cs
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Views\Shared\_Paging.cshtml.g.cs
+C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Views\DauSach\TimAjax.cshtml.g.cs

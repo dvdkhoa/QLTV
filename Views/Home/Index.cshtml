@@ -6,3 +6,30 @@
     <h1  >Quản lý thư viện</h1>
     <p>Xin chào bạn đến với phần mềm quản lý thư viện !</p>
 </div>
+<div>
+    <label>Tìm nhanh:</label>
+    <input id="tukhoa" type="tel" name="input" placeholder="Nhập tên sách" value="" />
+    
+</div>
+<div id="ketqua">
+
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#tukhoa").keyup(function () {
+                $.ajax({
+                    url: "/DauSach/TimAjax",
+                    data: {
+                        keyword: $("#tukhoa").val.trim()
+                    },
+                    type: "POST",
+                    success: function (data) {
+                        $("#ketqua").html(data)
+                    }
+                })
+            })
+        })
+    </script>
+}

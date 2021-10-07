@@ -425,5 +425,13 @@ namespace QLTV.AppMVC.Controllers
             
             return Json(obj);
         }
+        
+        [HttpPost]
+        public IActionResult TimAjax(string keyword)
+        {
+            var ds = _context.DauSach.Where(d => d.TenDauSach.ToLower().Contains(keyword));
+
+            return PartialView(ds.ToList());
+        }
     }
 }
