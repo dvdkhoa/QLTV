@@ -74,7 +74,7 @@ namespace QLTV.AppMVC.Controllers
         // GET: DauSach/Create
         public IActionResult Create()
         {
-            ViewData["ChuDe_Id"] = new SelectList(_context.ChuDe, "Id", "TenChuDe");
+            ViewData["ChuDe_Id"] = new SelectList(_context.ChuDe, "Id", "TenChuDe").Append(new SelectListItem() { Text = "Chọn", Value = "", Selected = true });
             ViewData["HocPhan_Id"] = new SelectList(_context.HocPhan, "Id", "TenHocPhan");
             ViewData["KeSach_Id"] = new SelectList(_context.KeSach, "Id", "TenKeSach");
             ViewData["Khoa_Id"] = new SelectList(_context.Khoa, "Id", "TenKhoa");
@@ -429,7 +429,10 @@ namespace QLTV.AppMVC.Controllers
         [HttpPost]
         public IActionResult TimAjax(string keyword)
         {
-            var ds = _context.DauSach.Where(d => d.TenDauSach.ToLower().Contains(keyword));
+            var ds = _context.DauSach
+                .Where(d => d.TenDauSach.ToLower().Contains(keyword))
+                .Include(d=>d.KeSach)
+                .Include(d=>d.TacGia);
 
             return PartialView(ds.ToList());
         }

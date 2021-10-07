@@ -2,18 +2,15 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1  >Quản lý thư viện</h1>
+<div id="greeting" class="text-center">
+    <h1>Quản lý thư viện</h1>
     <p>Xin chào bạn đến với phần mềm quản lý thư viện !</p>
 </div>
-<div>
+<div class="form-group">
     <label>Tìm nhanh:</label>
-    <input id="tukhoa" type="tel" name="input" placeholder="Nhập tên sách" value="" />
-    
+    <input id="tukhoa" type="text" name="input" placeholder="Nhập tên sách" value="" class="form-control" />
 </div>
-<div id="ketqua">
-
-</div>
+<div id="ketqua" class="mt-2"></div>
 
 @section Scripts {
     <script>
@@ -22,7 +19,7 @@
                 $.ajax({
                     url: "/DauSach/TimAjax",
                     data: {
-                        keyword: $("#tukhoa").val.trim()
+                        keyword: $("#tukhoa").val().trim()
                     },
                     type: "POST",
                     success: function (data) {

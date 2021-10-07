@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<QLTV.AppMVC.Models.Entities.DauSach>
 
-<table class="table">
+<table class="table table-hover table-striped">
     <thead>
         <tr>
             <th>
@@ -9,158 +9,35 @@
             <th>
                 @Html.DisplayNameFor(model => model.TenDauSach)
             </th>
+
             <th>
-                @Html.DisplayNameFor(model => model.ImagePath)
+                @Html.DisplayNameFor(model => model.TacGia_Id)
             </th>
+
             <th>
-                @Html.DisplayNameFor(model => model.SL)
+                @Html.DisplayNameFor(model => model.KeSach_Id)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LoaiSach)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ChuDe)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TacGia)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NXB)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NamXB)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Khoa)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HocPhan)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.KeSach)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SoTrang)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.KhoCo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Tags)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MinhHoa)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GiaBia)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Nguon)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TenKhac)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TungThu)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SoTap)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TenTap)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DinhKem)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NgonNgu)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ISBN)
-            </th>
-           
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaDauSach)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TenDauSach)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImagePath)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SL)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LoaiSach.MaLoaiSach)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ChuDe.MaChuDe)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TacGia.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NXB.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NamXB)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Khoa.MaKhoa)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HocPhan.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.KeSach.TenKeSach)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SoTrang)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.KhoCo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tags)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MinhHoa)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GiaBia)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nguon)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TenKhac)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TungThu)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SoTap)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TenTap)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DinhKem)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NgonNgu.MaNN)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ISBN)
-            </td>
-            
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaDauSach)
+                </td>
+                <td>
+                    <a asp-action="Index" asp-controller="Sach" asp-route-DauSachId="@item.Id">@Html.DisplayFor(modelItem => item.TenDauSach)</a>
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.TacGia.TenTG)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.KeSach.TenKeSach)
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
