@@ -1,168 +1,160 @@
 ﻿@model QLTV.AppMVC.Models.Entities.DauSach
 
+@inject AppDbContext _context;
+
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Thông tin chi tiết đầu sách";
+
+    var dsSach = _context.Sach.Where(s => s.DauSach_Id == Model.Id).ToList();
+
+    var slConLai = dsSach.Count(s => !s.DangMuon);
 }
 
-<h1>Details</h1>
+<h2>@Model.TenDauSach</h2>
 
-<div>
-    <h4>DauSach</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.MaDauSach)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.MaDauSach)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TenDauSach)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TenDauSach)
-        </dd>
-        <dt class="col-sm-2">
-            Hình ảnh
-        </dt>
-        <dd class="col-sm-10">
-            <div class="col-sm-2"><img src="@Model.ImagePath" alt="Hình sách: @Model.TenDauSach" class="img-thumbnail" /></div>
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.SL)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.SL) (<a asp-action="Index" asp-controller="Sach" asp-route-DauSachId="@Model.Id">Danh sách sách</a>)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.LoaiSach_Id)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.LoaiSach.TenLoaiSach)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ChuDe_Id)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ChuDe.TenChuDe)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TacGia_Id)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TacGia.TenTG)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.NXB_Id)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.NXB.TenNXB)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.NamXB)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.NamXB)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Khoa_Id)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Khoa.TenKhoa)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.HocPhan_Id)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.HocPhan.TenHocPhan)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.KeSach_Id)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.KeSach.TenKeSach)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.SoTrang)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.SoTrang)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.KhoCo)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.KhoCo)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Tags)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Tags)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.MinhHoa)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.MinhHoa)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.GiaBia)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.GiaBia)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Nguon)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Nguon)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TenKhac)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TenKhac)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TungThu)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TungThu)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.SoTap)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.SoTap)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TenTap)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TenTap)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DinhKem)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DinhKem)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.NgonNgu_Id)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.NgonNgu.TenNN)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ISBN)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ISBN)
-        </dd>
-    </dl>
+<div class="row">
+    <div class="col-4">
+        <div class="w-100">
+            <img src="@Model.ImagePath" class="img-thumbnail" />
+        </div>
+        <table class="table small">
+            <thead>
+                <tr>
+                    <th>Mã sách</th>
+                    <th>Trạng thái</th>
+                    <th>Sinh viên</th>
+                    <th>Hạn trả</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var s in dsSach)
+                {
+                <tr>
+                    <td>
+                        @s.MaSach
+                    </td>
+                    @{
+                        if (s.DangMuon)
+                        {
+                            var ctm = _context.ChiTietMuon.FirstOrDefault(ctm => ctm.MaSach == s.MaSach);
+
+                            var sv = _context.PhieuMuon.FirstOrDefault(pm => pm.Id == ctm.PM_Id).MaSV;
+
+                            <td>Đang mượn</td>
+                            <td>@sv</td>
+                            <td>@ctm.NgayMuon.AddDays(15).ToShortDateString()</td>
+                        }
+                        else
+                        {
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        }
+                    }
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-8">
+        <p class="">
+            <a asp-action="Index">Về danh sách đầu sách</a>
+        </p>
+        <table class="table table-bordered table-striped">
+            <tr>
+                <td>@Html.DisplayNameFor(m => m.MaDauSach)</td>
+                <td>@Model.MaDauSach</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(m => m.TenDauSach)</td>
+                <td>@Model.TenDauSach</td>
+            </tr>
+
+            <tr>
+                <td>@Html.DisplayNameFor(m => m.SL)</td>
+                <td>@Model.SL (Còn lại: @slConLai quyển)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(m => m.LoaiSach_Id)</td>
+                <td>@Html.DisplayFor(m => m.LoaiSach.TenLoaiSach)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(m => m.ChuDe_Id)</td>
+                <td>@Html.DisplayFor(m => m.ChuDe.MaChuDe)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(m => m.TacGia_Id)</td>
+                <td>@Html.DisplayFor(m => m.TacGia.TenTG)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(m => m.NXB_Id)</td>
+                <td>@Html.DisplayFor(m => m.NXB.TenNXB)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(m => m.NamXB)</td>
+                <td>@Model.NamXB</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(m => m.Khoa_Id)</td>
+                <td>@Html.DisplayFor(m => m.Khoa.TenKhoa)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(m => m.HocPhan_Id)</td>
+                <td>@Html.DisplayFor(m => m.HocPhan.TenHocPhan)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(m => m.KeSach_Id)</td>
+                <td>@Html.DisplayFor(m => m.KeSach.TenKeSach)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(m => m.NgonNgu_Id)</td>
+                <td>@Html.DisplayFor(m => m.NgonNgu.TenNN)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(m => m.SoTrang)</td>
+                <td>@Model.SoTrang</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(m => m.SoTap)</td>
+                <td>@Model.SoTap</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(m => m.TenTap)</td>
+                <td>@Model.TenTap</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(m => m.TenKhac)</td>
+                <td>@Model.TenKhac</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(m => m.KhoCo)</td>
+                <td>@Model.KhoCo</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(m => m.MinhHoa)</td>
+                <td>@Model.MinhHoa</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(m => m.GiaBia)</td>
+                <td>@Model.GiaBia</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(m => m.Nguon)</td>
+                <td>@Model.Nguon</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(m => m.TungThu)</td>
+                <td>@Model.TungThu</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(m => m.DinhKem)</td>
+                <td>@Model.DinhKem</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(m => m.ISBN)</td>
+                <td>@Model.ISBN</td>
+            </tr>
+        </table>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+

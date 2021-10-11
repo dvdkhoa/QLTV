@@ -15,14 +15,21 @@ namespace QLTV.AppMVC.Controllers
         {
             _context = context;
         }
-        public IActionResult Index(int? id)
+        public async Task<IActionResult> Index(int? id)
         {
             if (id == null)
                 return NotFound();
 
             var Ds_Ctm = _context.ChiTietMuon.Where(ctm => ctm.PM_Id == id).ToList();
 
+            var pm = await _context.PhieuMuon.FindAsync(id);
+
+            var sinhvien = _context.SinhVien.FirstOrDefault(sv => sv.MaSV == pm.MaSV);
+
+
             ViewData["Id"] = id;
+            ViewData["masv"] = sinhvien.MaSV;
+            ViewData["tensv"] = sinhvien.TenSV;
 
             return View(Ds_Ctm);
         }

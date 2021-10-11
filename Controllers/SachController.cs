@@ -17,12 +17,12 @@ namespace QLTV.AppMVC.Controllers
         }
         public IActionResult Index(int DauSachId)
         {
-            var dsSach =  _context.Sach.Where(s => s.DauSach_Id == DauSachId).ToList();
+            var dsSach =  _context.Sach.Where(s => s.DauSach_Id == DauSachId);
 
             ViewBag.DauSachId = DauSachId;
             ViewBag.tenDauSach = _context.DauSach.Find(DauSachId).TenDauSach;
 
-            return View(dsSach);
+            return View(dsSach.ToList());
         }
     }
 }

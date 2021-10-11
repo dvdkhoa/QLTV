@@ -24,7 +24,7 @@ namespace QLTV.AppMVC.Models.Entities
         [Required(ErrorMessage = "Phải nhập {0}")]
         public string TenDauSach { get; set; }
 
-
+        [Display(Name = "Hình ảnh")]
         public string ImagePath { get; set; }
 
         [NotMapped]
@@ -124,8 +124,16 @@ namespace QLTV.AppMVC.Models.Entities
         public int? NgonNgu_Id { get; set; }
         public NgonNgu NgonNgu { get; set; }
 
-        
+
+        [Display(Name = "Tóm tắt")]
+        public string TomTat { get; set; }
+
+        [Display(Name = "Tái bản")]
+        public string TaiBan { get; set; }
         public string ISBN { get; set; }
+
+        [Display(Name ="Phụ chú")]
+        public string PhuChu { get; set; }
 
     }
 }

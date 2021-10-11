@@ -5,7 +5,9 @@
 }
 
 
-<h2>Đầu sách: @ViewBag.tenDauSach</h2><br />
+<h2>Đầu sách: <span class="font-weight-light font-italic">@ViewBag.tenDauSach</span></h2><br />
+<p>- Số lượng: @Model.Count()</p>
+<p>- Còn lại: @Model.Where(s => !s.DangMuon).Count()</p>
 
 <p><a asp-action="Details" asp-controller="DauSach" asp-route-id="@ViewBag.DauSachId">Về thông tin chi tiết của đầu sách</a></p>
 

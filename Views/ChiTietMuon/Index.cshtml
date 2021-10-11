@@ -2,9 +2,18 @@
 @model List<ChiTietMuon>
 
 
+@{ 
+    ViewBag.title = "Danh sách chi tiết mượn";
+}
 
+<h2>@ViewBag.title</h2>
+<hr />
 
-<h1>Index</h1>
+<h4>Phiếu mượn: @ViewBag.Id</h4>
+<h6>- Sinh viên: @ViewBag.tensv</h6>
+<h6>- Mã Sinh viên: @ViewBag.masv</h6>
+
+<hr />
 
 <p>
     <a asp-action="Create" asp-route-id="@ViewBag.Id">Thêm chi tiết mượn</a>
@@ -62,8 +71,8 @@
 
             </td>
             <td>
-                <form method="post">
-                    <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@ctm.Id">Xóa</a>
+                <form method="post" asp-action="Delete" asp-route-id="@ctm.Id">
+                    <button class="btn btn-outline-danger" >Xóa</button>
                 </form>
             </td>
         </tr>

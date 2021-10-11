@@ -4,7 +4,6 @@
 html,
 body,
 div,
-span,
 applet,
 object,
 iframe,
@@ -47,7 +46,6 @@ table,
 caption,
 tbody,
 tfoot,
-td,
 article,
 aside,
 canvas,
@@ -94,9 +92,17 @@ section {
     display: block;
 }
 
+.table td, 
+.table th {
+    vertical-align: middle
+}
+
 body {
     line-height: 1;
-    font-family: "Montserrat", sans-serif;
+    /*font-family: "Montserrat", sans-serif;*/
+    font-family: Arial;
+    font-weight: 100;
+    font-size: 15px;
     transition: all 0.5s;
 }
 
@@ -197,7 +203,7 @@ q:after {
     background-size: cover;
 }
 
- .footer {
+.footer {
     padding: 100px 5%;
     font-weight: 200;
     background-image: url("https://wallpaperaccess.com/full/1426875.jpg");
@@ -205,6 +211,7 @@ q:after {
     display: flex;
     justify-content: space-between;
     align-items: start;
+    font-family: "Montserrat", sans-serif;
 }
 
      .footer .footer-left p,
@@ -215,7 +222,7 @@ q:after {
     }
 
      .footer .footer-right {
-        text-align: right;
+        text-align: left;
     }
 
 @media screen and (max-width: 1050px) {

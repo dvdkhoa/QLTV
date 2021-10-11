@@ -1,15 +1,11 @@
 ﻿@model IEnumerable<QLTV.AppMVC.Models.Entities.TacGia>
 
+@{ 
+    ViewBag.title = "Danh sách tác giả";
+}
 
-<!DOCTYPE html>
+<h1>Danh sách tác giả</h1>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
-    <h1>Danh sách tác giả</h1>
 <p>
     <a asp-action="Create">Tạo mới</a>
 </p>
@@ -49,5 +45,4 @@
 }
     </tbody>
 </table>
-</body>
-</html>
+

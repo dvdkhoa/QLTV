@@ -37,6 +37,7 @@ namespace QLTV.AppMVC.Controllers
             var phieuMuon = await _context.PhieuMuon
                 .Include(p => p.SinhVien)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (phieuMuon == null)
             {
                 return NotFound();
@@ -54,34 +55,62 @@ namespace QLTV.AppMVC.Controllers
         // POST: PhieuMuon/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(string masv)
+        public async Task<IActionResult> Create(string masv, string masach)
         {
             if (ModelState.IsValid)
             {
-                var sv =  _context.SinhVien.Where(sv => sv.MaSV == masv)
-                                                .FirstOrDefault();
+                var sv = await  _context.SinhVien.Where(sv => sv.MaSV == masv)
+                                                .FirstOrDefaultAsync();
+
+                var sach = await _context.Sach.FirstOrDefaultAsync(s => s.MaSach == masach);
+
                 if (sv == null)
                 {
                     ModelState.AddModelError(string.Empty, "Sinh viên không tồn tại");
                     return View();
                 }
-
-                var exists = await _context.PhieuMuon.AnyAsync(pm => pm.MaSV == sv.MaSV);
-
-                if(exists)
+                if (sach == null)
                 {
-                    ModelState.AddModelError(string.Empty, "Sinh viên này đã có phiếu mượn");
+                    ModelState.AddModelError(string.Empty, "Sách không tồn tại");
                     return View();
-                }    
+                }
+                if(sach.DangMuon)
+                {
+                    ModelState.AddModelError(string.Empty, "Sách đang được mượn, vui lòng chọn mã sách khác");
+                    return View();
+                }
 
-                PhieuMuon pm = new PhieuMuon();
-                pm.SinhVien = sv;
-                pm.MaSV = sv.MaSV;
+                ChiTietMuon c = new ChiTietMuon() // Tạo chi tiết mượn trước
+                {
+                    MaSach = masach,
+                    NgayMuon = DateTime.Now
+                };
+                sach.DangMuon = true;
 
-                _context.Add(pm);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var PM_exists = await _context.PhieuMuon.FirstOrDefaultAsync(pm => pm.MaSV == sv.MaSV);
+
+                if(PM_exists == null)  // Nếu phiếu mượn chưa tồn tại => tạo mới
+                {
+                    PhieuMuon pm = new PhieuMuon()
+                    {
+                        SinhVien = sv,
+                        MaSV = sv.MaSV
+                    };
+                    await _context.AddAsync(pm);
+                    
+                    c.PhieuMuon = pm;
+                }
+                else // Nếu phiếu mượn tồn tại
+                {
+                    c.PhieuMuon = PM_exists;
+                }
+
+                await _context.ChiTietMuon.AddAsync(c); // Thêm chi tiết mượn
+                await _context.SaveChangesAsync(); // Lưu vào database
+
+                return RedirectToAction("Index");
             }
+            ModelState.AddModelError(string.Empty, "Vui lòng nhập đầy đủ thông tin");
             return View();
         }
 
@@ -113,9 +142,16 @@ namespace QLTV.AppMVC.Controllers
         {
             var phieuMuon = await _context.PhieuMuon.FindAsync(id);
 
-            var ds_ctm = _context.ChiTietMuon.Where(ctm => ctm.PM_Id == id);
+            var ds_ctm = _context.ChiTietMuon.Where(ctm => ctm.PM_Id == id)
+                                                .Include(ctm =>ctm.Sach);
 
-            _context.ChiTietMuon.RemoveRange(ds_ctm); // Xóa tất cả chi tiết mượn có PM_Id=Id
+            // Xóa tất cả chi tiết mượn có PM_Id=Id
+            foreach (var ctm in ds_ctm)
+            {
+                ctm.Sach.DangMuon = false;
+
+                _context.ChiTietMuon.Remove(ctm);
+            }
 
             _context.PhieuMuon.Remove(phieuMuon);
 

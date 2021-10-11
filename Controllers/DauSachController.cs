@@ -33,13 +33,13 @@ namespace QLTV.AppMVC.Controllers
 
             ViewData["paging"] = new Paging()
             {
-                countPages = dsDauSach.Count(),
+                countPages = (int)Math.Ceiling((double)dsDauSach.Count / 10),
                 currentPage = p,
                 generateUrl = (int? p) => Url.Action("Index", new { p = p })
             };
 
-            dsDauSach = dsDauSach.Skip((p - 1) * 1)
-                    .Take(1).ToList();
+            dsDauSach = dsDauSach.Skip((p - 1) * 10)
+                    .Take(10).ToList();
 
             return View(dsDauSach);
         }
@@ -74,14 +74,14 @@ namespace QLTV.AppMVC.Controllers
         // GET: DauSach/Create
         public IActionResult Create()
         {
-            ViewData["ChuDe_Id"] = new SelectList(_context.ChuDe, "Id", "TenChuDe").Append(new SelectListItem() { Text = "Chọn", Value = "", Selected = true });
-            ViewData["HocPhan_Id"] = new SelectList(_context.HocPhan, "Id", "TenHocPhan");
-            ViewData["KeSach_Id"] = new SelectList(_context.KeSach, "Id", "TenKeSach");
-            ViewData["Khoa_Id"] = new SelectList(_context.Khoa, "Id", "TenKhoa");
-            ViewData["LoaiSach_Id"] = new SelectList(_context.LoaiSach, "Id", "TenLoaiSach");
-            ViewData["NXB_Id"] = new SelectList(_context.NXB, "Id", "TenNXB");
-            ViewData["NgonNgu_Id"] = new SelectList(_context.NgonNgu, "Id", "TenNN");
-            ViewData["TacGia_Id"] = new SelectList(_context.TacGia, "Id", "TenTG");
+            ViewData["ChuDe_Id"] = new SelectList(_context.ChuDe, "Id", "TenChuDe").Append(new SelectListItem() { Text="Chọn", Value="",Selected=true });
+            ViewData["HocPhan_Id"] = new SelectList(_context.HocPhan, "Id", "TenHocPhan").Append(new SelectListItem() { Text = "Chọn", Value = "", Selected = true });
+            ViewData["KeSach_Id"] = new SelectList(_context.KeSach, "Id", "TenKeSach").Append(new SelectListItem() { Text = "Chọn", Value = "", Selected = true });
+            ViewData["Khoa_Id"] = new SelectList(_context.Khoa, "Id", "TenKhoa").Append(new SelectListItem() { Text = "Chọn", Value = "", Selected = true });
+            ViewData["LoaiSach_Id"] = new SelectList(_context.LoaiSach, "Id", "TenLoaiSach").Append(new SelectListItem() { Text = "Chọn", Value = "", Selected = true });
+            ViewData["NXB_Id"] = new SelectList(_context.NXB, "Id", "TenNXB").Append(new SelectListItem() { Text = "Chọn", Value = "", Selected = true });
+            ViewData["NgonNgu_Id"] = new SelectList(_context.NgonNgu, "Id", "TenNN").Append(new SelectListItem() { Text = "Chọn", Value = "", Selected = true });
+            ViewData["TacGia_Id"] = new SelectList(_context.TacGia, "Id", "TenTG").Append(new SelectListItem() { Text = "Chọn", Value = "", Selected = true });
             return View();
         }
 
@@ -95,6 +95,9 @@ namespace QLTV.AppMVC.Controllers
             if (exists)
             {
                 this.ModelState.AddModelError(string.Empty, "Mã đầu sách đã tồn tại");
+                
+                loadCombobox();
+
                 return View();
             }
             if (ModelState.IsValid)
@@ -120,15 +123,21 @@ namespace QLTV.AppMVC.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ChuDe_Id"] = new SelectList(_context.ChuDe, "Id", "TenChuDe", dauSach.ChuDe_Id);
-            ViewData["HocPhan_Id"] = new SelectList(_context.HocPhan, "Id", "TenHocPhan", dauSach.HocPhan_Id);
-            ViewData["KeSach_Id"] = new SelectList(_context.KeSach, "Id", "TenKeSach", dauSach.KeSach_Id);
-            ViewData["Khoa_Id"] = new SelectList(_context.Khoa, "Id", "TenKhoa", dauSach.Khoa_Id);
-            ViewData["LoaiSach_Id"] = new SelectList(_context.LoaiSach, "Id", "TenLoaiSach", dauSach.LoaiSach_Id);
-            ViewData["NXB_Id"] = new SelectList(_context.NXB, "Id", "TenNXB", dauSach.NXB_Id);
-            ViewData["NgonNgu_Id"] = new SelectList(_context.NgonNgu, "Id", "TenNN", dauSach.NgonNgu_Id);
-            ViewData["TacGia_Id"] = new SelectList(_context.TacGia, "Id", "TenTG", dauSach.TacGia_Id);
+
+            loadCombobox();
+
             return View(dauSach);
+        }
+        private void loadCombobox()
+        {
+            ViewData["ChuDe_Id"] = new SelectList(_context.ChuDe, "Id", "TenChuDe").Append(new SelectListItem() { Text = "Chọn", Value = "", Selected = true });
+            ViewData["HocPhan_Id"] = new SelectList(_context.HocPhan, "Id", "TenHocPhan").Append(new SelectListItem() { Text = "Chọn", Value = "", Selected = true });
+            ViewData["KeSach_Id"] = new SelectList(_context.KeSach, "Id", "TenKeSach").Append(new SelectListItem() { Text = "Chọn", Value = "", Selected = true });
+            ViewData["Khoa_Id"] = new SelectList(_context.Khoa, "Id", "TenKhoa").Append(new SelectListItem() { Text = "Chọn", Value = "", Selected = true });
+            ViewData["LoaiSach_Id"] = new SelectList(_context.LoaiSach, "Id", "TenLoaiSach").Append(new SelectListItem() { Text = "Chọn", Value = "", Selected = true });
+            ViewData["NXB_Id"] = new SelectList(_context.NXB, "Id", "TenNXB").Append(new SelectListItem() { Text = "Chọn", Value = "", Selected = true });
+            ViewData["NgonNgu_Id"] = new SelectList(_context.NgonNgu, "Id", "TenNN").Append(new SelectListItem() { Text = "Chọn", Value = "", Selected = true });
+            ViewData["TacGia_Id"] = new SelectList(_context.TacGia, "Id", "TenTG").Append(new SelectListItem() { Text = "Chọn", Value = "", Selected = true });
         }
 
         public async Task Uploads(DauSach dauSach)
@@ -159,14 +168,14 @@ namespace QLTV.AppMVC.Controllers
             {
                 return NotFound();
             }
-            ViewData["ChuDe_Id"] = new SelectList(_context.ChuDe, "Id", "TenChuDe", dauSach.ChuDe_Id);
-            ViewData["HocPhan_Id"] = new SelectList(_context.HocPhan, "Id", "TenHocPhan", dauSach.HocPhan_Id);
-            ViewData["KeSach_Id"] = new SelectList(_context.KeSach, "Id", "TenKeSach", dauSach.KeSach_Id);
-            ViewData["Khoa_Id"] = new SelectList(_context.Khoa, "Id", "TenKhoa", dauSach.Khoa_Id);
-            ViewData["LoaiSach_Id"] = new SelectList(_context.LoaiSach, "Id", "TenLoaiSach", dauSach.LoaiSach_Id);
-            ViewData["NXB_Id"] = new SelectList(_context.NXB, "Id", "TenNXB", dauSach.NXB_Id);
-            ViewData["NgonNgu_Id"] = new SelectList(_context.NgonNgu, "Id", "TenNN", dauSach.NgonNgu_Id);
-            ViewData["TacGia_Id"] = new SelectList(_context.TacGia, "Id", "TenTG", dauSach.TacGia_Id);
+            ViewData["ChuDe_Id"] = new SelectList(_context.ChuDe, "Id", "TenChuDe", dauSach.ChuDe_Id).Append(new SelectListItem() { Text = "Chọn", Value = "", Selected = true });
+            ViewData["HocPhan_Id"] = new SelectList(_context.HocPhan, "Id", "TenHocPhan", dauSach.HocPhan_Id).Append(new SelectListItem() { Text = "Chọn", Value = "", Selected = true });
+            ViewData["KeSach_Id"] = new SelectList(_context.KeSach, "Id", "TenKeSach", dauSach.KeSach_Id).Append(new SelectListItem() { Text = "Chọn", Value = "", Selected = true });
+            ViewData["Khoa_Id"] = new SelectList(_context.Khoa, "Id", "TenKhoa", dauSach.Khoa_Id).Append(new SelectListItem() { Text = "Chọn", Value = "", Selected = true });
+            ViewData["LoaiSach_Id"] = new SelectList(_context.LoaiSach, "Id", "TenLoaiSach", dauSach.LoaiSach_Id).Append(new SelectListItem() { Text = "Chọn", Value = "", Selected = true });
+            ViewData["NXB_Id"] = new SelectList(_context.NXB, "Id", "TenNXB", dauSach.NXB_Id).Append(new SelectListItem() { Text = "Chọn", Value = "", Selected = true });
+            ViewData["NgonNgu_Id"] = new SelectList(_context.NgonNgu, "Id", "TenNN", dauSach.NgonNgu_Id).Append(new SelectListItem() { Text = "Chọn", Value = "", Selected = true });
+            ViewData["TacGia_Id"] = new SelectList(_context.TacGia, "Id", "TenTG", dauSach.TacGia_Id).Append(new SelectListItem() { Text = "Chọn", Value = "", Selected = true });
             return View(dauSach);
         }
 
@@ -344,14 +353,14 @@ namespace QLTV.AppMVC.Controllers
             }
 
             ViewData["paging"] = new Paging()
-            {
-                countPages = dsDauSach.Count(),
+            {                 
+                countPages = (int)Math.Ceiling((double)dsDauSach.Count() / 10),
                 currentPage = p,
                 generateUrl = (int? p) => Url.Action("Tim", new { p = p, khoaid=KhoaId, chuDeId=chuDeId, tacGiaId=tacGiaId, tenSach=tenSach})
             };
 
-            dsDauSach = dsDauSach.Skip((p - 1) * 1)
-                    .Take(1).ToList();
+            dsDauSach = dsDauSach.Skip((p - 1) * 10)
+                    .Take(10).ToList();
 
             return View("Index", dsDauSach);
         }

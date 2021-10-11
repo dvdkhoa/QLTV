@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<QLTV.AppMVC.Models.Entities.DauSach>
 
-<table class="table table-hover table-striped">
+<table class="table table-sm table-hover table-striped">
     <thead>
         <tr>
             <th>
@@ -27,7 +27,7 @@
                     @Html.DisplayFor(modelItem => item.MaDauSach)
                 </td>
                 <td>
-                    <a asp-action="Index" asp-controller="Sach" asp-route-DauSachId="@item.Id">@Html.DisplayFor(modelItem => item.TenDauSach)</a>
+                    <a asp-action="Details" asp-controller="DauSach" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.TenDauSach)</a>
                 </td>
 
                 <td>

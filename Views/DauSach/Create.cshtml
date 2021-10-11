@@ -1,144 +1,193 @@
 ﻿@model QLTV.AppMVC.Models.Entities.DauSach
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Thêm đầu sách";
 }
 
-<h1>Create</h1>
+<h1>@ViewData["Title"]</h1>
 
-<h4>DauSach</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create" method="post" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="MaDauSach" class="control-label"></label>
-                <input asp-for="MaDauSach" class="form-control" />
-                <span asp-validation-for="MaDauSach" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TenDauSach" class="control-label"></label>
-                <input asp-for="TenDauSach" class="form-control" />
-                <span asp-validation-for="TenDauSach" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Hình ảnh</label>
-                <input asp-for="ImageFile"/>
-            </div>
-            <div class="form-group">
-                <label asp-for="SL" class="control-label"></label>
-                <input asp-for="SL" class="form-control" />
-                <span asp-validation-for="SL" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LoaiSach_Id" class="control-label"></label>
-                <select asp-for="LoaiSach_Id" class ="form-control" asp-items="ViewBag.LoaiSach_Id"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="ChuDe_Id" class="control-label"></label>
-                <select asp-for="ChuDe_Id" class ="form-control" asp-items="ViewBag.ChuDe_Id"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="TacGia_Id" class="control-label"></label>
-                <select asp-for="TacGia_Id" class ="form-control" asp-items="ViewBag.TacGia_Id"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="NXB_Id" class="control-label"></label>
-                <select asp-for="NXB_Id" class ="form-control" asp-items="ViewBag.NXB_Id"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="NamXB" class="control-label"></label>
-                <input asp-for="NamXB" class="form-control" />
-                <span asp-validation-for="NamXB" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Khoa_Id" class="control-label"></label>
-                <select asp-for="Khoa_Id" class ="form-control" asp-items="ViewBag.Khoa_Id"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="HocPhan_Id" class="control-label"></label>
-                <select asp-for="HocPhan_Id" class ="form-control" asp-items="ViewBag.HocPhan_Id"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="KeSach_Id" class="control-label"></label>
-                <select asp-for="KeSach_Id" class ="form-control" asp-items="ViewBag.KeSach_Id"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="SoTrang" class="control-label"></label>
-                <input asp-for="SoTrang" class="form-control" />
-                <span asp-validation-for="SoTrang" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="KhoCo" class="control-label"></label>
-                <input asp-for="KhoCo" class="form-control" />
-                <span asp-validation-for="KhoCo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Tags" class="control-label"></label>
-                <input asp-for="Tags" class="form-control" />
-                <span asp-validation-for="Tags" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MinhHoa" class="control-label"></label>
-                <input asp-for="MinhHoa" class="form-control" />
-                <span asp-validation-for="MinhHoa" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="GiaBia" class="control-label"></label>
-                <input asp-for="GiaBia" class="form-control" />
-                <span asp-validation-for="GiaBia" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Nguon" class="control-label"></label>
-                <input asp-for="Nguon" class="form-control" />
-                <span asp-validation-for="Nguon" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+<div class="form-group">
+    <label class="control-label">Biên mục:</label>
+    <input type="radio" name="bienmuc" value="nho" class="ml-1" />Thu nhỏ
+    <input type="radio" name="bienmuc" value="rong" class="ml-1" checked />Mở rộng
+</div>
+<form>
+    <div class="row">
+        <div class="col-4 form-group">
+            <label asp-for="MaDauSach" class="control-label"></label>
+            <span asp-validation-for="MaDauSach" class="text-danger"></span>
+            <input asp-for="MaDauSach" class="form-control" />
+        </div>
+        <div class="col-6 form-group">
+            <label asp-for="TenDauSach" class="control-label"></label>
+            <span asp-validation-for="TenDauSach" class="text-danger"></span>
+            <input asp-for="TenDauSach" class="form-control" />
+        </div>
+        <div class="col-2 form-group">
+            <label asp-for="SL" class="control-label"></label>
+            <span asp-validation-for="SL" class="text-danger"></span>
+            <input asp-for="SL" class="form-control" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4 form-group">
+            <label class="control-label form-group">Hình ảnh</label>
+            <input asp-for="ImageFile" class="form-control-file" />
+        </div>
+        <div class="col-4 form-group">
+            <label asp-for="TacGia_Id" class="control-label"></label>
+            <select asp-for="TacGia_Id" class="form-control" asp-items="ViewBag.TacGia_Id"></select>
+        </div>
+        <div class="col-4 form-group">
+            <label asp-for="LoaiSach_Id" class="control-label"></label>
+            <select asp-for="LoaiSach_Id" class="form-control" asp-items="ViewBag.LoaiSach_Id"></select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4 form-group">
+            <label asp-for="KeSach_Id" class="control-label"></label>
+            <select asp-for="KeSach_Id" class="form-control" asp-items="ViewBag.KeSach_Id"></select>
+        </div>
+        <div class="col-4 form-group">
+            <label asp-for="NXB_Id" class="control-label"></label>
+            <select asp-for="NXB_Id" class="form-control" asp-items="ViewBag.NXB_Id"></select>
+        </div>
+        <div class="col-4 form-group">
+            <label asp-for="NamXB" class="control-label"></label>
+            <input asp-for="NamXB" class="form-control" />
+            <span asp-validation-for="NamXB" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4 form-group">
+            <label asp-for="TaiBan" class="control-label"></label>
+            <input asp-for="TaiBan" class="form-control" />
+        </div>
+        <div class="col-4 form-group">
+            <label asp-for="SoTrang" class="control-label"></label>
+            <input asp-for="SoTrang" class="form-control" />
+            <span asp-validation-for="SoTrang" class="text-danger"></span>
+        </div>
+        <div class="col-4 form-group">
+            <label asp-for="KhoCo" class="control-label"></label>
+            <input asp-for="KhoCo" class="form-control" />
+            <span asp-validation-for="KhoCo" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4 form-group">
+            <label asp-for="MinhHoa" class="control-label"></label>
+            <input asp-for="MinhHoa" class="form-control" />
+            <span asp-validation-for="MinhHoa" class="text-danger"></span>
+        </div>
+        <div class="col-4 form-group">
+            <label asp-for="GiaBia" class="control-label"></label>
+            <input asp-for="GiaBia" class="form-control" />
+            <span asp-validation-for="GiaBia" class="text-danger"></span>
+        </div>
+        <div class="col-4 form-group">
+            <label asp-for="Nguon" class="control-label"></label>
+            <input asp-for="Nguon" class="form-control" />
+            <span asp-validation-for="Nguon" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4 form-group">
+            <label asp-for="Khoa_Id" class="control-label"></label>
+            <select asp-for="Khoa_Id" class="form-control" asp-items="ViewBag.Khoa_Id"></select>
+        </div>
+        <div class="col-4 form-group">
+            <label asp-for="HocPhan_Id" class="control-label"></label>
+            <select asp-for="HocPhan_Id" class="form-control" asp-items="ViewBag.HocPhan_Id"></select>
+        </div>
+        <div class="col-4">
+            <label asp-for="TomTat" class="control-label"></label>
+            <input asp-for="TomTat" class="form-control" />
+        </div>
+    </div>
+    <div id="morong">
+        <div class="row">
+            <div class="col-4 form-group">
                 <label asp-for="TenKhac" class="control-label"></label>
                 <input asp-for="TenKhac" class="form-control" />
                 <span asp-validation-for="TenKhac" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="col-4 form-group">
                 <label asp-for="TungThu" class="control-label"></label>
                 <input asp-for="TungThu" class="form-control" />
                 <span asp-validation-for="TungThu" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="SoTap" class="control-label"></label>
-                <input asp-for="SoTap" class="form-control" />
-                <span asp-validation-for="SoTap" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TenTap" class="control-label"></label>
-                <input asp-for="TenTap" class="form-control" />
-                <span asp-validation-for="TenTap" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DinhKem" class="control-label"></label>
-                <input asp-for="DinhKem" class="form-control" />
-                <span asp-validation-for="DinhKem" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NgonNgu_Id" class="control-label"></label>
-                <select asp-for="NgonNgu_Id" class ="form-control" asp-items="ViewBag.NgonNgu_Id"></select>
-            </div>
-            <div class="form-group">
+            <div class="col-4 form-group">
                 <label asp-for="ISBN" class="control-label"></label>
                 <input asp-for="ISBN" class="form-control" />
                 <span asp-validation-for="ISBN" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+        </div>
+        <div class="row">
+            <div class="col-4 form-group">
+                <label asp-for="SoTap" class="control-label"></label>
+                <input asp-for="SoTap" class="form-control" />
+                <span asp-validation-for="SoTap" class="text-danger"></span>
             </div>
-        </form>
+            <div class="col-4 form-group">
+                <label asp-for="TenTap" class="control-label"></label>
+                <input asp-for="TenTap" class="form-control" />
+                <span asp-validation-for="TenTap" class="text-danger"></span>
+            </div>
+            <div class="col-4 form-group">
+                <label asp-for="DinhKem" class="control-label"></label>
+                <input asp-for="DinhKem" class="form-control" />
+                <span asp-validation-for="DinhKem" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4 form-group">
+                <label asp-for="ChuDe_Id" class="control-label"></label>
+                <select asp-for="ChuDe_Id" class="form-control" asp-items="ViewBag.ChuDe_Id"></select>
+            </div>
+            <div class="col-4 form-group">
+                <label asp-for="NgonNgu_Id" class="control-label"></label>
+                <select asp-for="NgonNgu_Id" class="form-control" asp-items="ViewBag.NgonNgu_Id"></select>
+            </div>
+            <div class="col-4 form-group">
+                <label asp-for="Tags" class="control-label"></label>
+                <input asp-for="Tags" class="form-control" />
+                <span asp-validation-for="Tags" class="text-danger"></span>
+            </div>
+        </div>
     </div>
-</div>
+    <div class="row">
+        <div class="col-4 d-flex align-items-center">
+            <a asp-action="Index">Trở về danh sách đầu sách</a>
+        </div>
+        <div class="col-4">
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+        </div>
+        <div class="col-4">
+            <input type="submit" value="Đồng ý" class="btn btn-success btn-block" />
+        </div>
+    </div>
+</form>
+    
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        
+
+        $(document).ready(() => {
+            $('input[type=radio][name=bienmuc]').change(function() {
+                     console.log(this.value)
+                     if (this.value === 'nho') {
+                        $('#morong').css('display', 'none')
+                    }
+                    else {
+                        $('#morong').css('display', 'block')
+                    }
+                })
+            })
+    </script>
 }
