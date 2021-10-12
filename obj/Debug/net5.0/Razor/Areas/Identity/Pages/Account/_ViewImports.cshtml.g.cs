@@ -34,6 +34,13 @@ using QLTV.AppMVC.Areas.Identity.Pages;
 #line hidden
 #nullable disable
 #nullable restore
+#line 5 "C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\Areas\Identity\Pages\_ViewImports.cshtml"
+using QLTV.AppMVC.Models.Entities;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
 #line 1 "C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\Areas\Identity\Pages\Account\_ViewImports.cshtml"
 using QLTV.AppMVC.Areas.Identity.Pages.Account;
 
@@ -41,7 +48,7 @@ using QLTV.AppMVC.Areas.Identity.Pages.Account;
 #line hidden
 #nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"5c66754eddfc2a04ec3098b3a5fae5637ef1c56c", @"/Areas/Identity/Pages/Account/_ViewImports.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"a125afdbc789f50913cb0b6bfe9cc65394741fb1", @"/Areas/Identity/Pages/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"44eb9658e4db4b297fcf4fa2a5f14ff4ffe5b635", @"/Areas/Identity/Pages/_ViewImports.cshtml")]
     public class Areas_Identity_Pages_Account__ViewImports : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<dynamic>
     {
         #pragma warning disable 1998

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,7 @@ using QLTV.AppMVC.Models.Helpers;
 
 namespace QLTV.AppMVC.Controllers
 {
+    [Authorize]
     public class DauSachController : Controller
     {
         private readonly AppDbContext _context;
@@ -46,6 +48,7 @@ namespace QLTV.AppMVC.Controllers
       
 
         // GET: DauSach/Details/5
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -435,6 +438,7 @@ namespace QLTV.AppMVC.Controllers
             return Json(obj);
         }
         
+        [AllowAnonymous]
         [HttpPost]
         public IActionResult TimAjax(string keyword)
         {

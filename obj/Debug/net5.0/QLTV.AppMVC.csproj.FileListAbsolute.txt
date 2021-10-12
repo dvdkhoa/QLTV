@@ -1,5 +1,6 @@
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\appsettings.Development.json
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\appsettings.json
+C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\QLTV.AppMVC.StaticWebAssets.xml
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\QLTV.AppMVC.exe
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\QLTV.AppMVC.deps.json
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\QLTV.AppMVC.runtimeconfig.json
@@ -10,9 +11,12 @@ C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\QLTV.AppMVC.pdb
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\QLTV.AppMVC.Views.dll
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\QLTV.AppMVC.Views.pdb
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\Humanizer.dll
+C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\MailKit.dll
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\Microsoft.AspNetCore.Cryptography.Internal.dll
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\Microsoft.AspNetCore.Identity.UI.Views.V4.dll
+C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\Microsoft.AspNetCore.Identity.UI.dll
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\Microsoft.AspNetCore.Razor.Language.dll
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\Microsoft.CodeAnalysis.dll
@@ -27,6 +31,7 @@ C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\Microsoft.EntityFramewo
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Relational.dll
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.SqlServer.dll
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\Microsoft.Extensions.FileProviders.Embedded.dll
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\Microsoft.Extensions.Identity.Core.dll
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\Microsoft.Extensions.Identity.Stores.dll
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\Microsoft.Identity.Client.dll
@@ -43,7 +48,9 @@ C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\Microsoft.VisualStudio.
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\Microsoft.VisualStudio.Web.CodeGeneration.Templating.dll
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\Microsoft.VisualStudio.Web.CodeGeneration.Utils.dll
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\Microsoft.VisualStudio.Web.CodeGenerators.Mvc.dll
+C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\MimeKit.dll
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\Newtonsoft.Json.dll
+C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\BouncyCastle.Crypto.dll
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\System.Composition.AttributedModel.dll
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\System.Composition.Convention.dll
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\System.Composition.Hosting.dll
@@ -120,10 +127,12 @@ C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\runtimes\win-arm\lib\ne
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\runtimes\win-arm64\lib\net5.0\dotnet-aspnet-codegenerator-design.exe
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\QLTV.AppMVC.csproj.AssemblyReference.cache
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\QLTV.AppMVC.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\QLTV.AppMVC.AssemblyInfoInputs.cache
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\QLTV.AppMVC.AssemblyInfo.cs
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\QLTV.AppMVC.csproj.CoreCompileInputs.cache
+C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\QLTV.AppMVC.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\QLTV.AppMVC.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\QLTV.AppMVC.RazorAssemblyInfo.cache
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\QLTV.AppMVC.RazorAssemblyInfo.cs
@@ -202,6 +211,7 @@ C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Views\Sach\Index.
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Views\Shared\Error.cshtml.g.cs
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Views\Shared\_Dropdown_Menu.cshtml.g.cs
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Views\Shared\_Layout.cshtml.g.cs
+C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Views\Shared\_LoginPartial.cshtml.g.cs
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Views\Shared\_Paging.cshtml.g.cs
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Views\SinhVien\Create.cshtml.g.cs
@@ -224,12 +234,6 @@ C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\QLTV.AppMVC.dll
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\ref\QLTV.AppMVC.dll
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\QLTV.AppMVC.pdb
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\QLTV.AppMVC.genruntimeconfig.cache
-C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\QLTV.AppMVC.csproj.AssemblyReference.cache
-C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\QLTV.AppMVC.StaticWebAssets.xml
-C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\Microsoft.AspNetCore.Identity.UI.Views.V4.dll
-C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\Microsoft.AspNetCore.Identity.UI.dll
-C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\Microsoft.Extensions.FileProviders.Embedded.dll
-C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\QLTV.AppMVC.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Account\AccessDenied.cshtml.g.cs
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Account\ConfirmEmail.cshtml.g.cs
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Account\ConfirmEmailChange.cshtml.g.cs
@@ -270,7 +274,4 @@ C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Areas\Identity\Pa
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Areas\Identity\Pages\_ValidationScriptsPartial.cshtml.g.cs
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Areas\Identity\Pages\_ViewImports.cshtml.g.cs
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Areas\Identity\Pages\_ViewStart.cshtml.g.cs
-C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Views\Shared\_LoginPartial.cshtml.g.cs
-C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\MailKit.dll
-C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\MimeKit.dll
-C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\BouncyCastle.Crypto.dll
+C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Account\Manage\_ViewStart.cshtml.g.cs

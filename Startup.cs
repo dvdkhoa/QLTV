@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using QLTV.AppMVC.Models;
+using QLTV.AppMVC.Models.Entities;
 using QLTV.AppMVC.Services;
 using System;
 using System.Collections.Generic;
@@ -40,7 +41,7 @@ namespace QLTV.AppMVC
                 options.UseSqlServer(connectionString);
             });
 
-            services.AddIdentity<IdentityUser, IdentityRole>()
+            services.AddIdentity<AppUser, IdentityRole>()
                     .AddEntityFrameworkStores<AppDbContext>()
                     .AddDefaultTokenProviders();
 
@@ -67,7 +68,14 @@ namespace QLTV.AppMVC
                 // Cấu hình đăng nhập.
                 options.SignIn.RequireConfirmedEmail = true;            // Cấu hình xác thực địa chỉ email (email phải tồn tại)
                 options.SignIn.RequireConfirmedPhoneNumber = false;     // Xác thực số điện thoại
+                options.SignIn.RequireConfirmedAccount = true; // Yêu cầu xác thực tài khoản mới được đăng nhập
+            });
 
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/dangnhap";
+                options.LogoutPath = "/dangxuat";
+                options.AccessDeniedPath = "/hanchetruycap.html";
             });
 
             services.AddControllersWithViews();
@@ -92,22 +100,12 @@ namespace QLTV.AppMVC
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/sendmail", async context =>
-                {
-                    var mailService = context.RequestServices.GetService<SendMailService>();
-
-                    var content = new MailContent();
-                    content.To = "khoa028@gmail.com";
-                    content.Subject = "Test";
-                    content.Content = "<h1>Xin chào</h1>";
-
-                    await mailService.SendMail(content);
-                });
-
+                
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

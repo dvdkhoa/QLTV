@@ -3,7 +3,6 @@
 
 html,
 body,
-div,
 applet,
 object,
 iframe,
@@ -320,4 +319,9 @@ a:hover {
 #header h3:hover {
     transform: scale(1.2);
 }
+
+#navbar {
+    padding: 10px 50px;
+}
+
 
