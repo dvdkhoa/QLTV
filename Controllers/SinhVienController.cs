@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using QLTV.AppMVC.Models.Entities;
 
 namespace QLTV.AppMVC.Controllers
 {
+    [Authorize]
     public class SinhVienController : Controller
     {
         private readonly AppDbContext _context;
@@ -170,6 +172,17 @@ namespace QLTV.AppMVC.Controllers
         private bool SinhVienExists(string id)
         {
             return _context.SinhVien.Any(e => e.MaSV == id);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> TimAjax(string masv)
+        {
+            var sv = await _context.SinhVien.Where(sv => sv.MaSV == masv).FirstOrDefaultAsync();
+            if (sv != null)
+                return PartialView("_TimAjax", sv);
+            else
+                return NotFound();
         }
     }
 }

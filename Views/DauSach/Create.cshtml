@@ -12,7 +12,7 @@
     <input type="radio" name="bienmuc" value="nho" class="ml-1" />Thu nhỏ
     <input type="radio" name="bienmuc" value="rong" class="ml-1" checked />Mở rộng
 </div>
-<form>
+<form asp-action="Create" method="post">
     <div class="row">
         <div class="col-4 form-group">
             <label asp-for="MaDauSach" class="control-label"></label>
@@ -165,7 +165,7 @@
 
         </div>
         <div class="col-4">
-            <input type="submit" value="Đồng ý" class="btn btn-success btn-block" />
+            <input  type="submit" value="Đồng ý" class="btn btn-success btn-block" />
         </div>
     </div>
 </form>

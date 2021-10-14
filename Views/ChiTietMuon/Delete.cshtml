@@ -1,0 +1,13 @@
+﻿@model QLTV.AppMVC.Models.Entities.ChiTietMuon
+
+
+<h2>Bạn có chắc chắn muốn xóa chi tiết mượn này!!!</h2>
+<p>Mã sách: @Model.MaSach</p>
+<p>Ngày mượn: @Model.NgayMuon</p>
+<p>Hạn trả: @Model.HanTra</p>
+<p>Ngày trả: @Model.NgayTra</p>
+
+<form asp-action="DeleteConfirmed" method="post">
+    <input type="value=" asp-for="@Model.Id" />
+    <input type="submit" value="Đồng ý xóa" />
+</form>

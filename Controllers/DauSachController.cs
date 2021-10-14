@@ -31,7 +31,7 @@ namespace QLTV.AppMVC.Controllers
         public async Task<IActionResult> Index(List<DauSach> dsDauSach, int p = 1)
         {
             if(!(dsDauSach.Count > 0))
-                dsDauSach = _context.DauSach.Include(d => d.ChuDe).Include(d => d.HocPhan).Include(d => d.KeSach).Include(d => d.Khoa).Include(d => d.LoaiSach).Include(d => d.NXB).Include(d => d.NgonNgu).Include(d => d.TacGia).ToList();
+                dsDauSach = await _context.DauSach.Include(d => d.ChuDe).Include(d => d.HocPhan).Include(d => d.KeSach).Include(d => d.Khoa).Include(d => d.LoaiSach).Include(d => d.NXB).Include(d => d.NgonNgu).Include(d => d.TacGia).ToListAsync();
 
             ViewData["paging"] = new Paging()
             {
@@ -91,7 +91,7 @@ namespace QLTV.AppMVC.Controllers
         // POST: DauSach/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,MaDauSach,TenDauSach,ImageFile,SL,LoaiSach_Id,ChuDe_Id,TacGia_Id,NXB_Id,NamXB,Khoa_Id,HocPhan_Id,KeSach_Id,SoTrang,KhoCo,Tags,MinhHoa,GiaBia,Nguon,TenKhac,TungThu,SoTap,TenTap,DinhKem,NgonNgu_Id,ISBN")] DauSach dauSach)
+        public async Task<IActionResult> Create(DauSach dauSach)
         {
             var exists = _context.DauSach.Any(ds => ds.MaDauSach == dauSach.MaDauSach);
 
@@ -368,10 +368,39 @@ namespace QLTV.AppMVC.Controllers
             return View("Index", dsDauSach);
         }
 
+
+        [AllowAnonymous]
         [HttpGet("/api/dausach")]
-        public IActionResult GetDauSach(string tenSach, string tags, string tenTG, int? KhoaId)
+        public async Task<IActionResult> GetDauSach(string tensach, string tentg, string tenchude, string tenls, string tennxb, string tags, int? namxb, string isbn)
         {
-            var ds = _context.DauSach.Select(d=> new {
+            var query = _context.DauSach.Include(s=>s.TacGia)
+                                        .Include(s=>s.NXB)
+                                        .Include(s => s.ChuDe)
+                                        .Include(s => s.LoaiSach)
+                                        .Include(s=>s.HocPhan)
+                                        .Include(s=>s.Khoa)
+                                        .Include(s=>s.KeSach)
+                                        .Include(s=>s.NgonNgu)
+                                        .AsQueryable();
+            if (!string.IsNullOrEmpty(tensach))
+                query = query.Where(s => s.TenDauSach.ToLower().Contains(tensach.ToLower()));
+            if (!string.IsNullOrEmpty(tentg))
+                query = query.Where(s => s.TacGia.TenTG.ToLower().Contains(tentg.ToLower()));
+            if (!string.IsNullOrEmpty(tennxb))
+                query = query.Where(s => s.NXB.TenNXB.ToLower().Contains(tennxb.ToLower()));
+            if (!string.IsNullOrEmpty(tenchude))
+                query = query.Where(s => s.ChuDe.TenChuDe.ToLower().Contains(tenchude.ToLower()));
+            if(!string.IsNullOrEmpty(tenls))
+                query = query.Where(s => s.LoaiSach.TenLoaiSach.ToLower().Contains(tenls.ToLower()));
+            if (!string.IsNullOrEmpty(tags))
+                query = query.Where(s => s.Tags.ToLower().Contains(tags.ToLower()));
+            if(namxb!=null)
+                query = query.Where(s => s.NamXB==namxb);
+            if(!string.IsNullOrEmpty(isbn))
+                query = query.Where(s => s.ISBN.ToLower().Contains(isbn.ToLower()));
+
+            var kq = await query.Select(d => new
+            {
                 d.MaDauSach,
                 d.TenDauSach,
                 d.TenKhac,
@@ -396,47 +425,79 @@ namespace QLTV.AppMVC.Controllers
                 d.TenTap,
                 d.TungThu,
                 soluongconlai = _context.Sach.Count(s => s.DauSach_Id == d.Id)
-            }).ToList();
-            object obj = null;
-
-            if (string.IsNullOrEmpty(tenSach) 
-                && string.IsNullOrEmpty(tags) 
-                && string.IsNullOrEmpty(tenTG)
-                && KhoaId==null)
-            {
-                obj = ds;   
-            }
-
-            // Tìm sách theo Khoa
-            if(KhoaId!=null)
-            {
-                var khoa=_context.Khoa.Find(KhoaId);
-                if (khoa is null)
-                    return Json("Khoa không tồn tại");
-                obj = ds.Where(d => d.TenKhoa == khoa.TenKhoa);
-            }    
-
-            if (!string.IsNullOrEmpty(tenSach))
-            {
-                obj = ds.Where(d => d.TenDauSach.ToLower().Contains(tenSach.ToLower()));
-            }
-
-            if (!string.IsNullOrEmpty(tags))
-            {
-                obj = ds.Where(d => {
-                    if (d.Tags is null)
-                        return false;
-                    return d.Tags.ToLower().Contains(tags.ToLower());
-                });
-            }
-
-            if(!string.IsNullOrEmpty(tenTG))
-            {
-                obj = ds.Where(d => d.TenTG.ToLower().Contains(tenTG.ToLower()));
-            }
-            
-            return Json(obj);
+            }).ToListAsync();
+            return Json(kq);
         }
+
+        //[HttpGet("/api/dausach")]
+        //public IActionResult GetDauSach(string tenSach, string tags, string tenTG, int? KhoaId)
+        //{
+        //    var ds = _context.DauSach.Select(d=> new {
+        //        d.MaDauSach,
+        //        d.TenDauSach,
+        //        d.TenKhac,
+        //        d.ImagePath,
+        //        d.ChuDe.TenChuDe,
+        //        d.HocPhan.TenHocPhan,
+        //        d.ISBN,
+        //        d.KeSach.TenKeSach,
+        //        d.Khoa.TenKhoa,
+        //        d.KhoCo,
+        //        d.LoaiSach.TenLoaiSach,
+        //        d.MinhHoa,
+        //        d.NamXB,
+        //        d.NgonNgu.TenNN,
+        //        d.Nguon,
+        //        d.NXB.TenNXB,
+        //        d.SL,
+        //        d.SoTap,
+        //        d.SoTrang,
+        //        d.TacGia.TenTG,
+        //        d.Tags,
+        //        d.TenTap,
+        //        d.TungThu,
+        //        soluongconlai = _context.Sach.Count(s => s.DauSach_Id == d.Id)
+        //    }).ToList();
+        //    object obj = null;
+
+        //    if (string.IsNullOrEmpty(tenSach) 
+        //        && string.IsNullOrEmpty(tags) 
+        //        && string.IsNullOrEmpty(tenTG)
+        //        && KhoaId==null)
+        //    {
+        //        obj = ds;   
+        //    }
+
+        //    // Tìm sách theo Khoa
+        //    if(KhoaId!=null)
+        //    {
+        //        var khoa=_context.Khoa.Find(KhoaId);
+        //        if (khoa is null)
+        //            return Json("Khoa không tồn tại");
+        //        obj = ds.Where(d => d.TenKhoa == khoa.TenKhoa);
+        //    }    
+
+        //    if (!string.IsNullOrEmpty(tenSach))
+        //    {
+        //        obj = ds.Where(d => d.TenDauSach.ToLower().Contains(tenSach.ToLower()));
+        //    }
+
+        //    if (!string.IsNullOrEmpty(tags))
+        //    {
+        //        obj = ds.Where(d => {
+        //            if (d.Tags is null)
+        //                return false;
+        //            return d.Tags.ToLower().Contains(tags.ToLower());
+        //        });
+        //    }
+
+        //    if(!string.IsNullOrEmpty(tenTG))
+        //    {
+        //        obj = ds.Where(d => d.TenTG.ToLower().Contains(tenTG.ToLower()));
+        //    }
+            
+        //    return Json(obj);
+        //}
         
         [AllowAnonymous]
         [HttpPost]

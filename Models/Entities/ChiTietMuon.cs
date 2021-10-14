@@ -17,7 +17,6 @@ namespace QLTV.AppMVC.Models.Entities
         public PhieuMuon PhieuMuon { get; set; }
 
 
-
         [Display(Name ="Mã sách"),Required(ErrorMessage ="Phải nhập {0}")]
         public string MaSach { get; set; }
 
@@ -28,6 +27,8 @@ namespace QLTV.AppMVC.Models.Entities
         [Required(ErrorMessage ="Không được bỏ trống {0}")]
         public DateTime NgayMuon { get; set; }
 
+        [Display(Name ="Hạn trả")]
+        public DateTime HanTra { get; set; }
 
 
         [Display(Name = "Ngày trả"), DataType(DataType.Date)]

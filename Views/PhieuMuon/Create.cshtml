@@ -23,9 +23,36 @@
             </div>
         </form>
     </div>
+    <div class="col-md-6">
+        <div id="ketqua">
+
+        </div>
+    </div>
 </div>
 
 <div>
     <a asp-action="Index">Trở về danh sách phiếu mượn</a>
 </div>
 
+
+@section Scripts{
+<script>
+    $(document).ready(function () {
+        $("#masv").keyup(function () {
+            $.ajax({
+                url: "/SinhVien/TimAjax",
+                data: {
+                    masv: $("#masv").val()
+                },
+                type: "POST",
+                success: function (data) {
+                    $("#ketqua").html(data)
+                },
+                error: function (err) {
+                    $("#ketqua").html('<div class="alert alert-danger">Không tìm thấy sinh viên</div>')
+                }
+            })
+        })
+    })
+</script>
+} 

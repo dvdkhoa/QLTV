@@ -84,5 +84,11 @@ namespace QLTV.AppMVC.Services
             smtp.Disconnect(true);
             Console.WriteLine("gửi mail thành công !!!");
         }
+
+        public void SendMailSinhVien() //Test
+        {
+            Console.WriteLine("Gui mail cho sinh vien moi 1 phut");
+            Console.WriteLine("Gui thanh cong");
+        }
     }
 }

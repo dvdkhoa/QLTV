@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -11,10 +10,9 @@ using QLTV.AppMVC.Models;
 using QLTV.AppMVC.Models.Entities;
 using QLTV.AppMVC.Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using Hangfire;
+using Hangfire.MemoryStorage;
 using System.Threading.Tasks;
-using static QLTV.AppMVC.Services.SendMailService;
 
 namespace QLTV.AppMVC
 {
@@ -30,10 +28,17 @@ namespace QLTV.AppMVC
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHangfire(config =>
+                config.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+                       .UseSimpleAssemblyNameTypeSerializer()
+                       .UseDefaultTypeSerializer()
+                       .UseMemoryStorage());
+            services.AddHangfireServer();
+
             services.AddOptions();
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
-
             services.AddSingleton<IEmailSender, SendMailService>();
+            services.AddSingleton<SendMailService>();
 
             services.AddDbContext<AppDbContext>(options =>
             {
@@ -83,7 +88,10 @@ namespace QLTV.AppMVC
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, 
+            IBackgroundJobClient backgroundJobClient,
+            IRecurringJobManager recurringJobManager,
+            IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -112,6 +120,19 @@ namespace QLTV.AppMVC
 
                 endpoints.MapRazorPages();
             });
+
+            app.UseHangfireDashboard();
+
+            System.Action act = () =>
+            {
+                Console.WriteLine("sàl");
+                Console.WriteLine("alo");
+            };
+
+            backgroundJobClient.Enqueue(() => Console.WriteLine("Hello World !"));
+            recurringJobManager.AddOrUpdate("Run every minutes",
+                () => serviceProvider.GetService<SendMailService>().SendMailSinhVien()
+                , Cron.Minutely); ;
         }
     }
 }

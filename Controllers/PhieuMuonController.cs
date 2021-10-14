@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using QLTV.AppMVC.Models.Entities;
 
 namespace QLTV.AppMVC.Controllers
 {
+    [Authorize]
     public class PhieuMuonController : Controller
     {
         private readonly AppDbContext _context;
@@ -26,25 +28,6 @@ namespace QLTV.AppMVC.Controllers
             return View(await appDbContext.ToListAsync());
         }
 
-        // GET: PhieuMuon/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var phieuMuon = await _context.PhieuMuon
-                .Include(p => p.SinhVien)
-                .FirstOrDefaultAsync(m => m.Id == id);
-
-            if (phieuMuon == null)
-            {
-                return NotFound();
-            }
-
-            return View(phieuMuon);
-        }
 
         // GET: PhieuMuon/Create
         public IActionResult Create()
@@ -64,12 +47,15 @@ namespace QLTV.AppMVC.Controllers
 
                 var sach = await _context.Sach.FirstOrDefaultAsync(s => s.MaSach == masach);
 
+                // Kiểm tra sinh viên
                 if (sv == null)
                 {
                     ModelState.AddModelError(string.Empty, "Sinh viên không tồn tại");
                     return View();
                 }
-                if (sach == null)
+
+                /******************************************/
+                if (sach == null) //Kiểm tra sách
                 {
                     ModelState.AddModelError(string.Empty, "Sách không tồn tại");
                     return View();
@@ -80,10 +66,15 @@ namespace QLTV.AppMVC.Controllers
                     return View();
                 }
 
+                // Lấy số ngày trong điều khoản mới nhất
+                var soNgay = await (from d in _context.DieuKhoan 
+                                    orderby d.Id descending
+                                    select d.ThoiHan).FirstOrDefaultAsync();
                 ChiTietMuon c = new ChiTietMuon() // Tạo chi tiết mượn trước
                 {
                     MaSach = masach,
-                    NgayMuon = DateTime.Now
+                    NgayMuon = DateTime.Now,
+                    HanTra = DateTime.Now.AddDays(soNgay)
                 };
                 sach.DangMuon = true;
 
@@ -102,6 +93,15 @@ namespace QLTV.AppMVC.Controllers
                 }
                 else // Nếu phiếu mượn tồn tại
                 {
+                    var slSach_chuatra = await _context.ChiTietMuon.Where(ctm => ctm.PM_Id == PM_exists.Id)
+                                        .CountAsync(ctm => ctm.NgayTra == null);
+                    var slSachToiDa = await _context.DieuKhoan.OrderByDescending(d=>d.Id).Select(d => d.SLSach).FirstOrDefaultAsync();
+
+                    if (slSach_chuatra >= slSachToiDa)
+                    {
+                        ModelState.AddModelError(string.Empty, $"Số lượng mượn sách của sinh viên này đã tối đa({slSachToiDa} quyển)");
+                        return View();
+                    }    
                     c.PhieuMuon = PM_exists;
                 }
 

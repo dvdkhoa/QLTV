@@ -15,10 +15,7 @@
 
 <hr />
 
-<p>
-    <a asp-action="Create" asp-route-id="@ViewBag.Id">Thêm chi tiết mượn</a>
-</p>
-<table class="table">
+<table class="table table-hover">
     <thead>
         <tr>
             <th>
@@ -28,11 +25,13 @@
                 Ngày mượn
             </th>
             <th>
+                Hạn trả
+            </th>
+            <th>
                 Ngày trả
             </th>
             <th></th>
-            <th>
-            </th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -43,8 +42,11 @@
                 @ctm.MaSach
             </td>
             <td>
-                @ctm.NgayMuon.ToShortDateString()
+                @ctm.NgayMuon.ToString("dd/MM/yyyy")
             </td>
+
+            <td>@ctm.HanTra.ToString("dd/MM/yyyy")</td>
+
             @{
                 if (ctm.NgayTra != null)
                 {
@@ -71,13 +73,11 @@
 
             </td>
             <td>
-                <form method="post" asp-action="Delete" asp-route-id="@ctm.Id">
-                    <button class="btn btn-outline-danger" >Xóa</button>
-                </form>
+                <a class="btn btn-sm btn-outline-danger" asp-action="Delete" asp-route-Id="@ctm.Id">Xóa</a>
             </td>
         </tr>
         }
         </tbody>
     </table>
 
-<a asp-action="Details" asp-controller="PhieuMuon" asp-route-id="@ViewBag.Id">Về thông tin phiếu mượn</a>
+<a asp-action="Index" asp-controller="PhieuMuon">Về danh sách phiếu mượn</a>

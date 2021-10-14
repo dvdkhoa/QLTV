@@ -21,6 +21,7 @@
                         <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                     </li>
                       @await Html.PartialAsync("_Dropdown_Menu")
+                    
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
@@ -28,7 +29,7 @@
     </header>
 
 
-    <div class="container" style="padding:120px 0 50px">
+    <div class="container" style="padding:50px 0 50px">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

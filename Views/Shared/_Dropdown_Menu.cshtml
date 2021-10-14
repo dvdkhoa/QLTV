@@ -7,7 +7,7 @@
 @if (_signInManager.IsSignedIn(this.User))
 {
     <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Quản lý
         </a>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -26,5 +26,8 @@
             <a asp-action="Index" asp-controller="Lop" class="dropdown-item">Lớp</a>
             <a asp-action="Index" asp-controller="NgonNgu" class="dropdown-item">Ngôn ngữ</a>
         </div>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" asp-action="Index" asp-controller="dieukhoan">Điều khoản</a>
     </li>
 }

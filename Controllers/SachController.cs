@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using QLTV.AppMVC.Models;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace QLTV.AppMVC.Controllers
 {
+    [Authorize]
     public class SachController : Controller
     {
         private readonly AppDbContext _context;

@@ -1,0 +1,17 @@
+﻿
+@model QLTV.AppMVC.Models.Entities.DieuKhoan
+
+@{ 
+    ViewData["title"] = "Xóa điêu khoản";
+}
+
+<h3>Bạn có chắn chắn muốn xóa điều khoản này!!!</h3>
+<p>Ngày áp dụng điều khoản: @Model.NgayBD</p>
+<p>Số sách: @Model.SLSach</p>
+<p>Thời hạn mượn: @Model.ThoiHan</p>
+<a asp-action="Index">Quay về danh sách điều khoản</a>
+<hr />
+<form asp-action="DeleteConfirmed" method="post">
+    <input type="hidden" asp-for="Id" />
+    <input type="submit" value="Đồng ý xóa" class="btn btn-danger" />
+</form>

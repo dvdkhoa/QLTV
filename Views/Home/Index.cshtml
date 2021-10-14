@@ -24,6 +24,9 @@
                     type: "POST",
                     success: function (data) {
                         $("#ketqua").html(data)
+                    },
+                    error: function (err) {
+                        console.log(err)
                     }
                 })
             })
