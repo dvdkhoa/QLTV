@@ -1,10 +1,10 @@
 ﻿@model QLTV.AppMVC.Models.Entities.DauSach
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Chỉnh sửa thông tin đầu sách";
 }
 
-<h1>Edit</h1>
+@*<h1>Edit</h1>
 
 <h4>DauSach</h4>
 <hr />
@@ -25,8 +25,8 @@
             <div class="form-group">
                 <label class="control-label">Hình ảnh</label>
                 <input asp-for="ImagePath" type="hidden" />
-                <input asp-for="ImageFile" /> @{ 
-                    if(!string.IsNullOrEmpty(Model.ImagePath))
+                <input asp-for="ImageFile" /> @{
+                    if (!string.IsNullOrEmpty(Model.ImagePath))
                     {
                         <p class="alert alert-warning">Đã có ảnh</p>
                         <img src="@Model.ImagePath" class="img-thumbnail h-25 w-25" />
@@ -141,12 +141,204 @@
             </div>
         </form>
     </div>
-</div>
+</div>*@
 
-<div>
-    <a asp-action="Index">Trở về danh sách sách</a>
+<h2>Chỉnh sửa thông tin sách: <span class="font-italic font-weight-bold">@Model.TenDauSach</span></h2>
+<hr />
+
+<div class="form-group">
+    <label class="control-label">Biên mục:</label>
+    <input type="radio" name="bienmuc" value="nho" class="ml-1" />Thu nhỏ
+    <input type="radio" name="bienmuc" value="rong" class="ml-1" checked />Mở rộng
 </div>
+<form asp-action="Edit" method="post">
+    <div class="row">
+        <div class="col-4 form-group">
+            <input type="hidden" name="MaDauSach" value="@Model.MaDauSach" />
+            <label asp-for="MaDauSach" class="control-label"></label>
+            <label class="form-control">@Model.MaDauSach</label>
+        </div>
+        <div class="col-6 form-group">
+            <label asp-for="TenDauSach" class="control-label"></label>
+            <span asp-validation-for="TenDauSach" class="text-danger"></span>
+            <input asp-for="TenDauSach" class="form-control" />
+        </div>
+        <div class="col-2 form-group">
+            <input type="hidden" name="SL" value="@Model.SL" />
+            <label class="control-label">Số lượng: <a class="ml-3" asp-action="NhapSach" asp-route-Id="@Model.Id">Nhập sách</a></label>
+            <label class="form-control">@Model.SL</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4 form-group">
+            @if (string.IsNullOrEmpty(Model.ImagePath))
+            {
+                <label class="control-label form-group">Hình ảnh</label>
+                <input asp-for="ImageFile" class="form-control-file" />
+            }
+            else
+            {
+                <div class="row">
+                    <div class="w-100 img-fluid col-4">
+                       <img src="@Model.ImagePath" />
+                    </div>
+                    <div class="col-8 d-flex align-items-center">
+                        <input type="file" />
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="col-4 form-group">
+            <label asp-for="TacGia_Id" class="control-label"></label>
+            <select asp-for="TacGia_Id" class="form-control" asp-items="ViewBag.TacGia_Id"></select>
+        </div>
+        <div class="col-4 form-group">
+            <label asp-for="LoaiSach_Id" class="control-label"></label>
+            <select asp-for="LoaiSach_Id" class="form-control" asp-items="ViewBag.LoaiSach_Id"></select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4 form-group">
+            <label asp-for="KeSach_Id" class="control-label"></label>
+            <select asp-for="KeSach_Id" class="form-control" asp-items="ViewBag.KeSach_Id"></select>
+        </div>
+        <div class="col-4 form-group">
+            <label asp-for="NXB_Id" class="control-label"></label>
+            <select asp-for="NXB_Id" class="form-control" asp-items="ViewBag.NXB_Id"></select>
+        </div>
+        <div class="col-4 form-group">
+            <label asp-for="NamXB" class="control-label"></label>
+            <input asp-for="NamXB" class="form-control" />
+            <span asp-validation-for="NamXB" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4 form-group">
+            <label asp-for="TaiBan" class="control-label"></label>
+            <input asp-for="TaiBan" class="form-control" />
+        </div>
+        <div class="col-4 form-group">
+            <label asp-for="SoTrang" class="control-label"></label>
+            <input asp-for="SoTrang" class="form-control" />
+            <span asp-validation-for="SoTrang" class="text-danger"></span>
+        </div>
+        <div class="col-4 form-group">
+            <label asp-for="KhoCo" class="control-label"></label>
+            <input asp-for="KhoCo" class="form-control" />
+            <span asp-validation-for="KhoCo" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4 form-group">
+            <label asp-for="MinhHoa" class="control-label"></label>
+            <input asp-for="MinhHoa" class="form-control" />
+            <span asp-validation-for="MinhHoa" class="text-danger"></span>
+        </div>
+        <div class="col-4 form-group">
+            <label asp-for="GiaBia" class="control-label"></label>
+            <input asp-for="GiaBia" class="form-control" />
+            <span asp-validation-for="GiaBia" class="text-danger"></span>
+        </div>
+        <div class="col-4 form-group">
+            <label asp-for="Nguon" class="control-label"></label>
+            <input asp-for="Nguon" class="form-control" />
+            <span asp-validation-for="Nguon" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4 form-group">
+            <label asp-for="Khoa_Id" class="control-label"></label>
+            <select asp-for="Khoa_Id" class="form-control" asp-items="ViewBag.Khoa_Id"></select>
+        </div>
+        <div class="col-4 form-group">
+            <label asp-for="HocPhan_Id" class="control-label"></label>
+            <select asp-for="HocPhan_Id" class="form-control" asp-items="ViewBag.HocPhan_Id"></select>
+        </div>
+        <div class="col-4">
+            <label asp-for="TomTat" class="control-label"></label>
+            <input asp-for="TomTat" class="form-control" />
+        </div>
+    </div>
+    <div id="morong">
+        <div class="row">
+            <div class="col-4 form-group">
+                <label asp-for="TenKhac" class="control-label"></label>
+                <input asp-for="TenKhac" class="form-control" />
+                <span asp-validation-for="TenKhac" class="text-danger"></span>
+            </div>
+            <div class="col-4 form-group">
+                <label asp-for="TungThu" class="control-label"></label>
+                <input asp-for="TungThu" class="form-control" />
+                <span asp-validation-for="TungThu" class="text-danger"></span>
+            </div>
+            <div class="col-4 form-group">
+                <label asp-for="ISBN" class="control-label"></label>
+                <input asp-for="ISBN" class="form-control" />
+                <span asp-validation-for="ISBN" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4 form-group">
+                <label asp-for="SoTap" class="control-label"></label>
+                <input asp-for="SoTap" class="form-control" />
+                <span asp-validation-for="SoTap" class="text-danger"></span>
+            </div>
+            <div class="col-4 form-group">
+                <label asp-for="TenTap" class="control-label"></label>
+                <input asp-for="TenTap" class="form-control" />
+                <span asp-validation-for="TenTap" class="text-danger"></span>
+            </div>
+            <div class="col-4 form-group">
+                <label asp-for="DinhKem" class="control-label"></label>
+                <input asp-for="DinhKem" class="form-control" />
+                <span asp-validation-for="DinhKem" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4 form-group">
+                <label asp-for="ChuDe_Id" class="control-label"></label>
+                <select asp-for="ChuDe_Id" class="form-control" asp-items="ViewBag.ChuDe_Id"></select>
+            </div>
+            <div class="col-4 form-group">
+                <label asp-for="NgonNgu_Id" class="control-label"></label>
+                <select asp-for="NgonNgu_Id" class="form-control" asp-items="ViewBag.NgonNgu_Id"></select>
+            </div>
+            <div class="col-4 form-group">
+                <label asp-for="Tags" class="control-label"></label>
+                <input asp-for="Tags" class="form-control" />
+                <span asp-validation-for="Tags" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4 d-flex align-items-center">
+            <a asp-action="Index">Trở về danh sách đầu sách</a>
+        </div>
+        <div class="col-4">
+
+        </div>
+        <div class="col-4">
+            <input type="submit" value="Đồng ý" class="btn btn-secondary btn-block" />
+        </div>
+    </div>
+</form>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+
+        $(document).ready(() => {
+            $('input[type=radio][name=bienmuc]').change(function() {
+                     console.log(this.value)
+                     if (this.value === 'nho') {
+                        $('#morong').css('display', 'none')
+                    }
+                    else {
+                        $('#morong').css('display', 'block')
+                    }
+                })
+            })
+    </script>
 }

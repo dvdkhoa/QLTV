@@ -185,7 +185,7 @@ namespace QLTV.AppMVC.Controllers
         // POST: DauSach/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,MaDauSach,TenDauSach, ImagePath,ImageFile,SL,LoaiSach_Id,ChuDe_Id,TacGia_Id,NXB_Id,NamXB,Khoa_Id,HocPhan_Id,KeSach_Id,SoTrang,KhoCo,Tags,MinhHoa,GiaBia,Nguon,TenKhac,TungThu,SoTap,TenTap,DinhKem,NgonNgu_Id,ISBN")] DauSach dauSach)
+        public async Task<IActionResult> Edit(int id, DauSach dauSach)
         {
             if (id != dauSach.Id)
             {
@@ -287,9 +287,7 @@ namespace QLTV.AppMVC.Controllers
             if (dauSach == null)
                 return NotFound();
 
-            ViewBag.Id = Id;
-
-            return View();
+            return View(dauSach);
         }
 
         [HttpPost]

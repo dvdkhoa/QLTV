@@ -9,9 +9,9 @@
 <h2>@ViewBag.title</h2>
 <hr />
 
-<h4>Phiếu mượn: @ViewBag.Id</h4>
-<h6>- Sinh viên: @ViewBag.tensv</h6>
-<h6>- Mã Sinh viên: @ViewBag.masv</h6>
+<h5>- Phiếu mượn: <span class="font-weight-bold">@ViewBag.Id</span></h5>
+<h6>- Sinh viên: <span class="font-weight-bold">@ViewBag.tensv</span></h6>
+<h6>- Mã Sinh viên: <span class="font-weight-bold">@ViewBag.masv</span></h6>
 
 <hr />
 
@@ -30,14 +30,36 @@
             <th>
                 Ngày trả
             </th>
-            <th></th>
+            <th>
+                Trạng thái
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var ctm in Model)
         {
-        <tr>
+            string classes = "";
+
+            if(ctm.NgayTra == null)
+            {
+                var chuaTra = DateTime.Compare(DateTime.Now.Date, ctm.HanTra.Date);
+
+                switch (chuaTra)
+                {
+                    case -1:
+                        classes = "";
+                        break;
+                    case 0:
+                        classes = "table-warning";
+                        break;
+                    case 1:
+                        classes = "table-danger";
+                        break;
+                }
+            }
+
+        <tr class="@classes" >
             <td>
                 @ctm.MaSach
             </td>

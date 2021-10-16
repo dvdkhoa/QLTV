@@ -1,13 +1,28 @@
 ﻿@model QLTV.AppMVC.Models.Entities.ChiTietMuon
 
+@{ 
+    ViewData["title"] = "Xóa chi tiết mượn";
+}
 
-<h2>Bạn có chắc chắn muốn xóa chi tiết mượn này!!!</h2>
-<p>Mã sách: @Model.MaSach</p>
-<p>Ngày mượn: @Model.NgayMuon</p>
-<p>Hạn trả: @Model.HanTra</p>
-<p>Ngày trả: @Model.NgayTra</p>
+<h2 class="text-center">@ViewData["title"]</h2>
+<hr />
 
-<form asp-action="DeleteConfirmed" method="post">
-    <input type="value=" asp-for="@Model.Id" />
-    <input type="submit" value="Đồng ý xóa" />
-</form>
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-4">
+        <p>Mã sách: <span class="font-weight-bold">@Model.MaSach</span></p>
+        <p>Ngày mượn: <span class="font-weight-bold">@Model.NgayMuon.ToString("dd/MM/yyyy")</span></p>
+        <p>Hạn trả: <span class="font-weight-bold">@Model.HanTra.ToString("dd/MM/yyyy")</span></p>
+        <p>Ngày trả: <span class="font-weight-bold">@Model.NgayTra?.ToString("dd/MM/yyyy")</span></p>
+        
+        <a asp-action="Index" asp-route-id="@Model.PM_Id">Về danh sách chi tiết mượn</a>
+    </div>
+    <div class="col-md-4">
+        <h5>Bạn có chắc chắn muốn xóa chi tiết mượn này!!!</h5>
+        <hr />
+        <form asp-action="DeleteConfirmed" method="post">
+            <input class="btn btn-danger" type="submit" value="Đồng ý xóa" />
+        </form>
+    </div>
+    <div class="col-md-2"></div>
+</div>
