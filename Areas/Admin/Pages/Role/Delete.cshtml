@@ -1,0 +1,15 @@
+﻿@page "/admin/role/delete-role/{roleId}"
+@model QLTV.AppMVC.Areas.Admin.Pages.Role.DeleteModel
+@{
+    ViewData["title"] = "Xóa vai trò";
+}
+<h4>Bạn có chắc chắn muốn xóa vai trò <span class="font-weight-bold">@Model.Role.Name</span></h4>
+<div>
+    <a asp-page="./Index">Quay về danh sách vai trò</a>
+</div>
+<hr />
+<form method="post" >
+    <input class="btn btn-danger" type="submit" value="Đồng ý xóa" />
+</form>
+
+

@@ -15,7 +15,7 @@
 
 <hr />
 
-<table class="table table-hover">
+<table class="table table-hover table-sm">
     <thead>
         <tr>
             <th>
@@ -60,26 +60,26 @@
             }
 
         <tr class="@classes" >
-            <td>
+            <td class="align-middle">
                 @ctm.MaSach
             </td>
-            <td>
+            <td class="align-middle">
                 @ctm.NgayMuon.ToString("dd/MM/yyyy")
             </td>
 
-            <td>@ctm.HanTra.ToString("dd/MM/yyyy")</td>
+            <td class="align-middle">@ctm.HanTra.ToString("dd/MM/yyyy")</td>
 
             @{
                 if (ctm.NgayTra != null)
                 {
-                    <td>@ctm.NgayTra.Value.ToShortDateString()</td>
+                    <td class="align-middle">@ctm.NgayTra.Value.ToString("dd/MM/yyyy")</td>
                 }
                 else
                 {
-                    <td>Chưa trả sách</td>
+                    <td class="align-middle">Chưa trả sách</td>
                 }
             }
-            <td>
+            <td class="align-middle">
                 @{
                     if (ctm.NgayTra == null)
                     {
@@ -94,8 +94,11 @@
                 }
 
             </td>
-            <td>
-                <a class="btn btn-sm btn-outline-danger" asp-action="Delete" asp-route-Id="@ctm.Id">Xóa</a>
+            <td class="align-middle">
+                @if(this.User.IsInRole("Admin"))
+                {
+                    <a class="btn btn-sm btn-outline-danger" asp-action="Delete" asp-route-Id="@ctm.Id">Xóa</a>
+                }
             </td>
         </tr>
         }

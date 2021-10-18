@@ -46,20 +46,24 @@ namespace QLTV.AppMVC.Areas.Identity.Pages.Account
 
         public class InputModel
         {
+            //[Display(Name = "Tên đăng nhập")]
+            //[Required(ErrorMessage = "Phải nhập {0}")]
+            //public string UserName { get; set; }
+
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "{0} phải dài từ {2} đến {1} ký tự", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "Password")]
+            [Display(Name = "Mật khẩu")]
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Display(Name = "Xác nhận mật khẩu")]
+            [Compare("Password", ErrorMessage = "Mật khẩu và xác nhận mật khẩu phải giống nhau.")]
             public string ConfirmPassword { get; set; }
         }
 
@@ -79,7 +83,7 @@ namespace QLTV.AppMVC.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User created a new account with password.");
+                    _logger.LogInformation($"User{user.UserName} duoc tao.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
@@ -89,8 +93,8 @@ namespace QLTV.AppMVC.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    await _emailSender.SendEmailAsync(Input.Email, "Xác thực tài khoản",
+                        $"Để xác thực tài khoản <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>Nhấn vào đây</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
@@ -108,7 +112,7 @@ namespace QLTV.AppMVC.Areas.Identity.Pages.Account
                 }
             }
 
-            // If we got this far, something failed, redisplay form
+            
             return Page();
         }
     }

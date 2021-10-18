@@ -50,6 +50,8 @@ namespace QLTV.AppMVC
                     .AddEntityFrameworkStores<AppDbContext>()
                     .AddDefaultTokenProviders();
 
+            services.AddSingleton<IdentityErrorDescriber, AppIdentityErrorDescriber>();
+
             // Truy cập IdentityOptions
             services.Configure<IdentityOptions>(options => {
                 // Thiết lập về Password
@@ -82,6 +84,15 @@ namespace QLTV.AppMVC
                 options.LogoutPath = "/dangxuat";
                 options.AccessDeniedPath = "/hanchetruycap.html";
             });
+
+            services.Configure<SecurityStampValidatorOptions>(options =>
+            {
+                // Trên 30 giây truy cập lại sẽ nạp lại thông tin User (Role)
+                // SecurityStamp trong bảng User đổi -> nạp lại thông tinn Security
+                options.ValidationInterval = TimeSpan.FromSeconds(30);
+            });
+
+
 
             services.AddControllersWithViews();
             services.AddRazorPages();
@@ -130,9 +141,9 @@ namespace QLTV.AppMVC
             };
 
             backgroundJobClient.Enqueue(() => Console.WriteLine("Hello World !"));
-            recurringJobManager.AddOrUpdate("Run every minutes",
-                () => serviceProvider.GetService<SendMailService>().SendMailSinhVien()
-                , Cron.Minutely); ;
+            //recurringJobManager.AddOrUpdate("Run every minutes",
+            //    () => serviceProvider.GetService<SendMailService>().SendMailSinhVien()
+            //    , Cron.Minutely); ;
         }
     }
 }

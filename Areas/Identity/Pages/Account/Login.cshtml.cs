@@ -43,15 +43,16 @@ namespace QLTV.AppMVC.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage = "Phải nhập Email")]
             [EmailAddress]
             public string Email { get; set; }
 
-            [Required]
+            [Display(Name = "Mật khẩu")]
+            [Required(ErrorMessage = "Phải nhập {0}")]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
-            [Display(Name = "Remember me?")]
+            [Display(Name = "Ghi nhớ đăng nhập")]
             public bool RememberMe { get; set; }
         }
 

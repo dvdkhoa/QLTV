@@ -155,7 +155,7 @@ namespace QLTV.AppMVC.Controllers
 
             await dauSach.ImageFile.CopyToAsync(fileStream);
 
-            dauSach.ImagePath = Path.Combine("/imgs",fileName);
+            dauSach.ImagePath = "/imgs/" + fileName;
         }
 
         // GET: DauSach/Edit/5

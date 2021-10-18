@@ -48,6 +48,7 @@ namespace QLTV.AppMVC.Services
             {
                 Console.WriteLine("gửi mail thất bai !!!!!!!");
                 Console.WriteLine(ex.Message);
+                return;
             }
             smtp.Disconnect(true);
             Console.WriteLine("gửi mail thành công !!!");

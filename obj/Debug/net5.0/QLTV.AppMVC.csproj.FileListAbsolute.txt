@@ -300,3 +300,14 @@ C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Views\DieuKhoan\I
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Views\DieuKhoan\Delete.cshtml.g.cs
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Views\ChiTietMuon\Delete.cshtml.g.cs
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Views\SinhVien\_TimAjax.cshtml.g.cs
+C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Areas\Admin\Pages\Role\Create.cshtml.g.cs
+C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Areas\Admin\Pages\Role\Index.cshtml.g.cs
+C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Areas\Admin\Pages\_StatusMessage.cshtml.g.cs
+C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Areas\Admin\Pages\_ViewImports.cshtml.g.cs
+C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Areas\Admin\Pages\_ViewStart.cshtml.g.cs
+C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Areas\Admin\Pages\Role\Delete.cshtml.g.cs
+C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Areas\Admin\Pages\Role\Edit.cshtml.g.cs
+C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Areas\Admin\Pages\User\Index.cshtml.g.cs
+C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Areas\Admin\Pages\User\SetPassword.cshtml.g.cs
+C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Areas\Admin\Pages\User\AddRole.cshtml.g.cs
+C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\libman.json
