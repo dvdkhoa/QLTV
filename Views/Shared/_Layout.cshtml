@@ -6,6 +6,7 @@
     <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/main.css" />
+    
 </head>
 <body>
     <header>
@@ -22,15 +23,18 @@
                         <a class="nav-link" asp-action="Index" asp-controller="PhieuMuon">Mượn trả sách</a>
                         @*<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>*@
                     </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" asp-action="Index" asp-controller="dieukhoan">Điều khoản</a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" asp-page="/User/Index" asp-area="Admin">User</a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" asp-page="/Role/Index" asp-area="Admin">Vai trò</a>
-                    </li>
+                    @if(this.User.IsInRole("Admin"))
+                    {
+                        <li class="nav-item active">
+                            <a class="nav-link" asp-action="Index" asp-controller="dieukhoan">Điều khoản</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" asp-page="/User/Index" asp-area="Admin">User</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" asp-page="/Role/Index" asp-area="Admin">Vai trò</a>
+                        </li>
+                    }
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
@@ -70,7 +74,7 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 
-    <script>
+    @*<script>
         //    sticky nav menu top
         const navMenu = document.querySelector('#header');
         let navMenuTop = navMenu.offsetTop;
@@ -81,7 +85,7 @@
                 navMenu.classList.remove('sticky');
             }
         }
-    </script>
+    </script>*@
 
 
     @await RenderSectionAsync("Scripts", required: false)

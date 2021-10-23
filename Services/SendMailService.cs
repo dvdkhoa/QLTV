@@ -3,15 +3,20 @@ using MimeKit;
 using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using QLTV.AppMVC.Models;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace QLTV.AppMVC.Services
 {
     public class SendMailService: IEmailSender
     {
         private readonly MailSettings _mailSettings;
-        public SendMailService(IOptions<MailSettings> mailSettings)
+        private readonly AppDbContext _context;
+        public SendMailService(IOptions<MailSettings> mailSettings,AppDbContext context)
         {
             _mailSettings = mailSettings.Value;
+            _context = context;
         }
 
         public class MailContent
@@ -86,10 +91,36 @@ namespace QLTV.AppMVC.Services
             Console.WriteLine("gửi mail thành công !!!");
         }
 
-        public void SendMailSinhVien() //Test
+        public async Task SendMailSinhVien() 
         {
-            Console.WriteLine("Gui mail cho sinh vien moi 1 phut");
-            Console.WriteLine("Gui thanh cong");
+            var qr = (from pm in _context.PhieuMuon // Lấy tất cả các chi tiết mượn quá hạn trả sách
+                      join sv in _context.SinhVien on pm.MaSV equals sv.MaSV
+                      join ctm in _context.ChiTietMuon on pm.Id equals ctm.PM_Id
+                      select new { pm, sv, ctm }).AsQueryable();
+
+            var list = await qr.ToListAsync(); 
+
+            list.ForEach(async a =>
+               {
+                   if (a.ctm.NgayTra == null)
+                   {
+                       var kq = DateTime.Compare(DateTime.Now.Date, a.ctm.HanTra.Date);
+                       if (kq > 0) // Sinh viên chưa trả sách
+                       {
+                           await this.SendEmailAsync(a.sv.Email
+                                , "!!!Quá hạn trả sách",
+                                @$"<h2>Bạn đã quá hạn trả sách</h2>
+                                    <hr>
+                                    <p>Sách: <strong>{a.ctm.MaSach}</strong></p>
+                                    <p>Ngày mượn: <strong>{a.ctm.NgayMuon}</strong></p>
+                                    <p>Hạn trả: <strong>{a.ctm.HanTra}</strong></p>
+                                    <p>Bạn đã quá hạn trả: <strong>{(DateTime.Now.Date - a.ctm.HanTra.Date).Days} ngày</strong></p>
+                                    <h4>Vui lòng đến thư viện liên hệ thủ thư để trả sách !!!</h4>");
+                       }
+                   }
+               }
+                );
+            Console.WriteLine("Send mail Successfully!");   
         }
     }
 }

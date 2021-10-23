@@ -4,9 +4,10 @@
     ViewData["Title"] = "Phiếu mượn";
 }
 
+<h1>@ViewData["Title"]</h1>
+<hr />
 <div class="row">
     <div class="col-md-3">
-        <h1>@ViewData["Title"]</h1>
 
         <form asp-action="Tim" method="Get" class="form-group">
             <label for="maSV">Tìm phiếu mượn theo mã sinh viên:</label>
@@ -47,7 +48,7 @@
                         <td class="align-middle">
                             @Html.DisplayFor(modelItem => item.SinhVien.MaSV)
                         </td>
-                        <td class="align-middle"> 
+                        <td class="align-middle">
                             @Html.DisplayFor(modelItem => item.SinhVien.TenSV)
                         </td>
                         <td class="align-middle">

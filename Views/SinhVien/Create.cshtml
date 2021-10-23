@@ -40,20 +40,24 @@
                 <span asp-validation-for="Phone" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Lop_Id" class="control-label"></label>
-                <select asp-for="Lop_Id" class ="form-control" asp-items="ViewBag.Lop_Id"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Nganh_Id" class="control-label"></label>
-                <select asp-for="Nganh_Id" class ="form-control" asp-items="ViewBag.Nganh_Id"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Khoa_Id" class="control-label"></label>
-                <select asp-for="Khoa_Id" class ="form-control" asp-items="ViewBag.Khoa_Id"></select>
+                <select asp-for="Lop_Id" class="form-control" asp-items="ViewBag.Lop_Id"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Đồng ý" class="btn btn-success float-right" />
             </div>
+        </form>
+    </div>
+    <div class="col-md-4">
+        <form asp-action="ImportFromExcel" method="post" enctype="multipart/form-data">
+            <label class="control-label">Thêm từ Excel file</label>
+            <input type="file" name="file" />
+            <input class="btn btn-primary mt-2" type="submit"  value="Upload" />
         </form>
     </div>
 </div>

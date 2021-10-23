@@ -399,6 +399,7 @@ namespace QLTV.AppMVC.Controllers
 
             var kq = await query.Select(d => new
             {
+                d.Id,
                 d.MaDauSach,
                 d.TenDauSach,
                 d.TenKhac,
@@ -422,7 +423,7 @@ namespace QLTV.AppMVC.Controllers
                 d.Tags,
                 d.TenTap,
                 d.TungThu,
-                soluongconlai = _context.Sach.Count(s => s.DauSach_Id == d.Id)
+                soluongconlai = _context.Sach.Count(s => ((s.DauSach_Id == d.Id) && (!s.DangMuon)))
             }).ToListAsync();
             return Json(kq);
         }

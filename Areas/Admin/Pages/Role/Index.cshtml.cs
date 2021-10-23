@@ -11,7 +11,7 @@ using QLTV.AppMVC.Models;
 
 namespace QLTV.AppMVC.Areas.Admin.Pages.Role
 {
-    [Authorize(Roles = "admin")]
+    [Authorize(Roles = "Admin")]
     public class IndexModel : RolePageModel
     {
         public IndexModel(AppDbContext context, RoleManager<IdentityRole> roleManager) : base(context, roleManager)

@@ -13,9 +13,11 @@
 
 }
 
-<h1>Đầu sách</h1>
+<h1>@ViewData["Title"]</h1>
+<a asp-action="Create">Tạo mới</a>
+<hr />
 
-<form asp-action="Tim" method="Get" class="form-group">
+@*<form asp-action="Tim" method="Get" class="form-group">
     <label for="tenSach">Tìm sách</label>
     <input class="form-control" type="text" name="tenSach" id="input" value="" placeholder="Nhập tên sách" />
     @{
@@ -33,10 +35,10 @@
         }
     }
     <input type="submit" value="Tìm" class="btn btn-primary mt-2 btn-block" />
-</form>
+</form>*@
 
 
-<p>
+@*<p>
     <a asp-action="Create">Tạo mới</a>
 </p>
 <table class="table table-sm table-hover" id="lstDS">
@@ -88,55 +90,74 @@
         }
     </tbody>
 </table>
-@await Html.PartialAsync("_Paging", ViewData["paging"])
+@await Html.PartialAsync("_Paging", ViewData["paging"])*@
 
 
+<div class="container-fluid">
+    <table id="myTable" class="table table-striped">
+        <thead>
+            <tr>
+                <th>Mã đầu sách</th>
+                <th>Tên đầu sách</th>
+                <th>Tác giả</th>
+                <th>Kệ sách</th>
+                <th>Tác vụ</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
 
-@*<script>
-        let select = document.getElementById("select");
+@section Scripts {
+    @* DataTable *@
+    <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 
-        let input = document.getElementById("input")
-
-        let selectTG = document.getElementById("selectTG");
-
-        const Switch = (e) => {
-            input.name = select.value;
-
-            switch (input.name) {
-                case 'tacGia':
-                    selectKhoa.hidden = false
-                    selectChuDe.hidden = false
-                    selectTG.hidden = true
-                    selectKhoa.disabled = false
-                    selectChuDe.disabled = false
-                    selectTG.disabled = true
-                    break;
-                case 'Khoa':
-                    selectTG.hidden = false
-                    selectTG.disabled = false
-                    selectChuDe.hidden = false
-                    selectChuDe.disabled = false
-                    selectKhoa.hidden = false
-                    selectKhoa.disabled = false
-                    break;
-                case 'chuDe':
-                    selectKhoa.hidden = false
-                    selectKhoa.disabled = false
-                    selectTG.hidden = false
-                    selectTG.disabled = false
-                    selectChuDe.hidden = true
-                    selectChuDe.disabled = true
-                    break;
-                default:
-                    selectKhoa.hidden = false
-                    selectTG.hidden = false
-                    selectChuDe.hidden = false
-                    selectKhoa.disabled = false
-                    selectTG.disabled = false
-                    selectChuDe.disabled = false
-                    break;
-            }
-
-        }
-
-    </script>*@
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: '/api/dausach',
+                type: 'get',
+                data: {},
+            }).done(function (res) {
+                let modifierData = res.map(r => {
+                    return {
+                        maDauSach: r.maDauSach,
+                        tenDauSach: `<a href="DauSach/Details/${r.id}">${r.tenDauSach}</a>`,
+                        tenTG: r.tenTG,
+                        tenKeSach: r.tenKeSach,
+                        tacVu: `<a href="DauSach/Edit/${r.id}" class="btn btn-sm btn-outline-secondary">Sửa</a>
+                                <a href="DauSach/Delete/${r.id}" class="btn btn-sm btn-outline-danger">Xóa</a>`,
+                    }
+                })
+                $('#myTable').DataTable({
+                    processing: true,
+                    'info': false,
+                    data: modifierData,
+                    columns: [
+                        { data: 'maDauSach' },
+                        { data: 'tenDauSach' },
+                        { data: 'tenTG' },
+                        { data: 'tenKeSach' },
+                        { data: 'tacVu' },
+                    ],
+                    language: {
+                        "lengthMenu": "Hiển thị _MENU_ dòng",
+                        "search": "Tìm kiếm:",
+                        "zeroRecords": "Không tìm thấy dòng nào phù hợp",
+                        paginate: {
+                            previous: 'Trước',
+                            next: 'Sau'
+                        },
+                        aria: {
+                            paginate: {
+                                previous: 'Previous',
+                                next: 'Next'
+                            }
+                        }
+                    }
+                });
+            })
+        });
+    </script>
+}

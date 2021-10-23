@@ -311,3 +311,6 @@ C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Areas\Admin\Pages
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Areas\Admin\Pages\User\SetPassword.cshtml.g.cs
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Areas\Admin\Pages\User\AddRole.cshtml.g.cs
 C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\libman.json
+C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\EPPlus.dll
+C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\bin\Debug\net5.0\System.Xml.XPath.XmlDocument.dll
+C:\Users\dvdkh\Desktop\QLTV\QLTV.AppMVC\obj\Debug\net5.0\Razor\Views\Shared\_StatusMessage.cshtml.g.cs

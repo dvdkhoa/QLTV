@@ -10,7 +10,7 @@ using QLTV.AppMVC.Models;
 
 namespace QLTV.AppMVC.Areas.Admin.Pages.Role
 {
-    [Authorize(Roles = "admin")]
+    [Authorize(Roles = "Admin")]
     public class DeleteModel : RolePageModel
     {
         public DeleteModel(AppDbContext context, RoleManager<IdentityRole> roleManager) : base(context, roleManager)

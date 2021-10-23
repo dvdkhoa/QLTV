@@ -40,22 +40,16 @@
             @Html.DisplayFor(model => model.Phone)
         </dd>
         <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Lop_Id)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Lop.MaLop)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Nganh_Id)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Nganh.TenNganh)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Khoa_Id)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Khoa.TenKhoa)
         </dd>
     </dl>
 </div>

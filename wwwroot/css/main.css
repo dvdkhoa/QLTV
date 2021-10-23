@@ -329,8 +329,21 @@ a:hover {
     padding: 10px
 }*/
 
+a:hover {
+    text-decoration: none;
+}
+
 #home {
     color: blue;
 }
+
+.paginator-button {
+    margin: 5px;
+    padding:2px 8px;
+    color: blue;
+    border:none;
+}
+
+
 
 

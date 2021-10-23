@@ -12,8 +12,7 @@ using QLTV.AppMVC.Models.Entities;
 
 namespace QLTV.AppMVC.Areas.Admin.Pages.User
 {
-    //[Authorize(Roles = "admin")]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class AddRoleModel : PageModel
     {
         private readonly UserManager<AppUser> _userManager;

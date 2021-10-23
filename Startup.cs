@@ -28,6 +28,12 @@ namespace QLTV.AppMVC
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<AppDbContext>(options =>
+            {
+                var connectionString = Configuration.GetConnectionString("QLTV_Solution");
+                options.UseSqlServer(connectionString);
+            });
+
             services.AddHangfire(config =>
                 config.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
                        .UseSimpleAssemblyNameTypeSerializer()
@@ -37,14 +43,9 @@ namespace QLTV.AppMVC
 
             services.AddOptions();
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
-            services.AddSingleton<IEmailSender, SendMailService>();
-            services.AddSingleton<SendMailService>();
+            services.AddTransient<IEmailSender, SendMailService>();
+            services.AddTransient<SendMailService>();
 
-            services.AddDbContext<AppDbContext>(options =>
-            {
-                var connectionString = Configuration.GetConnectionString("QLTV_Solution");
-                options.UseSqlServer(connectionString);
-            });
 
             services.AddIdentity<AppUser, IdentityRole>()
                     .AddEntityFrameworkStores<AppDbContext>()
@@ -99,8 +100,9 @@ namespace QLTV.AppMVC
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        [Obsolete]
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, 
-            IBackgroundJobClient backgroundJobClient,
+            //IBackgroundJobClient backgroundJobClient,
             IRecurringJobManager recurringJobManager,
             IServiceProvider serviceProvider)
         {
@@ -133,17 +135,12 @@ namespace QLTV.AppMVC
             });
 
             app.UseHangfireDashboard();
+  
 
-            System.Action act = () =>
-            {
-                Console.WriteLine("sàl");
-                Console.WriteLine("alo");
-            };
-
-            backgroundJobClient.Enqueue(() => Console.WriteLine("Hello World !"));
-            //recurringJobManager.AddOrUpdate("Run every minutes",
-            //    () => serviceProvider.GetService<SendMailService>().SendMailSinhVien()
-            //    , Cron.Minutely); ;
+            //backgroundJobClient.Enqueue(() => Console.WriteLine("Hello World !"));
+            recurringJobManager.AddOrUpdate("Run every minutes",
+                () => serviceProvider.GetService<SendMailService>().SendMailSinhVien()
+                , Cron.MinuteInterval(30));
         }
     }
 }

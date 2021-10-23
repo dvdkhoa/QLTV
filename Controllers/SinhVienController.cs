@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
 using QLTV.AppMVC.Models;
 using QLTV.AppMVC.Models.Entities;
 
@@ -21,10 +25,13 @@ namespace QLTV.AppMVC.Controllers
             _context = context;
         }
 
+        [TempData]
+        public string StatusMessage { get; set; }
+
         // GET: SinhVien
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.SinhVien.Include(s => s.Khoa).Include(s => s.Lop).Include(s => s.Nganh);
+            var appDbContext = _context.SinhVien.Include(s => s.Lop);
             return View(await appDbContext.ToListAsync());
         }
 
@@ -37,9 +44,7 @@ namespace QLTV.AppMVC.Controllers
             }
 
             var sinhVien = await _context.SinhVien
-                .Include(s => s.Khoa)
                 .Include(s => s.Lop)
-                .Include(s => s.Nganh)
                 .FirstOrDefaultAsync(m => m.MaSV == id);
             if (sinhVien == null)
             {
@@ -52,16 +57,14 @@ namespace QLTV.AppMVC.Controllers
         // GET: SinhVien/Create
         public IActionResult Create()
         {
-            ViewData["Khoa_Id"] = new SelectList(_context.Khoa, "Id", "TenKhoa");
             ViewData["Lop_Id"] = new SelectList(_context.Lop, "Id", "MaLop");
-            ViewData["Nganh_Id"] = new SelectList(_context.Nganh, "Id", "TenNganh");
             return View();
         }
 
         // POST: SinhVien/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MaSV,TenSV,NgaySinh,GioiTinh,Phone,Lop_Id,Nganh_Id,Khoa_Id")] SinhVien sinhVien)
+        public async Task<IActionResult> Create(SinhVien sinhVien)
         {
             if (ModelState.IsValid)
             {
@@ -76,10 +79,48 @@ namespace QLTV.AppMVC.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Khoa_Id"] = new SelectList(_context.Khoa, "Id", "TenKhoa", sinhVien.Khoa_Id);
             ViewData["Lop_Id"] = new SelectList(_context.Lop, "Id", "MaLop", sinhVien.Lop_Id);
-            ViewData["Nganh_Id"] = new SelectList(_context.Nganh, "Id", "TenNganh", sinhVien.Nganh_Id);
             return View(sinhVien);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ImportFromExcel(IFormFile file)
+        {
+            List<SinhVien> dsSV = new List<SinhVien>();
+            using (var stream = new MemoryStream())
+            {
+                await file.CopyToAsync(stream);
+                using (var package = new ExcelPackage(stream))
+                {
+                    ExcelWorksheet workSheet = package.Workbook.Worksheets[0];
+                    var rowCount = workSheet.Dimension.Rows;
+                    for (int row = 2; row <= rowCount; row++)
+                    {
+                        var masv = workSheet.Cells[row, 1].Value.ToString().Trim();
+                        var exists = await _context.SinhVien.AnyAsync(sv => sv.MaSV == masv);
+                        if (exists)
+                            continue;
+
+                        var lop = await _context.Lop.Where(l => l.MaLop == workSheet.Cells[row, 7].Value.ToString().Trim()).FirstOrDefaultAsync();
+
+                        dsSV.Add(new SinhVien()
+                        {
+                            MaSV = workSheet.Cells[row,1].Value.ToString().Trim(),
+                            TenSV = workSheet.Cells[row, 2].Value.ToString().Trim(),
+                            Email = workSheet.Cells[row, 3].Value.ToString().Trim(),
+                            NgaySinh = DateTime.ParseExact(workSheet.Cells[row, 4].Value.ToString().Trim(), "dd/M/yyyy", CultureInfo.InvariantCulture),
+                            GioiTinh = workSheet.Cells[row, 5].Value.ToString().Trim(),
+                            Phone = workSheet.Cells[row, 6].Value.ToString().Trim(),
+                            Lop_Id = lop.Id
+                        });
+                    }
+                }
+                _context.SinhVien.AddRange(dsSV);
+                await _context.SaveChangesAsync();
+
+                StatusMessage = "Vừa cập nhật sinh viên từ file Excel thành công !";
+                return RedirectToAction("Index");
+            }
         }
 
         // GET: SinhVien/Edit/5
@@ -95,16 +136,14 @@ namespace QLTV.AppMVC.Controllers
             {
                 return NotFound();
             }
-            ViewData["Khoa_Id"] = new SelectList(_context.Khoa, "Id", "TenKhoa", sinhVien.Khoa_Id);
             ViewData["Lop_Id"] = new SelectList(_context.Lop, "Id", "MaLop", sinhVien.Lop_Id);
-            ViewData["Nganh_Id"] = new SelectList(_context.Nganh, "Id", "TenNganh", sinhVien.Nganh_Id);
             return View(sinhVien);
         }
 
         // POST: SinhVien/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("MaSV,TenSV,NgaySinh,GioiTinh,Phone,Lop_Id,Nganh_Id,Khoa_Id")] SinhVien sinhVien)
+        public async Task<IActionResult> Edit(string id,  SinhVien sinhVien)
         {
             if (id != sinhVien.MaSV)
             {
@@ -131,9 +170,7 @@ namespace QLTV.AppMVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Khoa_Id"] = new SelectList(_context.Khoa, "Id", "TenKhoa", sinhVien.Khoa_Id);
             ViewData["Lop_Id"] = new SelectList(_context.Lop, "Id", "MaLop", sinhVien.Lop_Id);
-            ViewData["Nganh_Id"] = new SelectList(_context.Nganh, "Id", "TenNganh", sinhVien.Nganh_Id);
             return View(sinhVien);
         }
 
@@ -146,9 +183,7 @@ namespace QLTV.AppMVC.Controllers
             }
 
             var sinhVien = await _context.SinhVien
-                .Include(s => s.Khoa)
                 .Include(s => s.Lop)
-                .Include(s => s.Nganh)
                 .FirstOrDefaultAsync(m => m.MaSV == id);
             if (sinhVien == null)
             {
@@ -184,5 +219,22 @@ namespace QLTV.AppMVC.Controllers
             else
                 return NotFound();
         }
+
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            var qr = from sv in _context.SinhVien
+                     select new
+                     {
+                         sv.MaSV,
+                         sv.TenSV,
+                         maLop = _context.Lop.Where(l=>l.Id==sv.Lop_Id).FirstOrDefault().MaLop,
+                         NgaySinh = sv.NgaySinh.ToString("dd/MM/yyyy"),
+                         sv.GioiTinh
+                     };
+
+            return Json(qr.ToList());
+        }
+
     }
 }

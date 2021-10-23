@@ -6,20 +6,21 @@
 
 @await Html.PartialAsync("_StatusMessage", Model.StatusMessage)
 
-<h3>@ViewData["title"]</h3>
-<hr />
-
-<div class="mb-2">
-    <a asp-page="./Create">Tạo thêm vai trò</a>
-</div>
 
 <div class="row">
     <div class="col-2"></div>
     <div class="col-6">
+        <h3>@ViewData["title"]</h3>
+
+        <div>
+            <a asp-page="./Create">Tạo thêm vai trò</a>
+        </div>
+
+        <hr />
         <table class="table table-bordered text-center">
             <tr>
                 <td>Tên vai trò</td>
-                <td >Tác vụ</td>
+                <td>Tác vụ</td>
             </tr>
             @foreach (var role in Model.Roles)
             {

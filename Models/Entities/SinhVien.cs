@@ -39,14 +39,6 @@ namespace QLTV.AppMVC.Models.Entities
         public int Lop_Id { get; set; }
         public Lop Lop { get; set; }
 
-        [DisplayName("Ngành")]
-        public int Nganh_Id { get; set; }
-        public Nganh Nganh { get; set; }
-
-        [DisplayName("Khoa")]
-        public int Khoa_Id { get; set; }
-        public Khoa Khoa { get; set; }
-
         public PhieuMuon PhieuMuon { get; set; }
     }
 }

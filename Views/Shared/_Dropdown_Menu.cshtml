@@ -11,20 +11,23 @@
             Quản lý
         </a>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a asp-action="Index" asp-controller="SinhVien" class="dropdown-item">Sinh viên</a>
             <a asp-action="Index" asp-controller="DauSach" class="dropdown-item">Sách</a>
             <a asp-action="Index" asp-controller="ChuDe" class="dropdown-item">Chủ đề</a>
             <a asp-action="Index" asp-controller="TacGia" class="dropdown-item">Tác giả</a>
             <a asp-action="Index" asp-controller="NXB" class="dropdown-item">NXB</a>
             <a asp-action="Index" asp-controller="LoaiSach" class="dropdown-item">Loại sách</a>
-            <a asp-action="Index" asp-controller="HocPhan" class="dropdown-item">Học phần</a>
             <a asp-action="Index" asp-controller="KeSach" class="dropdown-item">Kệ sách</a>
-            <a asp-action="Index" asp-controller="Khoa" class="dropdown-item ">Khoa</a>
-            <a asp-action="Index" asp-controller="Nganh" class="dropdown-item">Ngành</a>
-            <a asp-action="Index" asp-controller="Bomon" class="dropdown-item">Bộ môn</a>
-            <a asp-action="Index" asp-controller="Lop" class="dropdown-item">Lớp</a>
             <a asp-action="Index" asp-controller="NgonNgu" class="dropdown-item">Ngôn ngữ</a>
+            @if (this.User.IsInRole("Admin"))
+            {
+                <a asp-action="Index" asp-controller="SinhVien" class="dropdown-item">Sinh viên</a>
+                <a asp-action="Index" asp-controller="HocPhan" class="dropdown-item">Học phần</a>
+                <a asp-action="Index" asp-controller="Khoa" class="dropdown-item ">Khoa</a>
+                <a asp-action="Index" asp-controller="Nganh" class="dropdown-item">Ngành</a>
+                <a asp-action="Index" asp-controller="Bomon" class="dropdown-item">Bộ môn</a>
+                <a asp-action="Index" asp-controller="Lop" class="dropdown-item">Lớp</a>
+            }
         </div>
     </li>
-    
+
 }
