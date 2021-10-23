@@ -1,22 +1,48 @@
 ﻿@model IEnumerable<QLTV.AppMVC.Models.Entities.DauSach>
 
+@using Microsoft.AspNetCore.Mvc
+
+@inject QLTV.AppMVC.Models.AppDbContext _context
+
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Danh sách các đầu sách";
+
+    var KhoaId = Context.Request.Query["KhoaId"].ToString();
+    var tacGiaId = Context.Request.Query["tacGiaId"].ToString();
+    var chuDeId = Context.Request.Query["chuDeId"].ToString();
+
 }
 
-<h1>Index</h1>
+<h1>@ViewData["Title"]</h1>
+<a asp-action="Create">Tạo mới</a>
+<hr />
 
-<form asp-action="Tim" method="Get" class="form-group">
+@*<form asp-action="Tim" method="Get" class="form-group">
     <label for="tenSach">Tìm sách</label>
-    <input class="form-control" type="text" name="tenSach" id="tenSach" value="" placeholder="Nhập tên sách"/>
-    <input type="submit" value="Tìm" class="btn btn-info mt-2 px-4" />
-</form>
+    <input class="form-control" type="text" name="tenSach" id="input" value="" placeholder="Nhập tên sách" />
+    @{
+        if (!string.IsNullOrEmpty(KhoaId))
+        {
+            <input type="hidden" name="KhoaId" value="@KhoaId" />
+        }
+        if (!string.IsNullOrEmpty(tacGiaId))
+        {
+            <input type="hidden" name="tacGiaId" value="@tacGiaId" />
+        }
+        if (!string.IsNullOrEmpty(chuDeId))
+        {
+            <input type="hidden" name="chuDeId" value="@chuDeId" />
+        }
+    }
+    <input type="submit" value="Tìm" class="btn btn-primary mt-2 btn-block" />
+</form>*@
 
-<p>
-    <a asp-action="Create">Create New</a>
+
+@*<p>
+    <a asp-action="Create">Tạo mới</a>
 </p>
-<table class="table">
-    <thead>
+<table class="table table-sm table-hover" id="lstDS">
+    <thead class="thead-light">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.MaDauSach)
@@ -24,42 +50,114 @@
             <th>
                 @Html.DisplayNameFor(model => model.TenDauSach)
             </th>
-            
+
             <th>
                 @Html.DisplayNameFor(model => model.TacGia_Id)
             </th>
-            
+
             <th>
                 @Html.DisplayNameFor(model => model.KeSach_Id)
             </th>
-         
+
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaDauSach)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TenDauSach)
-            </td>
-            
-            <td>
-                @Html.DisplayFor(modelItem => item.TacGia.TenTG)
-            </td>
-            
-            <td>
-                @Html.DisplayFor(modelItem => item.KeSach.TenKeSach)
-            </td>
-     
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaDauSach)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TenDauSach)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.TacGia.TenTG)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.KeSach.TenKeSach)
+                </td>
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-secondary btn-sm">Sửa</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-info btn-sm">Chi tiết</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger btn-sm">Xóa</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+@await Html.PartialAsync("_Paging", ViewData["paging"])*@
+
+
+<div class="container-fluid">
+    <table id="myTable" class="table table-striped">
+        <thead>
+            <tr>
+                <th>Mã đầu sách</th>
+                <th>Tên đầu sách</th>
+                <th>Tác giả</th>
+                <th>Kệ sách</th>
+                <th>Tác vụ</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+@section Scripts {
+    @* DataTable *@
+    <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: '/api/dausach',
+                type: 'get',
+                data: {},
+            }).done(function (res) {
+                let modifierData = res.map(r => {
+                    return {
+                        maDauSach: r.maDauSach,
+                        tenDauSach: `<a href="DauSach/Details/${r.id}">${r.tenDauSach}</a>`,
+                        tenTG: r.tenTG,
+                        tenKeSach: r.tenKeSach,
+                        tacVu: `<a href="DauSach/Edit/${r.id}" class="btn btn-sm btn-outline-secondary">Sửa</a>
+                                <a href="DauSach/Delete/${r.id}" class="btn btn-sm btn-outline-danger">Xóa</a>`,
+                    }
+                })
+                $('#myTable').DataTable({
+                    processing: true,
+                    'info': false,
+                    data: modifierData,
+                    columns: [
+                        { data: 'maDauSach' },
+                        { data: 'tenDauSach' },
+                        { data: 'tenTG' },
+                        { data: 'tenKeSach' },
+                        { data: 'tacVu' },
+                    ],
+                    language: {
+                        "lengthMenu": "Hiển thị _MENU_ dòng",
+                        "search": "Tìm kiếm:",
+                        "zeroRecords": "Không tìm thấy dòng nào phù hợp",
+                        paginate: {
+                            previous: 'Trước',
+                            next: 'Sau'
+                        },
+                        aria: {
+                            paginate: {
+                                previous: 'Previous',
+                                next: 'Next'
+                            }
+                        }
+                    }
+                });
+            })
+        });
+    </script>
+}

@@ -70,71 +70,6 @@ namespace QLTV.AppMVC.Migrations
                     b.ToTable("RoleClaims");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("Users");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
                     b.Property<int>("Id")
@@ -215,6 +150,71 @@ namespace QLTV.AppMVC.Migrations
                     b.ToTable("UserTokens");
                 });
 
+            modelBuilder.Entity("QLTV.AppMVC.Models.Entities.AppUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("Users");
+                });
+
             modelBuilder.Entity("QLTV.AppMVC.Models.Entities.BoMon", b =>
                 {
                     b.Property<int>("Id")
@@ -230,6 +230,7 @@ namespace QLTV.AppMVC.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TenBoMon")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -246,7 +247,11 @@ namespace QLTV.AppMVC.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("HanTra")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("MaSach")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("NgayMuon")
@@ -312,6 +317,9 @@ namespace QLTV.AppMVC.Migrations
                     b.Property<string>("ISBN")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("KeSach_Id")
                         .HasColumnType("int");
 
@@ -343,6 +351,9 @@ namespace QLTV.AppMVC.Migrations
                     b.Property<string>("Nguon")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PhuChu")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("SL")
                         .HasColumnType("int");
 
@@ -358,6 +369,9 @@ namespace QLTV.AppMVC.Migrations
                     b.Property<string>("Tags")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("TaiBan")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("TenDauSach")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -366,6 +380,9 @@ namespace QLTV.AppMVC.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TenTap")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TomTat")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TungThu")
@@ -393,6 +410,27 @@ namespace QLTV.AppMVC.Migrations
                     b.HasIndex("TacGia_Id");
 
                     b.ToTable("DauSach");
+                });
+
+            modelBuilder.Entity("QLTV.AppMVC.Models.Entities.DieuKhoan", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("NgayBD")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("SLSach")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ThoiHan")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DieuKhoan");
                 });
 
             modelBuilder.Entity("QLTV.AppMVC.Models.Entities.HocPhan", b =>
@@ -447,16 +485,17 @@ namespace QLTV.AppMVC.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("MaKhoa")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("TenKhoa")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("MaKhoa")
-                        .IsUnique()
-                        .HasFilter("[MaKhoa] IS NOT NULL");
+                        .IsUnique();
 
                     b.ToTable("Khoa");
                 });
@@ -624,22 +663,20 @@ namespace QLTV.AppMVC.Migrations
                         .HasMaxLength(12)
                         .HasColumnType("varchar(12)");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("GioiTinh")
                         .IsRequired()
                         .HasMaxLength(5)
                         .HasColumnType("nvarchar(5)");
 
-                    b.Property<int>("Khoa_Id")
-                        .HasColumnType("int");
-
                     b.Property<int>("Lop_Id")
                         .HasColumnType("int");
 
-                    b.Property<int>("Nganh_Id")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("NgaySinh")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("date");
 
                     b.Property<string>("Phone")
                         .HasMaxLength(12)
@@ -651,11 +688,7 @@ namespace QLTV.AppMVC.Migrations
 
                     b.HasKey("MaSV");
 
-                    b.HasIndex("Khoa_Id");
-
                     b.HasIndex("Lop_Id");
-
-                    b.HasIndex("Nganh_Id");
 
                     b.ToTable("SinhVien");
                 });
@@ -694,7 +727,7 @@ namespace QLTV.AppMVC.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("QLTV.AppMVC.Models.Entities.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -703,7 +736,7 @@ namespace QLTV.AppMVC.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("QLTV.AppMVC.Models.Entities.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -718,7 +751,7 @@ namespace QLTV.AppMVC.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("QLTV.AppMVC.Models.Entities.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -727,7 +760,7 @@ namespace QLTV.AppMVC.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("QLTV.AppMVC.Models.Entities.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -750,7 +783,8 @@ namespace QLTV.AppMVC.Migrations
                     b.HasOne("QLTV.AppMVC.Models.Entities.Sach", "Sach")
                         .WithMany()
                         .HasForeignKey("MaSach")
-                        .OnDelete(DeleteBehavior.ClientNoAction);
+                        .OnDelete(DeleteBehavior.ClientNoAction)
+                        .IsRequired();
 
                     b.HasOne("QLTV.AppMVC.Models.Entities.PhieuMuon", "PhieuMuon")
                         .WithMany("DS_CTM")
@@ -879,29 +913,13 @@ namespace QLTV.AppMVC.Migrations
 
             modelBuilder.Entity("QLTV.AppMVC.Models.Entities.SinhVien", b =>
                 {
-                    b.HasOne("QLTV.AppMVC.Models.Entities.Khoa", "Khoa")
-                        .WithMany()
-                        .HasForeignKey("Khoa_Id")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.HasOne("QLTV.AppMVC.Models.Entities.Lop", "Lop")
                         .WithMany("DS_SinhVien")
                         .HasForeignKey("Lop_Id")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("QLTV.AppMVC.Models.Entities.Nganh", "Nganh")
-                        .WithMany()
-                        .HasForeignKey("Nganh_Id")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Khoa");
-
                     b.Navigation("Lop");
-
-                    b.Navigation("Nganh");
                 });
 
             modelBuilder.Entity("QLTV.AppMVC.Models.Entities.BoMon", b =>

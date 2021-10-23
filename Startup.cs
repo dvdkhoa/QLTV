@@ -1,17 +1,18 @@
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using QLTV.AppMVC.Models;
+using QLTV.AppMVC.Models.Entities;
+using QLTV.AppMVC.Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using Hangfire;
+using Hangfire.MemoryStorage;
 using System.Threading.Tasks;
-
 
 namespace QLTV.AppMVC
 {
@@ -33,15 +34,77 @@ namespace QLTV.AppMVC
                 options.UseSqlServer(connectionString);
             });
 
-            //services.AddIdentity<IdentityUser, IdentityRole>()
-            //        .AddEntityFrameworkStores<AppDbContext>()
-            //        .AddDefaultTokenProviders();
+            services.AddHangfire(config =>
+                config.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+                       .UseSimpleAssemblyNameTypeSerializer()
+                       .UseDefaultTypeSerializer()
+                       .UseMemoryStorage());
+            services.AddHangfireServer();
+
+            services.AddOptions();
+            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
+            services.AddTransient<IEmailSender, SendMailService>();
+            services.AddTransient<SendMailService>();
+
+
+            services.AddIdentity<AppUser, IdentityRole>()
+                    .AddEntityFrameworkStores<AppDbContext>()
+                    .AddDefaultTokenProviders();
+
+            services.AddSingleton<IdentityErrorDescriber, AppIdentityErrorDescriber>();
+
+            // Truy cập IdentityOptions
+            services.Configure<IdentityOptions>(options => {
+                // Thiết lập về Password
+                options.Password.RequireDigit = false; // Không bắt phải có số
+                options.Password.RequireLowercase = false; // Không bắt phải có chữ thường
+                options.Password.RequireNonAlphanumeric = false; // Không bắt ký tự đặc biệt
+                options.Password.RequireUppercase = false; // Không bắt buộc chữ in
+                options.Password.RequiredLength = 3; // Số ký tự tối thiểu của password
+                options.Password.RequiredUniqueChars = 1; // Số ký tự riêng biệt
+
+                // Cấu hình Lockout - khóa user
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5); // Khóa 5 phút
+                options.Lockout.MaxFailedAccessAttempts = 5; // Thất bại 5 lầ thì khóa
+                options.Lockout.AllowedForNewUsers = true;
+
+                // Cấu hình về User.
+                options.User.AllowedUserNameCharacters = // các ký tự đặt tên user
+                    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                options.User.RequireUniqueEmail = true;  // Email là duy nhất
+
+                // Cấu hình đăng nhập.
+                options.SignIn.RequireConfirmedEmail = true;            // Cấu hình xác thực địa chỉ email (email phải tồn tại)
+                options.SignIn.RequireConfirmedPhoneNumber = false;     // Xác thực số điện thoại
+                options.SignIn.RequireConfirmedAccount = true; // Yêu cầu xác thực tài khoản mới được đăng nhập
+            });
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/dangnhap";
+                options.LogoutPath = "/dangxuat";
+                options.AccessDeniedPath = "/hanchetruycap.html";
+            });
+
+            services.Configure<SecurityStampValidatorOptions>(options =>
+            {
+                // Trên 30 giây truy cập lại sẽ nạp lại thông tin User (Role)
+                // SecurityStamp trong bảng User đổi -> nạp lại thông tinn Security
+                options.ValidationInterval = TimeSpan.FromSeconds(30);
+            });
+
+
 
             services.AddControllersWithViews();
+            services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        [Obsolete]
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, 
+            //IBackgroundJobClient backgroundJobClient,
+            IRecurringJobManager recurringJobManager,
+            IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -50,7 +113,7 @@ namespace QLTV.AppMVC
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
@@ -58,14 +121,26 @@ namespace QLTV.AppMVC
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
+                
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                endpoints.MapRazorPages();
             });
+
+            app.UseHangfireDashboard();
+  
+
+            //backgroundJobClient.Enqueue(() => Console.WriteLine("Hello World !"));
+            recurringJobManager.AddOrUpdate("Run every minutes",
+                () => serviceProvider.GetService<SendMailService>().SendMailSinhVien()
+                , Cron.MinuteInterval(30));
         }
     }
 }

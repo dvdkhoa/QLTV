@@ -2,14 +2,16 @@
 @model List<ChiTietMuon>
 
 
+@{
+    ViewBag.title = "Danh sách chi tiết mượn";
+}
 
-
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create" asp-route-id="@ViewBag.Id">Thêm chi tiết mượn</a>
-</p>
-<table class="table">
+<h2>@ViewBag.title</h2>
+<hr />
+<h5>Phiếu mượn: <span class="font-weight-bold">@ViewBag.Id</span></h5>
+<h6>Sinh viên: <span class="font-weight-bold">@ViewBag.tensv</span></h6>
+<h6>Mã Sinh viên: <span class="font-weight-bold">@ViewBag.masv</span></h6>
+<table class="table table-hover table-sm mt-4">
     <thead>
         <tr>
             <th>
@@ -19,56 +21,84 @@
                 Ngày mượn
             </th>
             <th>
+                Hạn trả
+            </th>
+            <th>
                 Ngày trả
             </th>
-            <th></th>
             <th>
+                Trạng thái
             </th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var ctm in Model)
         {
-        <tr>
-            <td>
-                @ctm.MaSach
-            </td>
-            <td>
-                @ctm.NgayMuon.ToShortDateString()
-            </td>
-            @{
-                if (ctm.NgayTra != null)
+            string classes = "";
+
+            if (ctm.NgayTra == null)
+            {
+                var chuaTra = DateTime.Compare(DateTime.Now.Date, ctm.HanTra.Date);
+
+                switch (chuaTra)
                 {
-                    <td>@ctm.NgayTra.Value.ToShortDateString()</td>
-                }
-                else
-                {
-                    <td>Chưa trả sách</td>
+                    case -1:
+                        classes = "";
+                        break;
+                    case 0:
+                        classes = "table-warning";
+                        break;
+                    case 1:
+                        classes = "table-danger";
+                        break;
                 }
             }
-            <td>
+
+            <tr class="@classes">
+                <td class="align-middle">
+                    @ctm.MaSach
+                </td>
+                <td class="align-middle">
+                    @ctm.NgayMuon.ToString("dd/MM/yyyy")
+                </td>
+
+                <td class="align-middle">@ctm.HanTra.ToString("dd/MM/yyyy")</td>
+
                 @{
-                    if (ctm.NgayTra == null)
+                    if (ctm.NgayTra != null)
                     {
-                        <form method="post">
-                            <button asp-action="TraSach" asp-route-id="@ctm.Id" class="btn btn-link">Trả sách</button>
-                        </form>
+                        <td class="align-middle">@ctm.NgayTra.Value.ToString("dd/MM/yyyy")</td>
                     }
                     else
                     {
-                        <p>Đã trả sách</p>
+                        <td class="align-middle"><strong>Chưa trả sách</strong></td>
                     }
                 }
+                <td class="align-middle">
+                    @{
+                        if (ctm.NgayTra == null)
+                        {
+                            <form method="post">
+                                <button asp-action="TraSach" asp-route-id="@ctm.Id" class="btn btn-sm btn-primary">Trả sách</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <p><strong>Đã trả sách</strong></p>
+                        }
+                    }
 
-            </td>
-            <td>
-                <form method="post">
-                    <button asp-action="Delete" asp-route-id="@ctm.Id">Xóa</button>
-                </form>
-            </td>
-        </tr>
+                </td>
+                <td class="align-middle">
+                    @if (this.User.IsInRole("Admin"))
+                    {
+                        <a class="btn btn-sm btn-outline-danger" asp-action="Delete" asp-route-Id="@ctm.Id">Xóa</a>
+                    }
+                </td>
+            </tr>
         }
-        </tbody>
-    </table>
+    </tbody>
+</table>
 
-<a asp-action="Details" asp-controller="PhieuMuon" asp-route-id="@ViewBag.Id">Về thông tin phiếu mượn</a>
+<a asp-action="Index" asp-controller="PhieuMuon">Về danh sách phiếu mượn</a>

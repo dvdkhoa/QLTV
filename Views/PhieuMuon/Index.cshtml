@@ -1,60 +1,71 @@
 ﻿@model IEnumerable<QLTV.AppMVC.Models.Entities.PhieuMuon>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Phiếu mượn";
 }
 
-<h1>Index</h1>
+<h1>@ViewData["Title"]</h1>
+<hr />
+<div class="row">
+    <div class="col-md-3">
 
-<form asp-action="Tim" method="Get" class="form-group">
-    <label for="maSV">Tìm sách</label>
-    <input class="form-control" type="text" name="maSV" id="maSV" value="" />
-    <input type="submit" value="Tìm" class="btn btn-info mt-2 px-4" />
-</form>
+        <form asp-action="Tim" method="Get" class="form-group">
+            <label for="maSV">Tìm phiếu mượn theo mã sinh viên:</label>
+            <input class="form-control mt-2" type="text" name="maSV" id="maSV" value="" />
+            <input type="submit" value="Tìm" class="btn btn-primary mt-2 btn-block" />
+        </form>
+
+    </div>
+    <div class="col-md-9">
+        <p>
+            <a asp-action="Create">Tạo mới</a>
+        </p>
+        <table class="table table-sm table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Id)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.SinhVien.MaSV)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.MaSV)
+                    </th>
+                    <th>
+                        Chi tiết mượn
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="align-middle">
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td class="align-middle">
+                            @Html.DisplayFor(modelItem => item.SinhVien.MaSV)
+                        </td>
+                        <td class="align-middle">
+                            @Html.DisplayFor(modelItem => item.SinhVien.TenSV)
+                        </td>
+                        <td class="align-middle">
+                            <a asp-action="Index" asp-controller="ChiTietMuon" asp-route-id="@item.Id" class="btn btn-link">Chi tiết mượn</a>
+                        </td>
+                        <td class="align-middle">
+                            @if (this.User.IsInRole("Admin"))
+                            {
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Xóa</a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
 
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SinhVien.MaSV)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MaSV)
-            </th>
-            <th>
-                Chi tiết mượn
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SinhVien.MaSV)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SinhVien.TenSV)
-                </td>
-                <td>
-                    <a asp-action="Index" asp-controller="ChiTietMuon" asp-route-id="@item.Id">Chi tiết mượn</a>
-                </td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+

@@ -29,16 +29,7 @@ namespace QLTV.AppMVC.Models.EntityConfigurations
                     .HasForeignKey(sv => sv.Lop_Id)
                     .OnDelete(DeleteBehavior.NoAction);
 
-            builder.HasOne(sv => sv.Nganh)
-                    .WithMany()
-                    .HasForeignKey(sv => sv.Nganh_Id)
-                    .OnDelete(DeleteBehavior.NoAction);
-
-            builder.HasOne(sv => sv.Khoa)
-                    .WithMany()
-                    .HasForeignKey(sv => sv.Khoa_Id)
-                    .OnDelete(DeleteBehavior.NoAction);
-
+            builder.Property(sv => sv.NgaySinh).HasColumnType("date");
         }
     }
 }

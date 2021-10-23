@@ -1,22 +1,33 @@
-﻿<div class="dropdown">
-    <button class="btn btn-outline-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Quản lý
-    </button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a asp-action="Index" asp-controller="Khoa" class="dropdown-item ">Quản lý khoa</a>
-        <a asp-action="Index" asp-controller="Bomon" class="dropdown-item">Quản lý bộ môn</a>
-        <a asp-action="Index" asp-controller="Nganh" class="dropdown-item">Quản lý ngành</a>
-        <a asp-action="Index" asp-controller="Lop" class="dropdown-item">Quản lý lớp</a>
-        <a asp-action="Index" asp-controller="HocPhan" class="dropdown-item">Quản lý học phần</a>
-        <a asp-action="Index" asp-controller="SinhVien" class="dropdown-item">Quản lý sinh viên</a>
-        <a asp-action="Index" asp-controller="TacGia" class="dropdown-item">Quản lý tác giả</a>
-        <a asp-action="Index" asp-controller="NXB" class="dropdown-item">Quản lý NXB</a>
-        <a asp-action="Index" asp-controller="KeSach" class="dropdown-item">Quản lý kệ sách</a>
-        <a asp-action="Index" asp-controller="LoaiSach" class="dropdown-item">Quản lý loại sách</a>
-        <a asp-action="Index" asp-controller="ChuDe" class="dropdown-item">Quản lý chủ đề</a>
-        <a asp-action="Index" asp-controller="NgonNgu" class="dropdown-item">Quản lý ngôn ngữ</a>
-        <a asp-action="Index" asp-controller="DauSach" class="dropdown-item">Quản lý sách</a>
-        <a asp-action="Index" asp-controller="PhieuMuon" class="dropdown-item">Quản lý mượn trả sách</a>
+﻿@using QLTV.AppMVC.Models.Entities
+@using Microsoft.AspNetCore.Identity
 
-    </div>
-</div>
+@inject SignInManager<AppUser> _signInManager
+
+
+@if (_signInManager.IsSignedIn(this.User))
+{
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Quản lý
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a asp-action="Index" asp-controller="DauSach" class="dropdown-item">Sách</a>
+            <a asp-action="Index" asp-controller="ChuDe" class="dropdown-item">Chủ đề</a>
+            <a asp-action="Index" asp-controller="TacGia" class="dropdown-item">Tác giả</a>
+            <a asp-action="Index" asp-controller="NXB" class="dropdown-item">NXB</a>
+            <a asp-action="Index" asp-controller="LoaiSach" class="dropdown-item">Loại sách</a>
+            <a asp-action="Index" asp-controller="KeSach" class="dropdown-item">Kệ sách</a>
+            <a asp-action="Index" asp-controller="NgonNgu" class="dropdown-item">Ngôn ngữ</a>
+            @if (this.User.IsInRole("Admin"))
+            {
+                <a asp-action="Index" asp-controller="SinhVien" class="dropdown-item">Sinh viên</a>
+                <a asp-action="Index" asp-controller="HocPhan" class="dropdown-item">Học phần</a>
+                <a asp-action="Index" asp-controller="Khoa" class="dropdown-item ">Khoa</a>
+                <a asp-action="Index" asp-controller="Nganh" class="dropdown-item">Ngành</a>
+                <a asp-action="Index" asp-controller="Bomon" class="dropdown-item">Bộ môn</a>
+                <a asp-action="Index" asp-controller="Lop" class="dropdown-item">Lớp</a>
+            }
+        </div>
+    </li>
+
+}

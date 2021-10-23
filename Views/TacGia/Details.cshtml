@@ -1,17 +1,12 @@
 ﻿@model QLTV.AppMVC.Models.Entities.TacGia
 
+@{ 
+    ViewBag.title = "Thông tin chi tiết tác giả";
+}
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Details</title>
-</head>
-<body>
+<h4>@ViewBag.title</h4>
 
 <div>
-    <h4>TacGia</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -35,8 +30,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Sửa</a> |
+    <a asp-action="Index">Trở về danh sách</a>
 </div>
-</body>
-</html>

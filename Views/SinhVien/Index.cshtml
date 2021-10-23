@@ -1,15 +1,16 @@
 ﻿@model IEnumerable<QLTV.AppMVC.Models.Entities.SinhVien>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Danh sách sinh viên";
 }
 
-<h1>Index</h1>
+@await Html.PartialAsync("_StatusMessage", TempData["StatusMessage"])
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+<h1>@ViewData["Title"]</h1>
+
+
+
+@*<table class="table table-striped table-hover">
     <thead>
         <tr>
             <th>
@@ -21,36 +22,89 @@
             <th>
                 @Html.DisplayNameFor(model => model.Lop_Id)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Nganh_Id)
-            </th>
-           
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaSV)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TenSV)
-            </td>
-
-            <td>
-                @Html.DisplayFor(modelItem => item.Lop.MaLop)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nganh.TenNganh)
-            </td>
-
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.MaSV">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MaSV">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MaSV">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaSV)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TenSV)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lop.MaLop)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.MaSV" class="btn btn-outline-secondary btn-sm">Sửa</a>
+                    <a asp-action="Details" asp-route-id="@item.MaSV" class="btn btn-outline-info btn-sm">Chi tiết</a>
+                    <a asp-action="Delete" asp-route-id="@item.MaSV" class="btn btn-outline-danger btn-sm">Xóa</a>
+                </td>
+            </tr>
+        }
     </tbody>
+</table>*@
+
+<div class="float-lg-right">
+    <label>Tìm kiếm:</label>
+    <input type="text" onkeyup="filter(event)" class="mb-3" />
+</div>
+<p>
+    <a asp-action="Create">Tạo mới</a>
+</p>
+<table id="easy-table" class="table table-striped table-bordered table-sm">
+    <thead>
+        <tr></tr>
+    </thead>
+    <tbody></tbody>
 </table>
+<div id="paginator"></div>
+
+@section Scripts {
+    <script src="~/js/script.js"></script>
+    <script>
+ 
+        // required options
+        const options = {
+            tableId: 'easy-table',
+            currentPage: 1,
+            perPage: 10,
+            autoHeaders: true,
+            arrowUp: '⇑',
+            arrowDown: '⇓',
+            previousText: '&#10094',
+            nextText: '&#10095',
+        }
+
+        let data = [];
+
+        $(document).ready(function () {
+            console.log('ready')
+            $.ajax({
+                url: '/sinhvien/getall',
+                type: 'get',
+            }).done(function (json) {
+                for (var i = 0; i < json.length; i++) {
+                    let sv = {
+                        'Mã sinh viên': json[i].maSV,
+                        'Tên': `<a href="SinhVien/Details/${json[i].maSV}">${json[i].tenSV}</a>`,
+                        'Lớp': json[i].maLop,
+                        'Giới tính': json[i].gioiTinh,
+                        'Ngày sinh': json[i].ngaySinh,
+                        'Tác vụ': `<div class="text-center">
+                                         <a class="btn btn-sm btn-outline-secondary" href="SinhVien/Edit/${json[i].maSV}">Sửa</a>
+                                         <a class="btn btn-sm btn-outline-danger" href="SinhVien/Delete/${json[i].maSV}">Xóa</a>
+                                    </div>`
+                    }
+                    data.push(sv)
+                }
+
+                setTable(data, options);
+            })
+        })
+
+    </script>
+}

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace QLTV.AppMVC.Models
 {
-    public class AppDbContext : IdentityDbContext
+    public class AppDbContext : IdentityDbContext<AppUser>
     {
         public AppDbContext( DbContextOptions options) : base(options)
         {
@@ -39,6 +39,7 @@ namespace QLTV.AppMVC.Models
             modelBuilder.ApplyConfiguration(new LoaiSachConfiguration());
             modelBuilder.ApplyConfiguration(new ChudeConfiguration());
             modelBuilder.ApplyConfiguration(new NgonNguConfiguration());
+            modelBuilder.ApplyConfiguration(new DieuKhoanConfiguration());
 
             // Cấu hình các bảng Identity
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
@@ -56,6 +57,7 @@ namespace QLTV.AppMVC.Models
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
+            optionsBuilder.EnableSensitiveDataLogging();
         }
         public DbSet<BoMon> BoMon { get; set; }
         public DbSet<ChiTietMuon> ChiTietMuon  { get; set; }
@@ -73,7 +75,6 @@ namespace QLTV.AppMVC.Models
         public DbSet<TacGia> TacGia { get; set; }
         public DbSet<Lop> Lop { get; set; }
         public DbSet<NgonNgu> NgonNgu { get; set; }
-
-
+        public DbSet<DieuKhoan> DieuKhoan { get; set; }
     }
 }

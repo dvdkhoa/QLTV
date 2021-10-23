@@ -1,0 +1,28 @@
+﻿@model List<QLTV.AppMVC.Models.Entities.DieuKhoan>
+
+@{ 
+    ViewData["title"] = "Danh sách điều khoản";
+}
+<h2>@ViewData["title"]</h2>
+<a asp-action="Create">Thêm mới</a>
+<table class="table mt-1">
+    <thead class="thead-light">
+        <tr>
+            <th>Số sách</th>
+            <th>Số ngày mượn tối đa</th>
+            <th>Ngày áp dụng</th>
+            <th></th>
+        </tr>
+    </thead>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.SLSach</td>
+            <td>@item.ThoiHan</td>
+            <td>@item.NgayBD</td>
+            <td>
+                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger btn-sm">Xóa</a>
+            </td>
+        </tr>
+    }
+</table>

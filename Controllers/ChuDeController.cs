@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using QLTV.AppMVC.Models.Entities;
 
 namespace QLTV.AppMVC.Controllers
 {
+    [Authorize]
     public class ChuDeController : Controller
     {
         private readonly AppDbContext _context;
@@ -56,6 +58,13 @@ namespace QLTV.AppMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                var exists = await _context.ChuDe.AnyAsync(k => k.MaChuDe == chuDe.MaChuDe);
+                if (exists)
+                {
+                    ModelState.AddModelError(string.Empty, "Mã chủ đề bị trùng");
+                    return View();
+                }
+
                 _context.Add(chuDe);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -93,7 +102,29 @@ namespace QLTV.AppMVC.Controllers
             {
                 try
                 {
-                    _context.Update(chuDe);
+                    var chuDe_cu = await _context.ChuDe.FindAsync(id);
+                    bool exists = false;
+
+                    var ds_chude =  _context.ChuDe.Where(c => c.MaChuDe != chuDe_cu.MaChuDe).ToList();
+
+                    foreach (var c in ds_chude)
+                    {
+                        if(c.MaChuDe==chuDe.MaChuDe)
+                        {
+                            exists = true;
+                            break;
+                        }    
+                    }
+
+                    if(exists) // Nếu mã chủ đề tồn tại
+                    {
+                        ModelState.AddModelError(string.Empty, "Mã chủ đề bị trùng");
+                        return View();
+                    }
+
+                    chuDe_cu.MaChuDe = chuDe.MaChuDe;
+                    chuDe_cu.TenChuDe = chuDe.TenChuDe;
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

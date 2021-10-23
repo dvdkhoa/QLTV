@@ -1,15 +1,14 @@
 ﻿@model QLTV.AppMVC.Models.Entities.SinhVien
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Chỉnh sửa thông tin sinh viên";
 }
 
-<h1>Edit</h1>
+<h1>@ViewData["Title"]</h1>
 
-<h4>SinhVien</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-8">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="MaSV" />
@@ -24,8 +23,11 @@
                 <span asp-validation-for="NgaySinh" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="GioiTinh" class="control-label"></label>
-                <input asp-for="GioiTinh" class="form-control" />
+                <label asp-for="GioiTinh" class="control-label"></label>S
+                <div>
+                    <input type="radio" name="GioiTinh" value="Nam" @(Model.GioiTinh=="Nam"?"checked":"") > Nam<br>
+                    <input type="radio" name="GioiTinh" value="Nữ" @(Model.GioiTinh=="Nữ"?"checked":"")> Nữ<br>
+                </div>
                 <span asp-validation-for="GioiTinh" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -34,29 +36,24 @@
                 <span asp-validation-for="Phone" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Lop_Id" class="control-label"></label>
                 <select asp-for="Lop_Id" class="form-control" asp-items="ViewBag.Lop_Id"></select>
                 <span asp-validation-for="Lop_Id" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Nganh_Id" class="control-label"></label>
-                <select asp-for="Nganh_Id" class="form-control" asp-items="ViewBag.Nganh_Id"></select>
-                <span asp-validation-for="Nganh_Id" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Khoa_Id" class="control-label"></label>
-                <select asp-for="Khoa_Id" class="form-control" asp-items="ViewBag.Khoa_Id"></select>
-                <span asp-validation-for="Khoa_Id" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Lưu" class="btn btn-success float-right px-4" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Trở về danh sách</a>
 </div>
 
 @section Scripts {

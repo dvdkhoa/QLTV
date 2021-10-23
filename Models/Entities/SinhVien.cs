@@ -20,6 +20,10 @@ namespace QLTV.AppMVC.Models.Entities
         [Required(ErrorMessage = "Phải nhập {0}")]
         public string TenSV { get; set; }
 
+        [Display(Name ="Email"),DataType(DataType.EmailAddress)]
+        [Required(ErrorMessage ="Phải nhập {0}")]
+        public string Email { get; set; }
+
         [DisplayName("Ngày sinh")]
         [Required(ErrorMessage = "Phải nhập {0}")]
         [DataType(DataType.Date)]
@@ -34,15 +38,6 @@ namespace QLTV.AppMVC.Models.Entities
         [DisplayName("Lớp")]
         public int Lop_Id { get; set; }
         public Lop Lop { get; set; }
-
-        [DisplayName("Ngành")]
-        public int Nganh_Id { get; set; }
-        public Nganh Nganh { get; set; }
-
-        [DisplayName("Khoa")]
-        public int Khoa_Id { get; set; }
-        public Khoa Khoa { get; set; }
-
 
         public PhieuMuon PhieuMuon { get; set; }
     }

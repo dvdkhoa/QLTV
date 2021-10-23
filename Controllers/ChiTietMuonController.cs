@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using QLTV.AppMVC.Models;
 using QLTV.AppMVC.Models.Entities;
 using System;
@@ -8,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace QLTV.AppMVC.Controllers
 {
+    [Authorize]
     public class ChiTietMuonController : Controller
     {
         private readonly AppDbContext _context;
@@ -15,57 +18,24 @@ namespace QLTV.AppMVC.Controllers
         {
             _context = context;
         }
-        public IActionResult Index(int? id)
+        public async Task<IActionResult> Index(int? id)
         {
             if (id == null)
                 return NotFound();
 
-            var Ds_Ctm = _context.ChiTietMuon.Where(ctm => ctm.PM_Id == id).ToList();
+            var Ds_Ctm =await _context.ChiTietMuon.OrderByDescending(ctm=>ctm.Id).Where(ctm => ctm.PM_Id == id).ToListAsync();
+
+            var pm = await _context.PhieuMuon.FindAsync(id);
+
+            var sinhvien = await _context.SinhVien.FirstOrDefaultAsync(sv => sv.MaSV == pm.MaSV);
 
             ViewData["Id"] = id;
+            ViewData["masv"] = sinhvien.MaSV;
+            ViewData["tensv"] = sinhvien.TenSV;
 
             return View(Ds_Ctm);
         }
-        public IActionResult Create(int id)
-        {
-            ViewBag.Id = id;
-
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create(int Id,[Bind("MaSach,NgayMuon")]ChiTietMuon ctm)
-        {
-            var sach = _context.Sach.Find(ctm.MaSach);
-
-            if(sach==null)
-            {
-                ModelState.AddModelError(string.Empty, "Sách không tồn tại");
-
-                ViewBag.Id = Id;
-                return View();
-            }
-            if(sach.DangMuon==true)
-            {
-                ModelState.AddModelError(string.Empty, "Sách này đang được mượn!!");
-                ViewBag.Id = Id;
-                return View();
-            }
-
-            var pm =  _context.PhieuMuon.Find(Id);
-            
-            ctm.PM_Id = pm.Id;
-            ctm.NgayTra = null;
-
-            _context.ChiTietMuon.Add(ctm);
-
-            sach.DangMuon = true; // Cập nhật trạng thái của sách (đang mượn??)
-
-            _context.SaveChanges();
-            
-            return RedirectToAction("Index",new { Id = Id });
-        }
+      
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -89,16 +59,26 @@ namespace QLTV.AppMVC.Controllers
             return RedirectToAction("Index", new { Id=ctm.PM_Id});
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+
+        [HttpGet]
         public async Task<IActionResult> Delete(int? Id)
         {
             if (Id == null)
                 return NotFound();
-            var ctm=await _context.ChiTietMuon.FindAsync(Id);
+            var ctm = await _context.ChiTietMuon.FindAsync(Id);
 
-            if(ctm==null)
+            if (ctm == null)
                 return NotFound();
+
+            return View(ctm);
+        }    
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int? Id)
+        {
+            var ctm = await _context.ChiTietMuon.FindAsync(Id);
+
             var sach = await _context.Sach.FindAsync(ctm.MaSach);
             sach.DangMuon = false;
 
