@@ -99,7 +99,7 @@ namespace QLTV.AppMVC.Controllers
 
                     if (slSach_chuatra >= slSachToiDa)
                     {
-                        ModelState.AddModelError(string.Empty, $"Số lượng mượn sách của sinh viên này đã tối đa({slSachToiDa} quyển)");
+                        ModelState.AddModelError(string.Empty, $"Hiện tại thư viện chỉ cho mượn tối đa {slSachToiDa} quyển và sinh viên {masv} đã đạt ngưỡng tối đa.");
                         return View();
                     }    
                     c.PhieuMuon = PM_exists;
@@ -116,49 +116,49 @@ namespace QLTV.AppMVC.Controllers
 
 
         // GET: PhieuMuon/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var phieuMuon = await _context.PhieuMuon
-                .Include(p => p.SinhVien)
-                .FirstOrDefaultAsync(m => m.Id == id);
+        //    var phieuMuon = await _context.PhieuMuon
+        //        .Include(p => p.SinhVien)
+        //        .FirstOrDefaultAsync(m => m.Id == id);
 
-            if (phieuMuon == null)
-            {
-                return NotFound();
-            }
+        //    if (phieuMuon == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(phieuMuon);
-        }
+        //    return View(phieuMuon);
+        //}
 
-        // POST: PhieuMuon/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var phieuMuon = await _context.PhieuMuon.FindAsync(id);
+        //// POST: PhieuMuon/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    var phieuMuon = await _context.PhieuMuon.FindAsync(id);
 
-            var ds_ctm = _context.ChiTietMuon.Where(ctm => ctm.PM_Id == id)
-                                                .Include(ctm =>ctm.Sach);
+        //    var ds_ctm = _context.ChiTietMuon.Where(ctm => ctm.PM_Id == id)
+        //                                        .Include(ctm =>ctm.Sach);
 
-            // Xóa tất cả chi tiết mượn có PM_Id=Id
-            foreach (var ctm in ds_ctm)
-            {
-                ctm.Sach.DangMuon = false;
+        //    // Xóa tất cả chi tiết mượn có PM_Id=Id
+        //    foreach (var ctm in ds_ctm)
+        //    {
+        //        ctm.Sach.DangMuon = false;
 
-                _context.ChiTietMuon.Remove(ctm);
-            }
+        //        _context.ChiTietMuon.Remove(ctm);
+        //    }
 
-            _context.PhieuMuon.Remove(phieuMuon);
+        //    _context.PhieuMuon.Remove(phieuMuon);
 
-            await _context.SaveChangesAsync();
+        //    await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
-        }
+        //    return RedirectToAction(nameof(Index));
+        //}
 
         [HttpGet]
         public IActionResult Tim(string maSV)

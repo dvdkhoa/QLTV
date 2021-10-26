@@ -57,9 +57,16 @@
         </table>
     </div>
     <div class="col-lg-8">
-        <p class="">
-            <a asp-action="Index">Về danh sách đầu sách</a>
-        </p>
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <a asp-action="Index">Về danh sách đầu sách</a>
+            </div>
+            <div class="col-md-8 text-right">
+                <a class="btn btn-sm btn-secondary" asp-action="Edit" asp-route-Id="@Model.Id">Cập nhật thông tin</a>
+                <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-Id="@Model.Id">Xóa</a>
+
+            </div>
+        </div>
         <table class="table table-bordered table-striped">
             <tr>
                 <td>@Html.DisplayNameFor(m => m.MaDauSach)</td>

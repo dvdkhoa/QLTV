@@ -35,7 +35,6 @@
                     <th>
                         Chi tiết mượn
                     </th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -53,12 +52,6 @@
                         </td>
                         <td class="align-middle">
                             <a asp-action="Index" asp-controller="ChiTietMuon" asp-route-id="@item.Id" class="btn btn-link">Chi tiết mượn</a>
-                        </td>
-                        <td class="align-middle">
-                            @if (this.User.IsInRole("Admin"))
-                            {
-                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Xóa</a>
-                            }
                         </td>
                     </tr>
                 }

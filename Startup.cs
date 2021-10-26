@@ -42,10 +42,11 @@ namespace QLTV.AppMVC
             services.AddHangfireServer();
 
             services.AddOptions();
+  
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
-            services.AddTransient<IEmailSender, SendMailService>();
-            services.AddTransient<SendMailService>();
+            services.AddSingleton<IEmailSender, SendMailService>();
 
+            services.AddTransient<CheckOutService>();
 
             services.AddIdentity<AppUser, IdentityRole>()
                     .AddEntityFrameworkStores<AppDbContext>()
@@ -64,10 +65,10 @@ namespace QLTV.AppMVC
                 options.Password.RequiredUniqueChars = 1; // Số ký tự riêng biệt
 
                 // Cấu hình Lockout - khóa user
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5); // Khóa 5 phút
-                options.Lockout.MaxFailedAccessAttempts = 5; // Thất bại 5 lầ thì khóa
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(3); // Khóa 5 phút
+                options.Lockout.MaxFailedAccessAttempts = 5; // Thất bại 5 lần thì khóa
                 options.Lockout.AllowedForNewUsers = true;
-
+                
                 // Cấu hình về User.
                 options.User.AllowedUserNameCharacters = // các ký tự đặt tên user
                     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
@@ -76,7 +77,8 @@ namespace QLTV.AppMVC
                 // Cấu hình đăng nhập.
                 options.SignIn.RequireConfirmedEmail = true;            // Cấu hình xác thực địa chỉ email (email phải tồn tại)
                 options.SignIn.RequireConfirmedPhoneNumber = false;     // Xác thực số điện thoại
-                options.SignIn.RequireConfirmedAccount = true; // Yêu cầu xác thực tài khoản mới được đăng nhập
+                options.SignIn.RequireConfirmedAccount = true;          // Yêu cầu xác thực tài khoản mới được đăng nhập
+             
             });
 
             services.ConfigureApplicationCookie(options =>
@@ -89,11 +91,9 @@ namespace QLTV.AppMVC
             services.Configure<SecurityStampValidatorOptions>(options =>
             {
                 // Trên 30 giây truy cập lại sẽ nạp lại thông tin User (Role)
-                // SecurityStamp trong bảng User đổi -> nạp lại thông tinn Security
+                // SecurityStamp trong bảng User đổi -> nạp lại thông tin Security
                 options.ValidationInterval = TimeSpan.FromSeconds(30);
             });
-
-
 
             services.AddControllersWithViews();
             services.AddRazorPages();
@@ -135,12 +135,17 @@ namespace QLTV.AppMVC
             });
 
             app.UseHangfireDashboard();
-  
+
+            //recurringJobManager.AddOrUpdate("Run every day", // Thực hiện check 
+            //    () => Console.WriteLine("Hello World !!!"),
+            //    Cron.MinuteInterval(1));
 
             //backgroundJobClient.Enqueue(() => Console.WriteLine("Hello World !"));
-            recurringJobManager.AddOrUpdate("Run every minutes",
-                () => serviceProvider.GetService<SendMailService>().SendMailSinhVien()
+
+            recurringJobManager.AddOrUpdate("SendMailSinhVien",
+                () => serviceProvider.GetService<CheckOutService>().SendMailSinhVien()
                 , Cron.MinuteInterval(30));
+
         }
     }
 }

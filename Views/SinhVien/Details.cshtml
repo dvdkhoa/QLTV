@@ -4,9 +4,8 @@
     ViewData["Title"] = "Thông tin chi tiết sinh viên";
 }
 
-<h1>@ViewData["Title"]</h1>
-
-<div>
+<div class="offset-md-2">
+    <h1>@ViewData["Title"]</h1>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -52,8 +51,8 @@
             @Html.DisplayFor(model => model.Lop.MaLop)
         </dd>
     </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.MaSV" class="btn btn-outline-secondary">Sửa</a> |
-    <a asp-action="Index">Trở về danh sách</a>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.MaSV" class="btn btn-outline-secondary">Sửa</a> |
+        <a asp-action="Index">Trở về danh sách</a>
+    </div>
 </div>

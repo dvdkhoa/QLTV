@@ -178,7 +178,8 @@ namespace QLTV.AppMVC.Controllers
         }
 
 
-        [HttpGet("/api/Chude/GetAll")]
+        [HttpGet]
+        [Route("/Api/Chude/[Action]")]
         public IEnumerable<ChuDe> GetAll() => _context.ChuDe.ToList();
     }
 }

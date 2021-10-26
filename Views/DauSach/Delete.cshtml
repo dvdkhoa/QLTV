@@ -5,29 +5,20 @@
 }
 
 
-<h3>Bạn có chắc chắn muốn xóa?</h3>
+<div class="row">
+    <div class="offset-3">
+        <h3>Bạn có chắc chắn muốn xóa?</h3>
 
-<div>
-    <h6>Đầu sách: @Model.TenDauSach</h6>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MaDauSach)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MaDauSach)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TenDauSach)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TenDauSach)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Xóa" class="btn btn-danger" /> |
-        <a asp-action="Index">Trở về danh sách</a>
-    </form>
+        <div>
+            <h6>Đầu sách: <strong>@Model.TenDauSach</strong></h6>
+            <hr />
+
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="Id" />
+                <input type="submit" value="Xóa" class="btn btn-danger" /> |
+                <a asp-action="Index">Trở về danh sách</a>
+            </form>
+        </div>
+
+    </div>
 </div>
