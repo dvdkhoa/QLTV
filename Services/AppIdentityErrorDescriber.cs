@@ -81,17 +81,20 @@ namespace QLTV.AppMVC.Services
 
         public override IdentityError PasswordRequiresDigit()
         {
-            return base.PasswordRequiresDigit();
-        }
+            var err = base.PasswordRequiresDigit();
+            return new IdentityError { Code = err.Code, Description = "Mật khẩu phải chứa ít nhất 1 số" };        }
 
         public override IdentityError PasswordRequiresLower()
         {
-            return base.PasswordRequiresLower();
+            var err = base.PasswordRequiresLower();
+            return new IdentityError { Code = err.Code, Description = "Mật khẩu phải chứa ít nhất 1 ký tự thường (a-z)" };
         }
 
         public override IdentityError PasswordRequiresNonAlphanumeric()
         {
-            return base.PasswordRequiresNonAlphanumeric();
+            var err = base.PasswordRequiresNonAlphanumeric();
+
+            return new IdentityError { Code = err.Code, Description = "Mật khẩu phải chứa ít nhất 1 ký tự đặc biệt" };
         }
 
         public override IdentityError PasswordRequiresUniqueChars(int uniqueChars)
@@ -101,7 +104,8 @@ namespace QLTV.AppMVC.Services
 
         public override IdentityError PasswordRequiresUpper()
         {
-            return base.PasswordRequiresUpper();
+            var err = base.PasswordRequiresUpper();
+            return new IdentityError { Code = err.Code, Description = "Mật khẩu phải chứa ít nhất 1 ký tự in Hoa(A-Z)" };
         }
 
         public override IdentityError PasswordTooShort(int length)

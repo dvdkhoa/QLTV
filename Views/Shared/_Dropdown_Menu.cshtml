@@ -2,11 +2,14 @@
 @using Microsoft.AspNetCore.Identity
 
 @inject SignInManager<AppUser> _signInManager
+@inject UserManager<AppUser> _userManager
 
 
 @if (_signInManager.IsSignedIn(this.User))
 {
-    <li class="nav-item dropdown">
+    if(this.User.IsInRole("Admin") || this.User.IsInRole("Admin"))
+    {     
+        <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Quản lý
         </a>
@@ -28,6 +31,7 @@
                 <a asp-action="Index" asp-controller="Lop" class="dropdown-item">Lớp</a>
             }
         </div>
-    </li>
+    </li>   
+    }
 
 }

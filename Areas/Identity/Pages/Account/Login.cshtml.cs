@@ -43,9 +43,8 @@ namespace QLTV.AppMVC.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required(ErrorMessage = "Phải nhập Email")]
-            [EmailAddress]
-            public string Email { get; set; }
+            [Required(ErrorMessage = "Phải nhập tên tài khoản")]
+            public string UserName { get; set; }
 
             [Display(Name = "Mật khẩu")]
             [Required(ErrorMessage = "Phải nhập {0}")]
@@ -84,7 +83,7 @@ namespace QLTV.AppMVC.Areas.Identity.Pages.Account
                 
                    // This doesn't count login failures towards account lockout
                    // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                   var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
+                   var result = await _signInManager.PasswordSignInAsync(Input.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");

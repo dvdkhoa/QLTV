@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "S6aVIY1M1Ie/3qTR0GBHdkevaI3MMj/NMjoG8NaG2+8o/88Avd8FkwUKfE1iNogMHAurjzTquqGZ4j6SkRZWRA==",
+  "dgSpecHash": "YmaOtwzMIt5yNW/+V9d9R42YfUlsF83t85mgKLvWuctpqnvoJFv0OtirQ7l9Cv0tYz2riRdSs7bpC5QkXH0O2w==",
   "success": true,
   "projectFilePath": "C:\\Users\\dvdkh\\Desktop\\QLTV\\QLTV.AppMVC\\QLTV.AppMVC.csproj",
   "expectedPackageFiles": [
@@ -182,7 +182,8 @@
     "C:\\Users\\dvdkh\\.nuget\\packages\\system.xml.xmldocument\\4.3.0\\system.xml.xmldocument.4.3.0.nupkg.sha512",
     "C:\\Users\\dvdkh\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512",
     "C:\\Users\\dvdkh\\.nuget\\packages\\system.xml.xpath\\4.3.0\\system.xml.xpath.4.3.0.nupkg.sha512",
-    "C:\\Users\\dvdkh\\.nuget\\packages\\system.xml.xpath.xmldocument\\4.3.0\\system.xml.xpath.xmldocument.4.3.0.nupkg.sha512"
+    "C:\\Users\\dvdkh\\.nuget\\packages\\system.xml.xpath.xmldocument\\4.3.0\\system.xml.xpath.xmldocument.4.3.0.nupkg.sha512",
+    "C:\\Users\\dvdkh\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\5.0.12\\microsoft.netcore.app.host.win-x64.5.0.12.nupkg.sha512"
   ],
   "logs": []
 }

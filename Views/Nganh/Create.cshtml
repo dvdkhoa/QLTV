@@ -1,12 +1,13 @@
 ﻿@model QLTV.AppMVC.Models.Entities.Nganh
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Thêm mới ngành";
+    ViewData["page"] = "Ngành";
 }
 
-<h1>Create</h1>
 
-<h4>Ngành</h4>
+<h3>@ViewData["Title"]</h3>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -27,14 +28,14 @@
                 <select asp-for="BoMon_Id" class ="form-control" asp-items="ViewBag.BoMon_Id" ></select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Thêm" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Trở về danh sách</a>
 </div>
 
 @section Scripts {

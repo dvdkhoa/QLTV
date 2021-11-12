@@ -50,7 +50,7 @@ namespace QLTV.AppMVC.Areas.Admin.Pages.User
             if (string.IsNullOrEmpty(id))
                 return NotFound();
 
-            user = await _userManager.GetUserAsync(User);
+            user = await _userManager.FindByIdAsync(id);
             if (user == null)
             {
                 return NotFound($"Không tìm thấy User có ID: '{_userManager.GetUserId(User)}'.");

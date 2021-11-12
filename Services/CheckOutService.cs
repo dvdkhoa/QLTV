@@ -21,35 +21,40 @@ namespace QLTV.AppMVC.Services
         }
         public async Task SendMailSinhVien()
         {
-            var qr = (from pm in _context.PhieuMuon // Lấy tất cả các chi tiết mượn quá hạn trả sách
-                      join sv in _context.SinhVien on pm.MaSV equals sv.MaSV
-                      join ctm in _context.ChiTietMuon on pm.Id equals ctm.PM_Id
-                      select new { pm, sv, ctm }).AsQueryable();
+            var dsPM = await (from pm in _context.PhieuMuon
+                              select pm).ToListAsync();
 
-            var list = await qr.ToListAsync();
-
-            list.ForEach(async a =>
+            foreach (var pm in dsPM)
             {
-                if (a.ctm.NgayTra == null)
-                {
-                    var kq = DateTime.Compare(DateTime.Now.Date, a.ctm.HanTra.Date);
-                    if (kq > 0) // Sinh viên chưa trả sách
-                    {
-                        await _sendMailService.SendEmailAsync(a.sv.Email
-                             , "!!!Quá hạn trả sách",
-                             @$"<h2>Bạn đã quá hạn trả sách</h2>
-                                    <hr>
-                                    <p>Sách: <strong>{a.ctm.MaSach}</strong></p>
-                                    <p>Ngày mượn: <strong>{a.ctm.NgayMuon}</strong></p>
-                                    <p>Hạn trả: <strong>{a.ctm.HanTra}</strong></p>
-                                    <p>Bạn đã quá hạn trả: <strong>{(DateTime.Now.Date - a.ctm.HanTra.Date).Days} ngày</strong></p>
-                                    <h4>Vui lòng đến thư viện liên hệ thủ thư để trả sách !!!</h4>");
+                pm.DS_CTM = (from ctm in _context.ChiTietMuon
+                             where ctm.PM_Id == pm.Id
+                             select ctm).ToList();
 
-                        Console.WriteLine($"Successfully {a.sv.Email}"); // Gửi xong cho mail sinh viên nào ??
-                    }
+                var ctmTreHan = from ctm in pm.DS_CTM
+                                where ctm.NgayTra == null &&
+                                DateTime.Compare(ctm.HanTra.Date, DateTime.Now.Date) < 0
+                                select ctm;
+
+                string message = "<h2>Bạn đã quá hạn trả sách</h2>";
+
+                foreach (var ctm in ctmTreHan)
+                {
+                    message += @$"<hr>
+                                    <p>Sách: <strong>{ctm.MaSach}</strong></p>
+                                    <p>Ngày mượn: <strong>{ctm.NgayMuon}</strong></p>
+                                    <p>Hạn trả: <strong>{ctm.HanTra}</strong></p>
+                                    <p>Bạn đã quá hạn trả: <strong>{(DateTime.Now.Date - ctm.HanTra.Date).Days} ngày</strong></p>
+                                    ";
                 }
-            });
-            Console.WriteLine("Send mail Successfully!"); // Hoàn tất việc gửi mail và kết thúc Job này.
+                message += "<h4>Vui lòng đến thư viện liên hệ thủ thư để trả sách !!!</h4>";
+
+                string Email_SV = (await _context.SinhVien  // Lấy Email từ sinh viên
+                                                          .Where(sv => sv.MaSV == pm.MaSV)
+                                                          .FirstOrDefaultAsync()).Email;
+
+                await _sendMailService.SendEmailAsync(Email_SV, "Trễ hạn trả sách", message);
+                Console.WriteLine("Call SendMailService successfully !");
+            };
         }
     }
 }

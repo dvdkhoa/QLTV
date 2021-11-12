@@ -1,9 +1,12 @@
 ﻿@model QLTV.AppMVC.Models.Entities.DauSach
 
+
 @inject AppDbContext _context;
+
 
 @{
     ViewData["Title"] = "Thông tin chi tiết đầu sách";
+    ViewData["page"] = "Sách";
 
     var dsSach = _context.Sach.Where(s => s.DauSach_Id == Model.Id).ToList();
 
@@ -29,29 +32,29 @@
             <tbody>
                 @foreach (var s in dsSach)
                 {
-                <tr>
-                    <td>
-                        @s.MaSach
-                    </td>
-                    @{
-                        if (s.DangMuon)
-                        {
-                            var ctm = _context.ChiTietMuon.FirstOrDefault(ctm => ctm.MaSach == s.MaSach);
+                    <tr>
+                        <td>
+                            @s.MaSach
+                        </td>
+                        @{
+                            if (s.DangMuon)
+                            {
+                                var ctm = _context.ChiTietMuon.FirstOrDefault(ctm => ctm.MaSach == s.MaSach);
 
-                            var sv = _context.PhieuMuon.FirstOrDefault(pm => pm.Id == ctm.PM_Id).MaSV;
+                                var sv = _context.PhieuMuon.FirstOrDefault(pm => pm.Id == ctm.PM_Id).MaSV;
 
-                            <td>Đang mượn</td>
-                            <td>@sv</td>
-                            <td>@ctm.HanTra.ToString("dd/MM/yyyy")</td>
+                                <td>Đang mượn</td>
+                                <td>@sv</td>
+                                <td>@ctm.HanTra.ToString("dd/MM/yyyy")</td>
+                            }
+                            else
+                            {
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            }
                         }
-                        else
-                        {
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        }
-                    }
-                </tr>
+                    </tr>
                 }
             </tbody>
         </table>
@@ -61,11 +64,13 @@
             <div class="col-md-4">
                 <a asp-action="Index">Về danh sách đầu sách</a>
             </div>
-            <div class="col-md-8 text-right">
-                <a class="btn btn-sm btn-secondary" asp-action="Edit" asp-route-Id="@Model.Id">Cập nhật thông tin</a>
-                <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-Id="@Model.Id">Xóa</a>
-
-            </div>
+            @if(this.User.IsInRole("Admin") || this.User.IsInRole("Librarian"))
+            {
+                <div class="col-md-8 text-right">
+                    <a class="btn btn-sm btn-secondary" asp-action="Edit" asp-route-Id="@Model.Id">Cập nhật thông tin</a>
+                    <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-Id="@Model.Id">Xóa</a>
+                </div>
+            }
         </div>
         <table class="table table-bordered table-striped">
             <tr>

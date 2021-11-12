@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace QLTV.AppMVC.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,Librarian")]
     public class DieuKhoanController : Controller
     {
         private readonly AppDbContext _context;

@@ -2,6 +2,7 @@
 
 @{ 
     ViewData["title"] = "Danh sách điều khoản";
+    ViewData["page"] = "Điều khoản";
 }
 <h2>@ViewData["title"]</h2>
 <a asp-action="Create">Thêm mới</a>
@@ -21,7 +22,7 @@
             <td>@item.ThoiHan</td>
             <td>@item.NgayBD</td>
             <td>
-                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger btn-sm">Xóa</a>
+                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Xóa</a>
             </td>
         </tr>
     }

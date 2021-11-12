@@ -11,7 +11,7 @@ using QLTV.AppMVC.Models.Entities;
 
 namespace QLTV.AppMVC.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin,Librarian")]
     public class NXBController : Controller
     {
         private readonly AppDbContext _context;
@@ -142,6 +142,9 @@ namespace QLTV.AppMVC.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpGet("/api/NXB/GetAll")]
+        public IEnumerable<NXB> GetAll() => _context.NXB.ToList();
 
         private bool NXBExists(int id)
         {

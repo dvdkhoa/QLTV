@@ -11,7 +11,7 @@ using QLTV.AppMVC.Models.Entities;
 
 namespace QLTV.AppMVC.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin,Librarian")]
     public class NganhController : Controller
     {
         private readonly AppDbContext _context;
@@ -24,10 +24,14 @@ namespace QLTV.AppMVC.Controllers
         // GET: Nganh
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.Nganh.Include(n => n.BoMon);
-            return View(await appDbContext.ToListAsync());
+            return View();
         }
 
+        [HttpGet("api/nganh/getall")]
+        public List<Nganh> getAll()
+        {
+            return _context.Nganh.ToList();
+        }
         // GET: Nganh/Details/5
         public async Task<IActionResult> Details(int? id)
         {

@@ -2,14 +2,15 @@
 
 @{
     ViewData["Title"] = "Danh sách chủ đề";
+    ViewData["page"] = "Chủ đề";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h3>@ViewData["Title"]</h3>
 <a asp-action="Create">Tạo mới</a>
 <hr />
 
 <div class="row">
-    <div class="container-fluid col-md-8 offset-md-2">
+    <div class="container-fluid col-md-10 offset-md-1">
         <table id="myTable" class="table table-sm">
             <thead class="">
                 <tr>
@@ -43,7 +44,7 @@
                 const modifierData = res.map(r => {
                     return {
                         ...r, tenChuDe: `<a href="ChuDe/Edit/${r.id}">${r.tenChuDe}</a>`,
-                        tacvu: `<a href="ChuDe/Delete/${r.id}" class="btn btn-sm btn-outline-danger">Xóa</a>`
+                        tacvu: `<a href="ChuDe/Delete/${r.id}" class="btn btn-sm btn-danger">Xóa</a>`
                     }
                 })
                 console.log(res)

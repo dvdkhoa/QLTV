@@ -11,7 +11,7 @@ using QLTV.AppMVC.Models.Entities;
 
 namespace QLTV.AppMVC.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin,Librarian")]
     public class NgonNguController : Controller
     {
         private readonly AppDbContext _context;
@@ -143,6 +143,11 @@ namespace QLTV.AppMVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpGet("/api/ngonngu/getall")]
+        public IEnumerable<NgonNgu> getAll()
+        {
+            return _context.NgonNgu.ToList();
+        }
         private bool NgonNguExists(int id)
         {
             return _context.NgonNgu.Any(e => e.Id == id);

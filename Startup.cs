@@ -57,11 +57,11 @@ namespace QLTV.AppMVC
             // Truy cập IdentityOptions
             services.Configure<IdentityOptions>(options => {
                 // Thiết lập về Password
-                options.Password.RequireDigit = false; // Không bắt phải có số
-                options.Password.RequireLowercase = false; // Không bắt phải có chữ thường
-                options.Password.RequireNonAlphanumeric = false; // Không bắt ký tự đặc biệt
-                options.Password.RequireUppercase = false; // Không bắt buộc chữ in
-                options.Password.RequiredLength = 3; // Số ký tự tối thiểu của password
+                options.Password.RequireDigit = true; // Khôg bắt phải có số
+                options.Password.RequireLowercase = true; // Không bắt phải có chữ thường
+                options.Password.RequireNonAlphanumeric = true; // Không bắt ký tự đặc biệt
+                options.Password.RequireUppercase = true; // Không bắt buộc chữ in
+                options.Password.RequiredLength = 6; // Số ký tự tối thiểu của password
                 options.Password.RequiredUniqueChars = 1; // Số ký tự riêng biệt
 
                 // Cấu hình Lockout - khóa user
@@ -144,7 +144,7 @@ namespace QLTV.AppMVC
 
             recurringJobManager.AddOrUpdate("SendMailSinhVien",
                 () => serviceProvider.GetService<CheckOutService>().SendMailSinhVien()
-                , Cron.MinuteInterval(30));
+                , Cron.HourInterval(2));
 
         }
     }

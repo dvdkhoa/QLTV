@@ -11,7 +11,7 @@ using QLTV.AppMVC.Models.Entities;
 
 namespace QLTV.AppMVC.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin,Librarian")]
     public class LopController : Controller
     {
         private readonly AppDbContext _context;
@@ -24,8 +24,13 @@ namespace QLTV.AppMVC.Controllers
         // GET: Lop
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.Lop.Include(l => l.Nganh);
-            return View(await appDbContext.ToListAsync());
+            return View();
+        }
+
+        [HttpGet("/api/lop/getall")]
+        public List<Lop> getAll()
+        {
+            return _context.Lop.ToList();
         }
 
         // GET: Lop/Details/5

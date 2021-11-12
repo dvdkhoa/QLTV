@@ -2,9 +2,10 @@
 
 @{
     ViewData["Title"] = "Phiếu mượn";
+    ViewData["page"] = "Mượn trả sách";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h3>@ViewData["Title"]</h3>
 <hr />
 <div class="row">
     <div class="col-md-3">
@@ -51,7 +52,7 @@
                             @Html.DisplayFor(modelItem => item.SinhVien.TenSV)
                         </td>
                         <td class="align-middle">
-                            <a asp-action="Index" asp-controller="ChiTietMuon" asp-route-id="@item.Id" class="btn btn-link">Chi tiết mượn</a>
+                            <a asp-action="Index" asp-controller="ChiTietMuon" asp-route-id="@item.Id">Chi tiết mượn</a>
                         </td>
                     </tr>
                 }

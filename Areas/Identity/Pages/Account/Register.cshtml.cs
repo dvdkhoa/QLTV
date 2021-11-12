@@ -46,19 +46,19 @@ namespace QLTV.AppMVC.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            //[Display(Name = "Tên đăng nhập")]
-            //[Required(ErrorMessage = "Phải nhập {0}")]
-            //public string UserName { get; set; }
+            [Display(Name = "Tên đăng nhập")]
+            [Required(ErrorMessage = "Phải nhập {0}")]
+            public string UserName { get; set; }
 
-            [Required]
-            [EmailAddress]
             [Display(Name = "Email")]
+            [Required(ErrorMessage = "Phải nhập địa chỉ Email")]
+            [EmailAddress(ErrorMessage ="Phải nhập đúng định dạng Email")]
             public string Email { get; set; }
 
-            [Required]
+            [Display(Name = "Mật khẩu")]
+            [Required(ErrorMessage ="Phải nhập mật khẩu")]
             [StringLength(100, ErrorMessage = "{0} phải dài từ {2} đến {1} ký tự", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "Mật khẩu")]
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
@@ -79,7 +79,7 @@ namespace QLTV.AppMVC.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new AppUser { UserName = Input.Email, Email = Input.Email };
+                var user = new AppUser { UserName = Input.UserName, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

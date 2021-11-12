@@ -11,7 +11,7 @@ using QLTV.AppMVC.Models.Entities;
 
 namespace QLTV.AppMVC.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin,Librarian")]
     public class BoMonController : Controller
     {
         private readonly AppDbContext _context;
@@ -24,10 +24,14 @@ namespace QLTV.AppMVC.Controllers
         // GET: BoMon
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.BoMon.Include(b => b.Khoa);
-            return View(await appDbContext.ToListAsync());
+            return View();
         }
 
+        [HttpGet("/api/bomon/getall")]
+        public List<BoMon> getAll()
+        {
+            return _context.BoMon.ToList();
+        }
         // GET: BoMon/Details/5
         public async Task<IActionResult> Details(int? id)
         {

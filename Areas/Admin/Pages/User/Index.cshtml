@@ -2,6 +2,7 @@
 @model QLTV.AppMVC.Areas.Admin.Pages.User.IndexModel
 @{
     ViewData["title"] = "Danh sách User";
+    ViewData["page"] = "Tài khoản";
 }
 
 @await Html.PartialAsync("_StatusMessage",Model.StatusMessage) 

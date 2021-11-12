@@ -11,7 +11,7 @@ using QLTV.AppMVC.Models.Entities;
 
 namespace QLTV.AppMVC.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin,Librarian")]
     public class HocPhanController : Controller
     {
         private readonly AppDbContext _context;
@@ -24,8 +24,13 @@ namespace QLTV.AppMVC.Controllers
         // GET: HocPhan
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.HocPhan.Include(h => h.Khoa);
-            return View(await appDbContext.ToListAsync());
+            return View();
+        }
+
+        [HttpGet("/api/hocphan/getall")]
+        public List<HocPhan> getAll()
+        {
+            return _context.HocPhan.ToList();
         }
 
         // GET: HocPhan/Details/5

@@ -11,7 +11,7 @@ using QLTV.AppMVC.Models.Entities;
 
 namespace QLTV.AppMVC.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin,Librarian")]
     public class KeSachController : Controller
     {
         private readonly AppDbContext _context;
@@ -142,6 +142,9 @@ namespace QLTV.AppMVC.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpGet("/api/KeSach/GetAll")]
+        public IEnumerable<KeSach> GetAll() => _context.KeSach.ToList();
 
         private bool KeSachExists(int id)
         {

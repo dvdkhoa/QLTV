@@ -2,6 +2,7 @@
 @model QLTV.AppMVC.Areas.Admin.Pages.Role.IndexModel
 @{
     ViewData["title"] = "Danh sách các vai trò";
+    ViewData["page"] = "Vai trò";
 }
 
 @await Html.PartialAsync("_StatusMessage", Model.StatusMessage)
@@ -27,8 +28,8 @@
                 <tr>
                     <td>@role.Name</td>
                     <td class="d-flex justify-content-sm-center ">
-                        <a class="btn btn-sm btn-outline-secondary" asp-page="./Edit" asp-route-roleId="@role.Id">Sửa</a>
-                        <a class="btn btn-sm btn-outline-danger ml-2" asp-page="./Delete" asp-route-roleId="@role.Id">Xóa</a>
+                        <a class="btn btn-sm btn-secondary" asp-page="./Edit" asp-route-roleId="@role.Id">Sửa</a>
+                        <a class="btn btn-sm btn-danger ml-2" asp-page="./Delete" asp-route-roleId="@role.Id">Xóa</a>
                     </td>
                 </tr>
             }

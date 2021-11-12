@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace QLTV.AppMVC.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin,Librarian")]
     public class ChiTietMuonController : Controller
     {
         private readonly AppDbContext _context;

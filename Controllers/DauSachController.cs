@@ -15,7 +15,7 @@ using QLTV.AppMVC.Models.Helpers;
 
 namespace QLTV.AppMVC.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin,Librarian")]
     public class DauSachController : Controller
     {
         private readonly AppDbContext _context;

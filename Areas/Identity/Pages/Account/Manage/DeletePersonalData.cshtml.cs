@@ -30,7 +30,8 @@ namespace QLTV.AppMVC.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
-            [Required]
+            [Display(Name ="Mật khẩu")]
+            [Required(ErrorMessage ="Phải nhập {0}")]
             [DataType(DataType.Password)]
             public string Password { get; set; }
         }
@@ -62,7 +63,7 @@ namespace QLTV.AppMVC.Areas.Identity.Pages.Account.Manage
             {
                 if (!await _userManager.CheckPasswordAsync(user, Input.Password))
                 {
-                    ModelState.AddModelError(string.Empty, "Incorrect password.");
+                    ModelState.AddModelError(string.Empty, "Sai mật khẩu.");
                     return Page();
                 }
             }

@@ -1,12 +1,12 @@
 ﻿@model QLTV.AppMVC.Models.Entities.BoMon
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Thêm mới bộ môn";
+    ViewData["page"] = "Bộ môn";
 }
 
-<h1>Create</h1>
+<h3>@ViewData["Title"]</h3>
 
-<h4>Bộ môn</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -27,14 +27,14 @@
                 <select asp-for="Khoa_Id" class ="form-control" asp-items="ViewBag.Khoa_Id"></select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Thêm" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Trở về danh sách</a>
 </div>
 
 @section Scripts {

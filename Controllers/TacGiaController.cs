@@ -11,7 +11,7 @@ using QLTV.AppMVC.Models.Entities;
 
 namespace QLTV.AppMVC.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin,Librarian")]
     public class TacGiaController : Controller
     {
         private readonly AppDbContext _context;
@@ -22,9 +22,9 @@ namespace QLTV.AppMVC.Controllers
         }
 
         // GET: TacGia
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.TacGia.ToListAsync());
+            return View();
         }
 
         // GET: TacGia/Details/5
