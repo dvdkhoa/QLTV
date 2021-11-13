@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/main.css" />
     @RenderSection("styles", false)
+    <style>
+        #navbar, #footer {
+            font-size: large;
+        }
+
+    </style>
 </head>
 <body class="pt-5">
         <nav id="navbar" class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
@@ -27,7 +33,7 @@
 
 
     <footer>
-            <div class="footer">
+            <div class="footer" id="footer">
                 <div class="footer-left">
                     <p>Trường Đại học Kỹ thuật - Công nghệ Cần Thơ</p>
                     <span>Địa chỉ: 256 Nguyễn Văn Cừ, Quận Ninh Kiều, Thành phố Cần Thơ  </span>

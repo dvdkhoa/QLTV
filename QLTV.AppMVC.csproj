@@ -40,6 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\layout2\js\scripts.js" />
     <None Include="wwwroot\templates\assets\fonts\nucleo-icons.svg" />
     <None Include="wwwroot\templates\assets\fonts\nucleo-icons.woff2" />
     <None Include="wwwroot\templates\assets\img\loading-bubbles.svg" />

@@ -1,7 +1,10 @@
-﻿@model QLTV.AppMVC.Models.Entities.DauSach
+﻿@using Microsoft.AspNetCore.Identity
+@using QLTV.AppMVC.Models.Entities
 
+@model QLTV.AppMVC.Models.Entities.DauSach
 
 @inject AppDbContext _context;
+@inject SignInManager<AppUser> _signInManager;
 
 
 @{
@@ -20,7 +23,10 @@
         <div class="w-100">
             <img src="@Model.ImagePath" class="img-thumbnail" />
         </div>
-        <table class="table small">
+   
+        @if( _signInManager.IsSignedIn(this.User) )
+        {
+            <table class="table small">
             <thead>
                 <tr>
                     <th>Mã sách</th>
@@ -58,6 +64,7 @@
                 }
             </tbody>
         </table>
+        }
     </div>
     <div class="col-lg-8">
         <div class="row mb-2">

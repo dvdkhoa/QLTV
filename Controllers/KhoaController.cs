@@ -12,7 +12,7 @@ using QLTV.AppMVC.Models.Entities;
 
 namespace QLTV.AppMVC.Controllers
 {
-    [Authorize(Roles = "Admin,Librarian")]
+    [Authorize(Roles = "Admin")]
     public class KhoaController : Controller
     {
         private readonly AppDbContext _context;

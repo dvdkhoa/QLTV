@@ -11,7 +11,7 @@ using QLTV.AppMVC.Models.Entities;
 
 namespace QLTV.AppMVC.Controllers
 {
-    [Authorize(Roles = "Admin,Librarian")]
+    [Authorize(Roles = "Admin")]
     public class LopController : Controller
     {
         private readonly AppDbContext _context;

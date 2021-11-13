@@ -15,7 +15,7 @@ using QLTV.AppMVC.Models.Entities;
 
 namespace QLTV.AppMVC.Controllers
 {
-    [Authorize(Roles = "Admin,Librarian")]
+    [Authorize(Roles = "Admin")]
     public class SinhVienController : Controller
     {
         private readonly AppDbContext _context;
@@ -210,6 +210,7 @@ namespace QLTV.AppMVC.Controllers
         }
 
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> TimAjax(string masv)
         {
