@@ -16,13 +16,16 @@ namespace QLTV.AppMVC.Controllers
     {
         private readonly AppDbContext _context;
 
+        [TempData]
+        public string StatusMessage { get; set; }
+
         public BoMonController(AppDbContext context)
         {
             _context = context;
         }
 
         // GET: BoMon
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             return View();
         }
@@ -76,6 +79,9 @@ namespace QLTV.AppMVC.Controllers
 
                 _context.Add(boMon);
                 await _context.SaveChangesAsync();
+
+                StatusMessage = $"Thêm thành công bộ môn: {boMon.TenBoMon}";
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["Khoa_Id"] = new SelectList(_context.Khoa, "Id", "TenKhoa", boMon.Khoa_Id);
@@ -130,6 +136,7 @@ namespace QLTV.AppMVC.Controllers
                     bm_cu.Khoa_Id = boMon.Khoa_Id;
 
                     await _context.SaveChangesAsync();
+                    StatusMessage = $"Cập nhật thành công bộ môn: {boMon.TenBoMon}";
                 }
                 catch (DbUpdateConcurrencyException)
                 {

@@ -3,36 +3,21 @@
 @{ 
     ViewData["title"] = "Xóa học phần";
     ViewData["page"] = "Học phần";
+
+    if(TempData.ContainsKey("StatusMessage"))
+    {
+        await Html.RenderPartialAsync("_StatusMessage", TempData["StatusMessage"]);
+    }
 }
 
-<h3>Bạn có chắc chắn muốn xóa?</h3>
-<div>
-    <h4>HocPhan</h4>
+<div class="col-md-8 offset-md-2">
+    <h2>Bạn có chắc chắn muốn xóa?</h2>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MaHocPhan)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MaHocPhan)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TenHocPhan)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TenHocPhan)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Khoa)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Khoa.TenKhoa)
-        </dd class>
-    </dl>
-    
+    <p>Mã học phần: <strong>@Model.MaHocPhan</strong></p>
+    <p>Tên học phần: <strong>@Model.TenHocPhan</strong></p>
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Xóa" class="btn btn-danger" /> |
-        <a asp-action="Index">Trở về danh sách</a>
+        <a asp-action="Index">Trở về danh sách</a> |
+        <input type="submit" value="Xóa" class="btn btn-danger btn-sm" />
     </form>
 </div>

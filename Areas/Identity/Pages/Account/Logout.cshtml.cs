@@ -23,8 +23,14 @@ namespace QLTV.AppMVC.Areas.Identity.Pages.Account
             _logger = logger;
         }
 
-        public void OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {
+            if(this.User.Identity.IsAuthenticated)
+            {
+                await _signInManager.SignOutAsync();
+                _logger.LogInformation("User logged out.");
+            }
+            return LocalRedirect("/");
         }
 
         public async Task<IActionResult> OnPost(string returnUrl = null)

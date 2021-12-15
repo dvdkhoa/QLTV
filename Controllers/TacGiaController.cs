@@ -16,6 +16,9 @@ namespace QLTV.AppMVC.Controllers
     {
         private readonly AppDbContext _context;
 
+        [TempData]
+        public string StatusMessage { get; set; }
+
         public TacGiaController(AppDbContext context)
         {
             _context = context;
@@ -60,6 +63,9 @@ namespace QLTV.AppMVC.Controllers
             {
                 _context.Add(tacGia);
                 await _context.SaveChangesAsync();
+
+                StatusMessage = $"Thêm thành công tác giả: {tacGia.TenTG}";
+
                 return RedirectToAction(nameof(Index));
             }
             return View(tacGia);
@@ -96,6 +102,7 @@ namespace QLTV.AppMVC.Controllers
                 try
                 {
                     _context.Update(tacGia);
+                    StatusMessage = $"Cập nhật thành công tác giả: {tacGia.TenTG}";
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -138,8 +145,17 @@ namespace QLTV.AppMVC.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var tacGia = await _context.TacGia.FindAsync(id);
+
+            bool exists = await _context.DauSach.AnyAsync(s => s.TacGia_Id == tacGia.Id);
+            if(exists)
+            {
+                StatusMessage = "Error: Không thể xóa tác giả này!!";
+                return RedirectToAction("Delete");
+            }
+
             _context.TacGia.Remove(tacGia);
             await _context.SaveChangesAsync();
+            StatusMessage = $"Xóa thành công tác giả: {tacGia.TenTG}";
             return RedirectToAction(nameof(Index));
         }
 

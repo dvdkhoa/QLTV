@@ -21,6 +21,9 @@ namespace QLTV.AppMVC.Controllers
         private readonly AppDbContext _context;
         private readonly IWebHostEnvironment _env;
 
+        [TempData]
+        public string StatusMessage { get; set; }
+
         public DauSachController(AppDbContext context, IWebHostEnvironment env)
         {
             _context = context;
@@ -107,7 +110,7 @@ namespace QLTV.AppMVC.Controllers
             {
                 if(dauSach.ImageFile != null)
                 {
-                    await Uploads(dauSach);
+                    dauSach.ImagePath = await Uploads(dauSach);
                 }    
                 
                 _context.Add(dauSach); // Tạo đầu sách
@@ -124,6 +127,9 @@ namespace QLTV.AppMVC.Controllers
                 }
 
                 await _context.SaveChangesAsync();
+
+                StatusMessage = $"Thêm thành công đầu sách {dauSach.TenDauSach}.";
+
                 return RedirectToAction(nameof(Index));
             }
 
@@ -143,7 +149,7 @@ namespace QLTV.AppMVC.Controllers
             ViewData["TacGia_Id"] = new SelectList(_context.TacGia, "Id", "TenTG").Append(new SelectListItem() { Text = "Chọn", Value = "", Selected = true });
         }
 
-        public async Task Uploads(DauSach dauSach)
+        public async Task<string> Uploads(DauSach dauSach)
         {
             var fileName = dauSach.ImageFile.FileName;
             fileName = fileName.Substring(fileName.LastIndexOf("."));
@@ -152,10 +158,10 @@ namespace QLTV.AppMVC.Controllers
             var imagePath = Path.Combine(_env.WebRootPath, "imgs", fileName);
 
             using var fileStream = new FileStream(imagePath, FileMode.Create);
-
+            
             await dauSach.ImageFile.CopyToAsync(fileStream);
 
-            dauSach.ImagePath = "/imgs/" + fileName;
+            return "/imgs/" + fileName;
         }
 
         // GET: DauSach/Edit/5
@@ -198,10 +204,12 @@ namespace QLTV.AppMVC.Controllers
                 {
                     if(dauSach.ImageFile!=null)
                     {
-                        await Uploads(dauSach);
-                    }    
+                        dauSach.ImagePath = await Uploads(dauSach);
+                    }
 
                     _context.Update(dauSach);
+
+                    StatusMessage = $"Cập nhật thông tin đầu sách {dauSach.TenDauSach} thành công.";
 
                     await _context.SaveChangesAsync();
                 }   
@@ -255,16 +263,31 @@ namespace QLTV.AppMVC.Controllers
 
             var ds_Sach = _context.Sach.Where(s => s.DauSach_Id == id).ToArray();
 
+            bool exists = false; // Kiểm tra sách đã thuộc chi tiết mượn nào chưa, vì mã sách là khóa ngoại của bản chi tiêt mượn.
+            foreach (var s in ds_Sach)
+            {
+                exists = await _context.ChiTietMuon.AnyAsync(c => c.MaSach == s.MaSach);
+                if (exists)
+                {
+                    StatusMessage = "Error: Bạn không thể xóa";
+                    return RedirectToAction("Delete",dauSach.Id);
+                }    
+            }
+
             _context.Sach.RemoveRange(ds_Sach); // Xóa danh sách sách thuộc đầu sách
 
-            if(System.IO.File.Exists(dauSach.ImagePath))
+            var fileName = _env.WebRootPath + dauSach.ImagePath;
+
+            if (System.IO.File.Exists(fileName))
             {
-                System.IO.File.Delete(dauSach.ImagePath); // Xóa Image của đầu sách
+                System.IO.File.Delete(fileName); // Xóa Image của đầu sách
             }    
 
             _context.DauSach.Remove(dauSach);
 
             await _context.SaveChangesAsync();
+
+            StatusMessage = $"Xóa thành công đầu sách {dauSach.TenDauSach}";
 
             return RedirectToAction(nameof(Index));
         }
@@ -274,9 +297,6 @@ namespace QLTV.AppMVC.Controllers
             return _context.DauSach.Any(e => e.Id == id);
         }
 
-
-        
-        
 
         [HttpGet]
         public IActionResult NhapSach(int? Id)

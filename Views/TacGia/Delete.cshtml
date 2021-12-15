@@ -1,27 +1,26 @@
 ﻿@model QLTV.AppMVC.Models.Entities.TacGia
 
-@{ 
+@{
     ViewBag.title = "Xóa tác giả";
     ViewData["page"] = "Tác giả";
-
 }
 
-<h3>Bạn có chắc chắn muốn xóa?</h3>
-<div>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TenTG)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TenTG)
-        </dd>
+@{
+    if (TempData.ContainsKey("StatusMessage"))
+    {
+        var model = TempData["StatusMessage"].ToString();
+        await Html.RenderPartialAsync("_StatusMessage", model);
+    }
+}
 
-    </dl>
-    
+
+<div class="col-md-8 offset-md-2">
+    <h3>Bạn có chắc chắn muốn xóa <strong>@Model.TenTG</strong> ?</h3>
+    <hr />
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
+        <a asp-action="Index">Trở về danh sách tác giả</a> |
         <input type="submit" value="Xóa" class="btn btn-danger" />
-        <a asp-action="Index">Trở về danh sách tác giả</a>
     </form>
 </div>
+

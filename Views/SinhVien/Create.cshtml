@@ -5,7 +5,7 @@
     ViewData["page"] = "Sinh viên";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h3>@ViewData["Title"]</h3>
 
 <hr />
 <div class="row">
@@ -56,9 +56,9 @@
     </div>
     <div class="col-md-4">
         <form asp-action="ImportFromExcel" method="post" enctype="multipart/form-data">
-            <label class="control-label">Thêm từ Excel file</label>
+            <label class="control-label">Thêm nhiều sinh viên (excel)</label>
             <input type="file" name="file" />
-            <input class="btn btn-primary mt-2" type="submit"  value="Upload" />
+            <input class="btn btn-primary mt-2 btn-sm" type="submit"  value="Upload" />
         </form>
     </div>
 </div>

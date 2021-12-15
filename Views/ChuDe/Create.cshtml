@@ -5,11 +5,11 @@
     ViewData["page"] = "Chủ đề";
 }
 
-<h1>@ViewData["Title"]</h1>
 
-<hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-8 offset-md-2">
+        <h2>@ViewData["Title"]</h2>
+        <hr />
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -23,15 +23,13 @@
                 <span asp-validation-for="TenChuDe" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Đồng ý" class="btn btn-success" />
+                <input type="submit" value="Đồng ý" class="btn btn-success float-right" />
             </div>
         </form>
+        <a asp-action="Index">Trở về danh sách chủ đề</a>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Trở về danh sách chủ đề</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

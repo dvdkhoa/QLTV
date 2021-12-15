@@ -43,9 +43,10 @@
                 <div class="row">
                     <div class="col-md-4">
                         <img class="img-fluid w-100" src="@Model.ImagePath" />
+                        <input type="hidden" asp-for="@Model.ImagePath" />
                     </div>
                     <div class="col-md-8 d-flex align-items-center">
-                        <input type="file" />
+                        <input asp-for="ImageFile"/>
                     </div>
                 </div>
             }
@@ -180,7 +181,7 @@
 
             </div>
             <div class="col-md-4">
-                <input type="submit" value="Đồng ý" class="btn btn-secondary btn-block" />
+                <input type="submit" value="Đồng ý" class="btn btn-primary btn-block" />
             </div>
         </div>
 </form>

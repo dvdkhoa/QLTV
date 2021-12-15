@@ -7,22 +7,22 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item d-flex align-items-center">
-        <a id="manage" class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Xin chào, @UserManager.GetUserName(User)!</a>
+        <a id="manage" class="nav-link log" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Xin chào, @UserManager.GetUserName(User)!</a>
     </li>
     <li class="nav-item">
         @*<form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
             <input type="submit" class="nav-link" value="Đăng xuất" />
         </form>*@
-        <a class="nav-link"  asp-area="Identity" asp-page="/Account/Logout">Đăng xuất</a>
+        <a class="nav-link log"  asp-area="Identity" asp-page="/Account/Logout">Đăng xuất</a>
     </li>
 }
 else
 {
     <li class="nav-item">
-        <a class="nav-link" id="register" asp-area="Identity" asp-page="/Account/Register">Đăng ký</a>
+        <a class="nav-link log" id="register" asp-area="Identity" asp-page="/Account/Register">Đăng ký</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" id="login" asp-area="Identity" asp-page="/Account/Login">Đăng nhập</a>
+        <a class="nav-link log" id="login" asp-area="Identity" asp-page="/Account/Login">Đăng nhập</a>
     </li>
 }
 </ul>

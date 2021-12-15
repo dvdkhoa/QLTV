@@ -16,6 +16,9 @@ namespace QLTV.AppMVC.Controllers
     {
         private readonly AppDbContext _context;
 
+        [TempData]
+        public string StatusMessage { get; set; }
+
         public KeSachController(AppDbContext context)
         {
             _context = context;
@@ -60,6 +63,7 @@ namespace QLTV.AppMVC.Controllers
             {
                 _context.Add(keSach);
                 await _context.SaveChangesAsync();
+                StatusMessage = $"Tạo thành công kệ sách: {keSach.TenKeSach}";
                 return RedirectToAction(nameof(Index));
             }
             return View(keSach);
@@ -97,6 +101,7 @@ namespace QLTV.AppMVC.Controllers
                 {
                     _context.Update(keSach);
                     await _context.SaveChangesAsync();
+                    StatusMessage = $"Cập nhật thành công kệ sách: {keSach.TenKeSach}";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -138,8 +143,16 @@ namespace QLTV.AppMVC.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var keSach = await _context.KeSach.FindAsync(id);
+            bool exists = await _context.DauSach.AnyAsync(s => s.KeSach_Id == keSach.Id);
+            if (exists)
+            {
+                StatusMessage = "Error: Không thể xóa kệ này!!";
+                return RedirectToAction("Delete");
+            }
+
             _context.KeSach.Remove(keSach);
             await _context.SaveChangesAsync();
+            StatusMessage = $"Xóa thành công kệ sách: {keSach.TenKeSach}";
             return RedirectToAction(nameof(Index));
         }
 

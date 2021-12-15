@@ -16,6 +16,9 @@ namespace QLTV.AppMVC.Controllers
     {
         private readonly AppDbContext _context;
 
+        [TempData]
+        public string StatusMessage { get; set; }
+
         public HocPhanController(AppDbContext context)
         {
             _context = context;
@@ -68,6 +71,7 @@ namespace QLTV.AppMVC.Controllers
             {
                 _context.Add(hocPhan);
                 await _context.SaveChangesAsync();
+                StatusMessage = $"Thêm thành công học phần: {hocPhan.TenHocPhan}";
                 return RedirectToAction(nameof(Index));
             }
             ViewData["Khoa_Id"] = new SelectList(_context.Khoa, "Id", "Id", hocPhan.Khoa_Id);
@@ -150,8 +154,15 @@ namespace QLTV.AppMVC.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var hocPhan = await _context.HocPhan.FindAsync(id);
+            bool exists = await _context.DauSach.AnyAsync(s => s.HocPhan_Id == hocPhan.Id);
+            if (exists)
+            {
+                StatusMessage = $"Error: Không thể xóa học phần {hocPhan.TenHocPhan}!!";
+                return RedirectToAction("Delete");
+            }
             _context.HocPhan.Remove(hocPhan);
             await _context.SaveChangesAsync();
+            StatusMessage = $"Xóa thành công học phần: {hocPhan.TenHocPhan}";
             return RedirectToAction(nameof(Index));
         }
 

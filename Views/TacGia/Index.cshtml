@@ -3,7 +3,14 @@
 @{
     ViewBag.title = "Danh sách tác giả";
     ViewData["page"] = "Tác giả";
+}
 
+@{
+    if (TempData.ContainsKey("StatusMessage"))
+    {
+        var model = TempData["StatusMessage"].ToString();
+        await Html.RenderPartialAsync("_StatusMessage", model);
+    }
 }
 
 <h3>@ViewData["Title"]</h3>
@@ -57,10 +64,7 @@
                             extend: 'excelHtml5',
                             title: 'Data export'
                         },
-                        {
-                            extend: 'pdfHtml5',
-                            title: 'Data export'
-                        }
+
                     ],
                     'processing': true,
                     'info': false,
@@ -69,7 +73,7 @@
                         { data: 'tenTG' },
                         { data: 'phone' },
                         { data: 'diaChi' },
-                        {data: 'tacvu'}
+                        { data: 'tacvu' }
                     ],
                     language: {
                         "lengthMenu": "Hiển thị _MENU_ dòng",

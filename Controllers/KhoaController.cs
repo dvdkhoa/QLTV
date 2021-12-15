@@ -19,6 +19,9 @@ namespace QLTV.AppMVC.Controllers
 
         private readonly ILogger<KhoaController> _logger;
 
+        [TempData]
+        public string StatusMessage { get; set; }
+
         public KhoaController(ILogger<KhoaController> logger, AppDbContext context)
         {
             _logger = logger;

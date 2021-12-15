@@ -16,6 +16,9 @@ namespace QLTV.AppMVC.Controllers
     {
         private readonly AppDbContext _context;
 
+        [TempData]
+        public string StatusMessage { get; set; }
+
         public LopController(AppDbContext context)
         {
             _context = context;

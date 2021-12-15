@@ -3,6 +3,11 @@
 @{
     ViewBag.title = "Danh sách học phần";
     ViewData["page"] = "Học phần";
+
+    if (TempData.ContainsKey("StatusMessage"))
+    {
+        await Html.RenderPartialAsync("_StatusMessage", TempData["StatusMessage"]);
+    }
 }
 
 <h3>@ViewData["Title"]</h3>
@@ -56,10 +61,7 @@
                             extend: 'excelHtml5',
                             title: 'Data export'
                         },
-                        {
-                            extend: 'pdfHtml5',
-                            title: 'Data export'
-                        }
+                        
                     ],
                     'processing': true,
                     'info': false,

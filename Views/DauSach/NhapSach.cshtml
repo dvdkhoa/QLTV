@@ -12,8 +12,8 @@
     <div class="col-1"></div>
     <div class="col-10 row">
         <div class="col-6">
-            <h6>Tên sách: <span class="font-weight-bolder font-italic">@Model.TenDauSach</span></h6>
-            <h6>Số lượng hiện tại: <span class="font-weight-bold">@Model.SL</span></h6>
+            <p>Tên sách: <strong class="font-weight-bolder">@Model.TenDauSach</strong></p>
+            <hp>Số lượng hiện tại: <span class="font-weight-bold">@Model.SL</span></hp>
             <hr />
             <a asp-action="Edit" asp-route-id="@Model.Id">Về trang chỉnh sửa</a>
         </div>
@@ -22,7 +22,7 @@
                 <input type="hidden" name="Id" value="@Model.Id" />
 
                 <div class="form-group">
-                    <label class="control-label">Số lượng muốn thêm</label>
+                    <label class="control-label">Số lượng muốn thêm:</label>
                     <input class="form-control" type="number" name="SL" value="" required />
                 </div>
                 <div class="form-group">

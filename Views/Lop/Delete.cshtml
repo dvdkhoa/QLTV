@@ -6,29 +6,13 @@
 }
 
 
-<h3>Bạn có chắc chắn muốn xóa?</h3>
-
-<div>
-    <h4>Lop</h4>
+<div class="col-md-8 offset-md-2">
+    <h2>Bạn có chắc chắn muốn xóa?</h2>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MaLop)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MaLop)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nganh_Id)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nganh.TenNganh)
-        </dd class>
-    </dl>
-    
+    <p>Lớp: <strong>@Model.MaLop</strong></p>
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Xóa" class="btn btn-danger" /> |
-        <a asp-action="Index">Trở về danh sách</a>
+        <a asp-action="Index">Trở về danh sách</a> |
+        <input type="submit" value="Xóa" class="btn btn-danger btn-sm" />
     </form>
 </div>

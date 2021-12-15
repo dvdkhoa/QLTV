@@ -6,13 +6,14 @@
     ViewData["page"] = "Điều khoản";
 }
 
-<h3>Bạn có chắn chắn muốn xóa điều khoản này!!!</h3>
-<p>Ngày áp dụng điều khoản: @Model.NgayBD</p>
-<p>Số sách: @Model.SLSach</p>
-<p>Thời hạn mượn: @Model.ThoiHan</p>
+<h2>Bạn có chắn chắn muốn xóa điều khoản này?</h2>
+<hr />
+<p>Ngày áp dụng điều khoản: <strong>@Model.NgayBD</strong></p>
+<p>Số sách được mượn tối đa: <strong>@Model.SLSach</strong></p>
+<p>Thời hạn mượn tối đa: <strong>@Model.ThoiHan</strong></p>
 <a asp-action="Index">Quay về danh sách điều khoản</a>
 <hr />
 <form asp-action="DeleteConfirmed" method="post">
     <input type="hidden" asp-for="Id" />
-    <input type="submit" value="Đồng ý xóa" class="btn btn-danger" />
+    <input type="submit" value="Đồng ý xóa" class="btn btn-danger btn-sm" />
 </form>

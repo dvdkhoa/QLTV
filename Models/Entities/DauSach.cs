@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using QLTV.AppMVC.Extensions.Validate;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -29,11 +30,13 @@ namespace QLTV.AppMVC.Models.Entities
 
         [NotMapped]
         [DataType(DataType.Upload)]
+        [CheckFileExtensions(Extensions = "jpg,png,gif,jpeg")]
         public IFormFile ImageFile { get; set; }
 
 
         [Display(Name = "Số lượng")]
-        [Required(ErrorMessage = "Phải nhập {0}")]
+        [Required(ErrorMessage = "Phải nhập")]
+        [Range(1,1000,ErrorMessage = "{1}->{2}")]
         public int SL { get; set; }
 
 

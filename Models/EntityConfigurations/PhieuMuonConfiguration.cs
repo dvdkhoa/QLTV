@@ -16,7 +16,8 @@ namespace QLTV.AppMVC.Models.EntityConfigurations
 
             builder.HasOne(pm => pm.SinhVien)
                     .WithOne(sv=>sv.PhieuMuon)
-                    .HasForeignKey<PhieuMuon>(pm => pm.MaSV);
+                    .HasForeignKey<PhieuMuon>(pm => pm.MaSV)
+                    .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

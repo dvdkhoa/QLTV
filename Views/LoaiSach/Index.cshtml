@@ -5,6 +5,14 @@
     ViewData["page"] = "Loại sách";
 }
 
+@{
+    if (TempData.ContainsKey("StatusMessage"))
+    {
+        var model = TempData["StatusMessage"].ToString();
+        await Html.RenderPartialAsync("_StatusMessage", model);
+    }
+}
+
 <h3>@ViewData["Title"]</h3>
 <a asp-action="Create">Tạo mới</a>
 <hr />
@@ -55,10 +63,7 @@
                             extend: 'excelHtml5',
                             title: 'Data export'
                         },
-                        {
-                            extend: 'pdfHtml5',
-                            title: 'Data export'
-                        }
+
                     ],
                     'processing': true,
                     'info': false,
@@ -66,7 +71,7 @@
                     columns: [
                         { data: 'maLoaiSach' },
                         { data: 'tenLoaiSach' },
-                        {data: 'tacvu'}
+                        { data: 'tacvu' }
                     ],
                     language: {
                         "lengthMenu": "Hiển thị _MENU_ dòng",

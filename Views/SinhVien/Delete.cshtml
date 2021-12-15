@@ -3,44 +3,24 @@
 @{
     ViewData["Title"] = "Xóa thông tin sinh viên";
     ViewData["page"] = "Sinh viên";
+
+    if(TempData.ContainsKey("StatusMessage"))
+    {
+        var model = TempData["StatusMessage"];
+        await Html.RenderPartialAsync("_StatusMessage", model);
+    }
 }
 
-<h1>@ViewData["Title"]</h1>
 
-<h3>Bạn chắc chắn xóa không?</h3>
-<div>
+<div class="col-md-8 offset-md-2">
+    <h2>Bạn chắc chắn xóa không?</h2>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TenSV)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TenSV)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NgaySinh)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NgaySinh)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.GioiTinh)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.GioiTinh)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Phone)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Phone)
-        </dd>
-        
-    </dl>
-    
+    <p>MSSV: <strong>@Model.MaSV</strong></p>
+    <p>Tên sinh viên: <strong>@Model.TenSV</strong></p>
+
     <form asp-action="Delete">
         <input type="hidden" asp-for="MaSV" />
-        <input type="submit" value="Xóa" class="btn btn-danger" /> |
-        <a asp-action="Index">Trở về danh sách sinh viên</a>
+        <a asp-action="Index">Trở về danh sách sinh viên</a> |
+        <input type="submit" value="Xóa" class="btn btn-danger btn-sm" />
     </form>
 </div>

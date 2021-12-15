@@ -5,6 +5,11 @@
     ViewData["page"] = "Sách";
 }
 
+@if(TempData.ContainsKey("StatusMessage"))
+{
+    var model = TempData["StatusMessage"].ToString();
+    <partial name="_StatusMessage" model=model/>
+}
 
 <div class="row">
     <div class="offset-3">

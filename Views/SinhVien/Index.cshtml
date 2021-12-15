@@ -5,11 +5,15 @@
     ViewData["page"] = "Sinh viên";
 }
 
-@await Html.PartialAsync("_StatusMessage", TempData["StatusMessage"])
+@{
+    if (TempData.ContainsKey("StatusMessage"))
+    {
+        var model = TempData["StatusMessage"].ToString();
+        await Html.RenderPartialAsync("_StatusMessage", model);
+    }
+}
 
-<h3>@ViewData["Title"]</h3>
-
-
+<h2>@ViewData["Title"]</h2>
 <div class="float-lg-right">
     <label>Tìm kiếm:</label>
     <input type="text" onkeyup="filter(event)" class="mb-3" />
@@ -28,7 +32,7 @@
 @section Scripts {
     <script src="~/js/script.js"></script>
     <script>
- 
+
         // required options
         const options = {
             tableId: 'easy-table',
@@ -57,9 +61,9 @@
                         'Giới tính': json[i].gioiTinh,
                         'Ngày sinh': json[i].ngaySinh,
                         'Tác vụ': `<div class="text-center">
-                                         <a class="btn btn-sm btn-secondary" href="SinhVien/Edit/${json[i].maSV}">Sửa</a>
-                                         <a class="btn btn-sm btn-danger" href="SinhVien/Delete/${json[i].maSV}">Xóa</a>
-                                    </div>`
+                                             <a class="btn btn-sm btn-secondary" href="SinhVien/Edit/${json[i].maSV}">Sửa</a>
+                                             <a class="btn btn-sm btn-danger" href="SinhVien/Delete/${json[i].maSV}">Xóa</a>
+                                        </div>`
                     }
                     data.push(sv)
                 }

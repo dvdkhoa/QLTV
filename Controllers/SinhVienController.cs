@@ -77,6 +77,7 @@ namespace QLTV.AppMVC.Controllers
 
                 _context.Add(sinhVien);
                 await _context.SaveChangesAsync();
+                StatusMessage = $"Thêm thành công sinh viên: {sinhVien.TenSV}";
                 return RedirectToAction(nameof(Index));
             }
             ViewData["Lop_Id"] = new SelectList(_context.Lop, "Id", "MaLop", sinhVien.Lop_Id);
@@ -199,8 +200,15 @@ namespace QLTV.AppMVC.Controllers
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var sinhVien = await _context.SinhVien.FindAsync(id);
+            var pm = await _context.PhieuMuon.FirstOrDefaultAsync(pm => pm.MaSV == sinhVien.MaSV);
+            if(pm != null)
+            {
+                StatusMessage = $"Error: Không thể xóa sinh viên: {sinhVien.TenSV} !!!";
+                return RedirectToAction("Delete");
+            }    
             _context.SinhVien.Remove(sinhVien);
             await _context.SaveChangesAsync();
+            StatusMessage = $"Xóa thành công sinh viên {sinhVien.TenSV}";
             return RedirectToAction(nameof(Index));
         }
 

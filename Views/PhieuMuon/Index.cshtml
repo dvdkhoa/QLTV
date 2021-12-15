@@ -5,61 +5,72 @@
     ViewData["page"] = "Mượn trả sách";
 }
 
+
 <h3>@ViewData["Title"]</h3>
 <hr />
+
 <div class="row">
-    <div class="col-md-3">
-
-        <form asp-action="Tim" method="Get" class="form-group">
-            <label for="maSV">Tìm phiếu mượn theo mã sinh viên:</label>
-            <input class="form-control mt-2" type="text" name="maSV" id="maSV" value="" />
-            <input type="submit" value="Tìm" class="btn btn-primary mt-2 btn-block" />
-        </form>
-
-    </div>
-    <div class="col-md-9">
-        <p>
+    <div class="">
+        <p class="">
             <a asp-action="Create">Tạo mới</a>
         </p>
-        <table class="table table-sm table-striped table-hover">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Id)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.SinhVien.MaSV)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.MaSV)
-                    </th>
-                    <th>
-                        Chi tiết mượn
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td class="align-middle">
-                            @Html.DisplayFor(modelItem => item.Id)
-                        </td>
-                        <td class="align-middle">
-                            @Html.DisplayFor(modelItem => item.SinhVien.MaSV)
-                        </td>
-                        <td class="align-middle">
-                            @Html.DisplayFor(modelItem => item.SinhVien.TenSV)
-                        </td>
-                        <td class="align-middle">
-                            <a asp-action="Index" asp-controller="ChiTietMuon" asp-route-id="@item.Id">Chi tiết mượn</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+
+        <div class="">
+            <label>Tìm kiếm:</label>
+            <input type="text" onkeyup="filter(event)" class="mb-3" />
+        </div>
     </div>
+
+    <table id="easy-table" class="table table-striped table-bordered table-sm">
+        <thead>
+            <tr></tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <div id="paginator"></div>
 </div>
+
+@section Scripts {
+    <script src="~/js/script.js"></script>
+    <script>
+
+        // required options
+        const options = {
+            tableId: 'easy-table',
+            currentPage: 1,
+            perPage: 10,
+            autoHeaders: true,
+            arrowUp: '⇑',
+            arrowDown: '⇓',
+            previousText: '&#10094',
+            nextText: '&#10095',
+        }
+
+        let data = [];
+
+        $(document).ready(function () {
+            console.log('ready')
+            $.ajax({
+                url: 'api/phieumuon/getall',
+                type: 'get',
+            }).done(function (json) {
+                console.log(json)
+                for (var i = 0; i < json.length; i++) {
+                    const pm = {
+                        'Mã phiếu mượn': json[i].id,
+                        'Mã sinh viên': json[i].maSV,
+                        'Tên sinh viên': json[i].tenSV,
+                        'Tác vụ': `<a href="chitietmuon/index/${json[i].id}">Chi tiết mượn</a>`,
+                    }
+                    data.push(pm)
+                }
+
+                setTable(data, options);
+            })
+        })
+    </script>
+}
+
 
 
 

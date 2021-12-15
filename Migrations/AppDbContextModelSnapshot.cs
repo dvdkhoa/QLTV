@@ -562,6 +562,7 @@ namespace QLTV.AppMVC.Migrations
                         .HasColumnType("varchar(12)");
 
                     b.Property<string>("TenNXB")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -704,6 +705,7 @@ namespace QLTV.AppMVC.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TenTG")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -894,7 +896,7 @@ namespace QLTV.AppMVC.Migrations
                     b.HasOne("QLTV.AppMVC.Models.Entities.SinhVien", "SinhVien")
                         .WithOne("PhieuMuon")
                         .HasForeignKey("QLTV.AppMVC.Models.Entities.PhieuMuon", "MaSV")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("SinhVien");

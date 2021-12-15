@@ -2,14 +2,15 @@
 
 
 @{ 
-    ViewBag.title = "Danh sách tác giả";
+    ViewBag.title = "Tạo mới tác giả";
     ViewData["page"] = "Tác giả";
 }
 
-<h1>@ViewBag.title</h1>
-<hr />
+
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-8 offset-md-2">
+        <h2>@ViewBag.title</h2>
+        <hr />
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -28,15 +29,16 @@
                 <span asp-validation-for="phone" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Đồng ý" class="btn btn-primary" />
+                <input type="submit" value="Đồng ý" class="btn btn-success float-right" />
             </div>
         </form>
+        <div>
+            <a asp-action="Index">Trở về danh sách tác giả</a>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Trở về danh sách tác giả</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

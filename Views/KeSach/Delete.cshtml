@@ -5,23 +5,21 @@
     ViewData["page"] = "Kệ sách";
 }
 
+@{
+    if (TempData.ContainsKey("StatusMessage"))
+    {
+        var model = TempData["StatusMessage"].ToString();
+        await Html.RenderPartialAsync("_StatusMessage", model);
+    }
+}
 
-<h3>Bạn có chắc chắn muốn xóa?</h3>
-<div>
-    <h4>KeSach</h4>
+<div class="col-md-8 offset-md-2">
+    <h2>Bạn có chắc chắn muốn xóa?</h2>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TenKeSach)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TenKeSach)
-        </dd>
-    </dl>
-    
+    <p>Kệ sách: <strong>@Model.TenKeSach</strong></p>
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Xóa" class="btn btn-danger" /> |
-        <a asp-action="Index">Trở về danh sách</a>
+        <a asp-action="Index">Trở về danh sách</a> |
+        <input type="submit" value="Xóa" class="btn btn-danger" />
     </form>
 </div>

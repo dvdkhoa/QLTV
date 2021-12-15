@@ -21,6 +21,7 @@
         <h5>Bạn có chắc chắn muốn xóa chi tiết mượn này!!!</h5>
         <hr />
         <form asp-action="DeleteConfirmed" method="post">
+            <input type="hidden" asp-for="@Model.Id"/>
             <input class="btn btn-danger" type="submit" value="Đồng ý xóa" />
         </form>
     </div>

@@ -16,6 +16,9 @@ namespace QLTV.AppMVC.Controllers
     {
         private readonly AppDbContext _context;
 
+        [TempData]
+        public string StatusMessage { get; set; }
+
         public LoaiSachController(AppDbContext context)
         {
             _context = context;
@@ -60,6 +63,7 @@ namespace QLTV.AppMVC.Controllers
             {
                 _context.Add(loaiSach);
                 await _context.SaveChangesAsync();
+                StatusMessage = $"Tạo thành công loại sách: {loaiSach.TenLoaiSach}";
                 return RedirectToAction(nameof(Index));
             }
             return View(loaiSach);
@@ -97,6 +101,7 @@ namespace QLTV.AppMVC.Controllers
                 {
                     _context.Update(loaiSach);
                     await _context.SaveChangesAsync();
+                    StatusMessage = $"Cập nhật thành công loại sách: {loaiSach.TenLoaiSach}";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -138,8 +143,16 @@ namespace QLTV.AppMVC.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var loaiSach = await _context.LoaiSach.FindAsync(id);
+
+            bool exists = await _context.DauSach.AnyAsync(s => s.LoaiSach_Id == loaiSach.Id);
+            if (exists)
+            {
+                StatusMessage = "Error: Không thể xóa loại sách này!!";
+                return RedirectToAction("Delete");
+            }
             _context.LoaiSach.Remove(loaiSach);
             await _context.SaveChangesAsync();
+            StatusMessage = $"Xóa thành công loại sách: {loaiSach.TenLoaiSach}";
             return RedirectToAction(nameof(Index));
         }
 

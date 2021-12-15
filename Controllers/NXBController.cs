@@ -16,6 +16,9 @@ namespace QLTV.AppMVC.Controllers
     {
         private readonly AppDbContext _context;
 
+        [TempData]
+        public string StatusMessage { get; set; }
+
         public NXBController(AppDbContext context)
         {
             _context = context;
@@ -60,6 +63,7 @@ namespace QLTV.AppMVC.Controllers
             {
                 _context.Add(nXB);
                 await _context.SaveChangesAsync();
+                StatusMessage = $"Tạo thành công NXB: {nXB.TenNXB}";
                 return RedirectToAction(nameof(Index));
             }
             return View(nXB);
@@ -97,6 +101,7 @@ namespace QLTV.AppMVC.Controllers
                 {
                     _context.Update(nXB);
                     await _context.SaveChangesAsync();
+                    StatusMessage = $"Cập nhật thành công NXB: {nXB.TenNXB}";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -138,8 +143,17 @@ namespace QLTV.AppMVC.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var nXB = await _context.NXB.FindAsync(id);
+
+            bool exists = await _context.DauSach.AnyAsync(s => s.NXB_Id == nXB.Id);
+            if(exists)
+            {
+                StatusMessage = "Error: Không thể xóa NXB này!!";
+                return RedirectToAction("Delete");
+            }    
+
             _context.NXB.Remove(nXB);
             await _context.SaveChangesAsync();
+            StatusMessage = $"Xóa thành công NXB: {nXB.TenNXB}";
             return RedirectToAction(nameof(Index));
         }
 

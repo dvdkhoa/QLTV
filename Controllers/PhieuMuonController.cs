@@ -114,51 +114,14 @@ namespace QLTV.AppMVC.Controllers
             return View();
         }
 
+        [HttpGet("api/phieumuon/getall")]
+        public async Task<IActionResult> getAll()
+        {
+            var lst = await (from pm in _context.PhieuMuon.Include(pm => pm.SinhVien)
+                      select new { id = pm.Id, maSV = pm.MaSV, tenSV = pm.SinhVien.TenSV }).ToListAsync();
 
-        // GET: PhieuMuon/Delete/5
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var phieuMuon = await _context.PhieuMuon
-        //        .Include(p => p.SinhVien)
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-
-        //    if (phieuMuon == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(phieuMuon);
-        //}
-
-        //// POST: PhieuMuon/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    var phieuMuon = await _context.PhieuMuon.FindAsync(id);
-
-        //    var ds_ctm = _context.ChiTietMuon.Where(ctm => ctm.PM_Id == id)
-        //                                        .Include(ctm =>ctm.Sach);
-
-        //    // Xóa tất cả chi tiết mượn có PM_Id=Id
-        //    foreach (var ctm in ds_ctm)
-        //    {
-        //        ctm.Sach.DangMuon = false;
-
-        //        _context.ChiTietMuon.Remove(ctm);
-        //    }
-
-        //    _context.PhieuMuon.Remove(phieuMuon);
-
-        //    await _context.SaveChangesAsync();
-
-        //    return RedirectToAction(nameof(Index));
-        //}
+            return Json(lst);
+        }
 
         [HttpGet]
         public IActionResult Tim(string maSV)

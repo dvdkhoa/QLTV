@@ -5,21 +5,22 @@
     ViewData["page"] = "NXB";
 }
 
-<h3>Bạn có chắc chắn muốn xóa?</h3>
-<div>
+@{
+    if (TempData.ContainsKey("StatusMessage"))
+    {
+        var model = TempData["StatusMessage"].ToString();
+        await Html.RenderPartialAsync("_StatusMessage", model);
+    }
+}
+
+
+<div class="col-md-8 offset-md-2">
+    <h3>Bạn có chắc chắn muốn xóa?</h3>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TenNXB)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TenNXB)
-        </dd>
-    </dl>
-    
+    <p>Nhà xuất bản: <strong>@Model.TenNXB</strong></p>
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
+        <a asp-action="Index">Trở về danh sách</a> |
         <input type="submit" value="Xóa" class="btn btn-danger" />
-        <a asp-action="Index">Trở về danh sách</a>
     </form>
 </div>

@@ -16,6 +16,8 @@ namespace QLTV.AppMVC.Controllers
     {
         private readonly AppDbContext _context;
 
+        [TempData]
+        public string StatusMessage { get; set; }
         public ChuDeController(AppDbContext context)
         {
             _context = context;
@@ -66,6 +68,9 @@ namespace QLTV.AppMVC.Controllers
                 }
 
                 _context.Add(chuDe);
+
+                StatusMessage = $"Bạn vừa tạo thành công chủ đề: {chuDe.TenChuDe}";
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -125,6 +130,8 @@ namespace QLTV.AppMVC.Controllers
                     chuDe_cu.MaChuDe = chuDe.MaChuDe;
                     chuDe_cu.TenChuDe = chuDe.TenChuDe;
 
+                    StatusMessage = $"Bạn vừa cập nhật thành công chủ đề: {chuDe.TenChuDe}";
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -167,8 +174,17 @@ namespace QLTV.AppMVC.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var chuDe = await _context.ChuDe.FindAsync(id);
+
+            bool exists = await _context.DauSach.AnyAsync(s => s.ChuDe_Id == chuDe.Id);
+            if(exists)
+            {
+                StatusMessage = "Error: Bạn không thể xóa chủ đề này!!";
+                return RedirectToAction("Delete");
+            }    
+
             _context.ChuDe.Remove(chuDe);
             await _context.SaveChangesAsync();
+            StatusMessage = $"Xóa thành công chủ đề: {chuDe.TenChuDe}";
             return RedirectToAction(nameof(Index));
         }
 

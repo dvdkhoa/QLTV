@@ -16,6 +16,9 @@ namespace QLTV.AppMVC.Controllers
     {
         private readonly AppDbContext _context;
 
+        [TempData]
+        public string StatusMessage { get; set; }
+
         public NgonNguController(AppDbContext context)
         {
             _context = context;
@@ -60,6 +63,7 @@ namespace QLTV.AppMVC.Controllers
             {
                 _context.Add(ngonNgu);
                 await _context.SaveChangesAsync();
+                StatusMessage = $"Tạo thành công ngôn ngữ: {ngonNgu.TenNN}";
                 return RedirectToAction(nameof(Index));
             }
             return View(ngonNgu);
@@ -97,6 +101,7 @@ namespace QLTV.AppMVC.Controllers
                 {
                     _context.Update(ngonNgu);
                     await _context.SaveChangesAsync();
+                    StatusMessage = $"Cập nhật thành công ngôn ngữ: {ngonNgu.TenNN}";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -138,8 +143,16 @@ namespace QLTV.AppMVC.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var ngonNgu = await _context.NgonNgu.FindAsync(id);
+            bool exists = await _context.DauSach.AnyAsync(s => s.NgonNgu_Id == ngonNgu.Id);
+            if (exists)
+            {
+                StatusMessage = "Error: Không thể xóa ngôn ngữ này!!";
+                return RedirectToAction("Delete");
+            }
+
             _context.NgonNgu.Remove(ngonNgu);
             await _context.SaveChangesAsync();
+            StatusMessage = $"Xóa thành công ngôn ngữ: {ngonNgu.TenNN}";
             return RedirectToAction(nameof(Index));
         }
 

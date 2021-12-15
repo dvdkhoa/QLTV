@@ -3,23 +3,24 @@
 @{
     ViewData["Title"] = "Thiết lập mật khẩu";
     ViewData["page"] = "Tài khoản";
-
 }
 <partial name="_StatusMessage" for="StatusMessage" />
 
-<h4>Thiệt lập vai trò(Role) cho: <span class="font-weight-bold">@Model.user.UserName</span></h4>
-<hr />
+
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-8 offset-md-1">
+        <h3>Thiết lập vai trò(Role) cho: <span class="font-weight-bold">@Model.user.UserName</span></h3>
+        <hr />
         <form id="set-password-form" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="RoleNames"></label>
                 @Html.ListBoxFor(m => m.RoleNames, Model.allRoles,
-                new { id= "select-role", @class="w-100" })
+                new { id = "select-role", @class = "w-100" })
             </div>
-            <button type="submit" class="btn btn-primary float-right">Đồng ý</button>
+            <button type="submit" class="btn btn-success btn-sm float-right">Đồng ý</button>
         </form>
+        <a asp-page="Index" >Trở về danh sách tài khoản</a>
     </div>
 </div>
 

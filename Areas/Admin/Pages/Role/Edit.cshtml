@@ -4,11 +4,12 @@
     ViewData["title"] = "Sửa thông tin vai trò";
 }
 
-<h2>@ViewData["title"]</h2>
-<hr />
+
 <div class="row">
-    <div class="col-2"></div>
-    <div class="col-4">
+    <div class="col-1"></div>
+    <div class="col-6">
+        <h2>@ViewData["title"]</h2>
+        <hr />
         <form asp-page="Edit" method="post">
             <div class="text-danger" asp-validation-summary="All"></div>
             <div class="form-group">
@@ -16,11 +17,11 @@
                 <input class="form-control" asp-for="@Model.Input.RoleName" />
             </div>
             <div class="form-group">
-                <input class="btn btn-success" type="submit" value="Sửa" />
+                <input class="btn btn-primary btn-sm float-right" type="submit" value="Lưu" />
             </div>
         </form>
+        <a asp-page="Index">Trở về danh sách vai trò</a>
     </div>
-    <div class="col-6"></div>
 </div>
 
 @section Scripts {
